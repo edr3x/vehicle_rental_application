@@ -9,6 +9,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (context) => const HomePage(),
       );
 
+    case LoginPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const LoginPage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(

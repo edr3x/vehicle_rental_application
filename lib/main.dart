@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rental_system_app/views/exports.dart';
 
 import 'routes.dart';
-import 'views/home/home_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -13,8 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Vehicle Renting",
-      theme: ThemeData(primarySwatch: Colors.green),
-      home: const HomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: const LoginPage(),
       onGenerateRoute: (set) => generateRoute(set),
     );
   }
