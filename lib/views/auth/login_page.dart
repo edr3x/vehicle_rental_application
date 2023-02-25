@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rental_system_app/views/exports.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
@@ -16,17 +17,24 @@ class _LoginPageState extends State<LoginPage> {
     int? number;
 
     void submit() {
-      if (_formKey.currentState!.validate()) {
+      final form = _formKey.currentState;
+      if (form == null || !form.validate()) return;
+
+      if (form.validate()) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Processing')),
         );
       }
 
-      final form = _formKey.currentState;
-      if (form == null || !form.validate()) return;
       form.save();
 
       print("Number: $number");
+
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        VerifyPhone.routeName,
+        (route) => false,
+      );
     }
 
     return Scaffold(
@@ -66,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 ElevatedButton(
                   onPressed: submit,
-                  child: const Text("Verify"),
+                  child: const Text("Send Code"),
                 ),
               ],
             ),

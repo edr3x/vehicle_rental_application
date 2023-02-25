@@ -15,6 +15,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (context) => const LoginPage(),
       );
 
+    case VerifyPhone.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const VerifyPhone(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(
