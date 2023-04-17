@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/number_verify_cubit/phone_number_verify_cubit.dart';
+import 'package:rental_system_app/api/blocs/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
 import 'package:rental_system_app/views/exports.dart';
@@ -27,6 +28,11 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<PhoneNumberVerifyCubit>(
             create: (context) => PhoneNumberVerifyCubit(
+              authRepository: context.read<AuthRepository>(),
+            ),
+          ),
+          BlocProvider<OtpVerifyCubit>(
+            create: (context) => OtpVerifyCubit(
               authRepository: context.read<AuthRepository>(),
             ),
           ),

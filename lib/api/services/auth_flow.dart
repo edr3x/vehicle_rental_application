@@ -40,7 +40,7 @@ class VerifyCodeService {
         url,
         body: {
           "phone": phoneNumber,
-          "otp": otp,
+          "code": otp,
         },
         headers: apiHeader,
       );
