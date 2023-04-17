@@ -15,6 +15,11 @@ class VerifyOtpModel {
     this.data,
   });
 
+  factory VerifyOtpModel.initial() => VerifyOtpModel(
+        success: false,
+        data: Data.initial(),
+      );
+
   bool? success;
   Data? data;
 
@@ -34,6 +39,11 @@ class Data {
     this.token,
     this.message,
   });
+
+  factory Data.initial() => Data(
+        token: "none",
+        message: "no message",
+      );
 
   String? token;
   String? message;

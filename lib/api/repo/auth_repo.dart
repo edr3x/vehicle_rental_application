@@ -7,7 +7,7 @@ import '../../excepitions/data_exception.dart';
 
 class AuthRepository {
   final SendCodeService sendCodeService;
-  final VefifyCodeService verifyCodeService;
+  final VerifyCodeService verifyCodeService;
 
   AuthRepository({
     required this.sendCodeService,

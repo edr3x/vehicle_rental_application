@@ -1,25 +1,37 @@
 part of 'phone_number_verify_cubit.dart';
 
 class PhoneNumberVerifyState extends Equatable {
-  final int phoneNumber;
+  final ConnectionStatus status;
+  final CustomError error;
+  final VerifyPhoneModel phoneVerify;
 
-  const PhoneNumberVerifyState({required this.phoneNumber});
+  const PhoneNumberVerifyState({
+    required this.status,
+    required this.error,
+    required this.phoneVerify,
+  });
 
-  factory PhoneNumberVerifyState.initial() {
-    return const PhoneNumberVerifyState(phoneNumber: 0);
-  }
+  factory PhoneNumberVerifyState.initial() => PhoneNumberVerifyState(
+        status: ConnectionStatus.initial,
+        error: const CustomError(),
+        phoneVerify: VerifyPhoneModel.initial(),
+      );
 
   @override
-  List<Object> get props => [phoneNumber];
+  List<Object> get props => [status, error, phoneVerify];
 
   @override
-  String toString() => 'PhoneNumberVerifyState(counter: $phoneNumber)';
+  bool get stringify => true;
 
   PhoneNumberVerifyState copyWith({
-    int? phoneNumber,
+    ConnectionStatus? status,
+    CustomError? error,
+    VerifyPhoneModel? phoneVerify,
   }) {
     return PhoneNumberVerifyState(
-      phoneNumber: phoneNumber ?? this.phoneNumber,
+      status: status ?? this.status,
+      error: error ?? this.error,
+      phoneVerify: phoneVerify ?? this.phoneVerify,
     );
   }
 }

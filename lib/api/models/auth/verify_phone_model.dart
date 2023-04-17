@@ -16,6 +16,9 @@ class VerifyPhoneModel {
     this.data,
   });
 
+  factory VerifyPhoneModel.initial() =>
+      VerifyPhoneModel(success: false, data: "Failed to get data");
+
   bool? success;
   String? data;
 

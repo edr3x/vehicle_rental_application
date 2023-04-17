@@ -30,7 +30,7 @@ class SendCodeService {
   }
 }
 
-class VefifyCodeService {
+class VerifyCodeService {
   Future<dynamic> data({required int phoneNumber, required int otp}) async {
     http.Client client = http.Client();
 
