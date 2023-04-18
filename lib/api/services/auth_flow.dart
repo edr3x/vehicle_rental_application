@@ -34,18 +34,20 @@ class SendCodeService {
 }
 
 class VerifyCodeService {
-  Future<VerifyOtpModel> data(
-      {required int phoneNumber, required int otp}) async {
+  Future<VerifyOtpModel> data({
+    required int phoneNumber,
+    required int otp,
+  }) async {
     http.Client client = http.Client();
 
     final Uri url = Uri.parse("$api/auth/verifyotp");
     try {
       final http.Response response = await client.post(
         url,
-        body: {
+        body: jsonEncode({
           "phone": phoneNumber,
           "code": otp,
-        },
+        }),
         headers: apiHeader,
       );
 
