@@ -1,3 +1,5 @@
+import "dart:convert";
+
 import "package:http/http.dart" as http;
 import 'package:rental_system_app/api/api.dart';
 
@@ -13,9 +15,9 @@ class SendCodeService {
     try {
       final http.Response response = await client.post(
         url,
-        body: {
+        body: jsonEncode({
           "phone": phoneNumber,
-        },
+        }),
         headers: apiHeader,
       );
 
@@ -25,13 +27,15 @@ class SendCodeService {
 
       return verifyPhoneModelFromJson(response.body);
     } catch (e) {
+      print("Http error: $e");
       rethrow;
     }
   }
 }
 
 class VerifyCodeService {
-  Future<VerifyOtpModel> data({required int phoneNumber, required int otp}) async {
+  Future<VerifyOtpModel> data(
+      {required int phoneNumber, required int otp}) async {
     http.Client client = http.Client();
 
     final Uri url = Uri.parse("$api/auth/verifyotp");
