@@ -6,7 +6,7 @@ import "../models/auth/verify_otp_model.dart";
 import '../models/auth/verify_phone_model.dart';
 
 class SendCodeService {
-  Future<dynamic> data({required int phoneNumber}) async {
+  Future<VerifyPhoneModel> data({required int phoneNumber}) async {
     http.Client client = http.Client();
 
     final Uri url = Uri.parse("$api/auth/sendotp");
@@ -31,7 +31,7 @@ class SendCodeService {
 }
 
 class VerifyCodeService {
-  Future<dynamic> data({required int phoneNumber, required int otp}) async {
+  Future<VerifyOtpModel> data({required int phoneNumber, required int otp}) async {
     http.Client client = http.Client();
 
     final Uri url = Uri.parse("$api/auth/verifyotp");
