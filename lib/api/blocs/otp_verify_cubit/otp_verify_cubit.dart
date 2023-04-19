@@ -4,7 +4,6 @@ import 'package:rental_system_app/api/models/auth/verify_otp_model.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 
 import '../../../excepitions/custom_error.dart';
-import '../connection_enum.dart';
 
 part 'otp_verify_state.dart';
 
@@ -16,7 +15,7 @@ class OtpVerifyCubit extends Cubit<OtpVerifyState> {
   }) : super(OtpVerifyState.initial());
 
   Future<void> verifyOtp(int phone, int code) async {
-    emit(state.copyWith(status: ConnectionStatus.loading));
+    emit(state.copyWith(status: OtpVerifyStatus.loading));
 
     try {
       final VerifyOtpModel verifyOtp =
@@ -24,12 +23,12 @@ class OtpVerifyCubit extends Cubit<OtpVerifyState> {
 
       emit(
         state.copyWith(
-          status: ConnectionStatus.loaded,
+          status: OtpVerifyStatus.loaded,
           otpVerify: verifyOtp,
         ),
       );
     } on CustomError catch (e) {
-      emit(state.copyWith(status: ConnectionStatus.error, error: e));
+      emit(state.copyWith(status: OtpVerifyStatus.error, error: e));
     }
   }
 }

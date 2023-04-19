@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_system_app/api/blocs/connection_enum.dart';
 import 'package:rental_system_app/api/blocs/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+
+import '../home/home_page.dart';
 
 class VerifyPhone extends StatefulWidget {
   static const String routeName = '/verify_phone';
@@ -26,7 +27,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: BlocConsumer<OtpVerifyCubit, OtpVerifyState>(
           listener: (context, state) {
-            if (state.status == ConnectionStatus.error) {
+            if (state.status == OtpVerifyStatus.error) {
               errorDialog(context, state.error.errMsg);
             }
           },
@@ -68,7 +69,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                           },
                         ),
                         ElevatedButton(
-                          onPressed: state.status == ConnectionStatus.loading
+                          onPressed: state.status == OtpVerifyStatus.loading
                               ? null
                               : () {
                                   setState(() {
@@ -83,10 +84,18 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                                   }
                                   form.save();
                                   context.read<OtpVerifyCubit>().verifyOtp(phoneNumber!, number!);
-                                  //bug: have to fix navigation to home page
+                                  //BUG: Have to press the button twice to navigate to home page
+                                  if (state.status == OtpVerifyStatus.loaded) {
+                                    if (!mounted) return;
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      HomePage.routeName,
+                                      (route) => false,
+                                    );
+                                  }
                                 },
                           child: Text(
-                            state.status == ConnectionStatus.loading ? "Submitting..." : "Verify",
+                            state.status == OtpVerifyStatus.loading ? "Submitting..." : "Verify",
                           ),
                         ),
                       ],

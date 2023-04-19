@@ -1,7 +1,14 @@
 part of 'phone_number_verify_cubit.dart';
 
+enum PhoneNumberVerifyStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+}
+
 class PhoneNumberVerifyState extends Equatable {
-  final ConnectionStatus status;
+  final PhoneNumberVerifyStatus status;
   final CustomError error;
   final VerifyPhoneModel phoneVerify;
 
@@ -12,7 +19,7 @@ class PhoneNumberVerifyState extends Equatable {
   });
 
   factory PhoneNumberVerifyState.initial() => PhoneNumberVerifyState(
-        status: ConnectionStatus.initial,
+        status: PhoneNumberVerifyStatus.initial,
         error: const CustomError(),
         phoneVerify: VerifyPhoneModel.initial(),
       );
@@ -24,7 +31,7 @@ class PhoneNumberVerifyState extends Equatable {
   bool get stringify => true;
 
   PhoneNumberVerifyState copyWith({
-    ConnectionStatus? status,
+    PhoneNumberVerifyStatus? status,
     CustomError? error,
     VerifyPhoneModel? phoneVerify,
   }) {

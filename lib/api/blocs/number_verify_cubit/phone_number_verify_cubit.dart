@@ -5,7 +5,6 @@ import 'package:rental_system_app/api/models/auth/verify_phone_model.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 
 import '../../../excepitions/custom_error.dart';
-import '../connection_enum.dart';
 
 part 'phone_number_verify_state.dart';
 
@@ -17,20 +16,19 @@ class PhoneNumberVerifyCubit extends Cubit<PhoneNumberVerifyState> {
   }) : super(PhoneNumberVerifyState.initial());
 
   Future<void> verifyPhone(int phone) async {
-    emit(state.copyWith(status: ConnectionStatus.loading));
+    emit(state.copyWith(status: PhoneNumberVerifyStatus.loading));
 
     try {
-      final VerifyPhoneModel verifyPhone =
-          await authRepository.verifyPhone(phoneNumber: phone);
+      final VerifyPhoneModel verifyPhone = await authRepository.verifyPhone(phoneNumber: phone);
 
       emit(
         state.copyWith(
-          status: ConnectionStatus.loaded,
+          status: PhoneNumberVerifyStatus.loaded,
           phoneVerify: verifyPhone,
         ),
       );
     } on CustomError catch (e) {
-      emit(state.copyWith(status: ConnectionStatus.error, error: e));
+      emit(state.copyWith(status: PhoneNumberVerifyStatus.error, error: e));
     }
   }
 }

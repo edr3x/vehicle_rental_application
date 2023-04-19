@@ -1,7 +1,14 @@
 part of 'otp_verify_cubit.dart';
 
+enum OtpVerifyStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+}
+
 class OtpVerifyState extends Equatable {
-  final ConnectionStatus status;
+  final OtpVerifyStatus status;
   final CustomError error;
   final VerifyOtpModel otpVerify;
 
@@ -12,7 +19,7 @@ class OtpVerifyState extends Equatable {
   });
 
   factory OtpVerifyState.initial() => OtpVerifyState(
-        status: ConnectionStatus.initial,
+        status: OtpVerifyStatus.initial,
         error: const CustomError(),
         otpVerify: VerifyOtpModel.initial(),
       );
@@ -24,7 +31,7 @@ class OtpVerifyState extends Equatable {
   bool get stringify => true;
 
   OtpVerifyState copyWith({
-    ConnectionStatus? status,
+    OtpVerifyStatus? status,
     CustomError? error,
     VerifyOtpModel? otpVerify,
   }) {
