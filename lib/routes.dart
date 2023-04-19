@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'views/exports.dart';
+import 'views/pages/exports.dart';
 
 Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
   switch (settings.name) {

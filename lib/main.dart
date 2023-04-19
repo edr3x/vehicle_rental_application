@@ -4,7 +4,7 @@ import 'package:rental_system_app/api/blocs/number_verify_cubit/phone_number_ver
 import 'package:rental_system_app/api/blocs/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
-import 'package:rental_system_app/views/exports.dart';
+import 'package:rental_system_app/views/pages/exports.dart';
 
 import 'routes.dart';
 

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_system_app/api/blocs/connection_enum.dart';
 import 'package:rental_system_app/api/blocs/otp_verify_cubit/otp_verify_cubit.dart';
-
-import '../../api/blocs/connection_enum.dart';
-import '../common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 
 class VerifyPhone extends StatefulWidget {
   static const String routeName = '/verify_phone';
