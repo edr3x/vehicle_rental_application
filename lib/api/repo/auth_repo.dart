@@ -16,8 +16,7 @@ class AuthRepository {
 
   Future<VerifyPhoneModel> verifyPhone({required int phoneNumber}) async {
     try {
-      final VerifyPhoneModel verifyPhone =
-          await sendCodeService.data(phoneNumber: phoneNumber);
+      final VerifyPhoneModel verifyPhone = await sendCodeService.data(phoneNumber: phoneNumber);
 
       return verifyPhone;
     } on DataException catch (e) {

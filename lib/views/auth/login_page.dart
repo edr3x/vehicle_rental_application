@@ -30,15 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
       form.save();
 
-      // print("Number: $number");
-
-      Navigator.pushNamed(context, VerifyPhone.routeName);
-
-      // Navigator.pushNamedAndRemoveUntil(
-      //   context,
-      //   VerifyPhonePage.routeName,
-      //   (route) => false,
-      // );
+      Navigator.pushNamed(context, VerifyPhone.routeName, arguments: number);
 
       context.read<PhoneNumberVerifyCubit>().verifyPhone(number!);
     }
