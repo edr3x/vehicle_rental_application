@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/number_verify_cubit/phone_number_verify_cubit.dart';
-import 'package:rental_system_app/views/exports.dart';
+import 'package:rental_system_app/views/pages/auth/verify_phone_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
