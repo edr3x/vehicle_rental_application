@@ -2,8 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rental_system_app/api/models/auth/verify_otp_model.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
-
-import '../../../excepitions/custom_error.dart';
+import 'package:rental_system_app/excepitions/custom_error.dart';
 
 part 'otp_verify_state.dart';
 
