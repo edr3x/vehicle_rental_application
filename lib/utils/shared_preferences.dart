@@ -6,12 +6,12 @@ class UtilSharedPreferences {
     return prefs.getString('access_token') ?? '';
   }
 
-  static Future setToken(String value) async {
+  static Future<bool> setToken(String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString('access_token', value);
   }
 
-  static Future removeToken() async {
+  static Future<bool> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.remove('access_token');
   }

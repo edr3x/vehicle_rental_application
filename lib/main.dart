@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/auth/number_verify_cubit/phone_number_verify_cubit.dart';
 import 'package:rental_system_app/api/blocs/auth/otp_verify_cubit/otp_verify_cubit.dart';
+import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 import 'package:rental_system_app/api/repo/user_repo.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
-import 'package:rental_system_app/views/pages/exports.dart';
+import 'package:rental_system_app/views/pages/splash_page.dart';
 
 import 'api/services/user_services.dart';
 import 'routes.dart';
@@ -27,12 +28,18 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<UserRepository>(
           create: (context) => UserRepository(
+            getUserDataService: GetUserDataService(),
             updateBasicUserDetailsService: UpdateBasicUserDetailsService(),
           ),
         ),
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<GetUserDetailsCubit>(
+            create: (context) => GetUserDetailsCubit(
+              userRepository: context.read<UserRepository>(),
+            ),
+          ),
           BlocProvider<PhoneNumberVerifyCubit>(
             create: (context) => PhoneNumberVerifyCubit(
               authRepository: context.read<AuthRepository>(),
@@ -50,7 +57,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.green,
           ),
-          home: const LoginPage(),
+          home: const SplashPage(),
           onGenerateRoute: (set) => generateRoute(set),
         ),
       ),
