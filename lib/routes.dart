@@ -21,6 +21,18 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (context) => const VerifyPhone(),
       );
 
+    case UserRegisterPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const UserRegisterPage(),
+      );
+
+    case DriverHomePage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const DriverHomePage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(
