@@ -1,6 +1,7 @@
 import 'package:rental_system_app/api/models/auth/verify_otp_model.dart';
 import 'package:rental_system_app/api/models/auth/verify_phone_model.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
+import 'package:rental_system_app/utils/shared_preferences.dart';
 
 import '../../excepitions/custom_error.dart';
 import '../../excepitions/data_exception.dart';
@@ -33,6 +34,8 @@ class AuthRepository {
     try {
       final VerifyOtpModel verifyOtp =
           await verifyCodeService.data(phoneNumber: phoneNumber, otp: code);
+
+      await UtilSharedPreferences.setToken(verifyOtp.data!.token!);
 
       return verifyOtp;
     } on DataException catch (e) {

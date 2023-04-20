@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/number_verify_cubit/phone_number_verify_cubit.dart';
 import 'package:rental_system_app/api/blocs/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
+import 'package:rental_system_app/api/repo/user_repo.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
 import 'package:rental_system_app/views/pages/exports.dart';
 
+import 'api/services/user_services.dart';
 import 'routes.dart';
 
 void main() => runApp(const MyApp());
@@ -21,6 +23,11 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthRepository(
             sendCodeService: SendCodeService(),
             verifyCodeService: VerifyCodeService(),
+          ),
+        ),
+        RepositoryProvider<UserRepository>(
+          create: (context) => UserRepository(
+            updateBasicUserDetailsService: UpdateBasicUserDetailsService(),
           ),
         ),
       ],
