@@ -21,6 +21,25 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   Widget build(BuildContext context) {
     int? number;
     final phoneNumber = ModalRoute.of(context)?.settings.arguments as int?;
+
+    void submit() {
+      setState(() {
+        _autovalidateMode = AutovalidateMode.always;
+      });
+
+      final form = _formKey.currentState;
+      if (form == null || !form.validate()) return;
+      if (form.validate()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Processing')),
+        );
+      }
+
+      form.save();
+
+      context.read<OtpVerifyCubit>().verifyOtp(phoneNumber!, number!);
+    }
+
     return WillPopScope(
       onWillPop: () async => false,
       child: GestureDetector(
@@ -29,6 +48,13 @@ class _VerifyPhoneState extends State<VerifyPhone> {
           listener: (context, state) {
             if (state.status == OtpVerifyStatus.error) {
               errorDialog(context, state.error.errMsg);
+            }
+            if (state.status == OtpVerifyStatus.loaded) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                HomePage.routeName,
+                (route) => false,
+              );
             }
           },
           builder: (context, state) {
@@ -69,31 +95,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                           },
                         ),
                         ElevatedButton(
-                          onPressed: state.status == OtpVerifyStatus.loading
-                              ? null
-                              : () {
-                                  setState(() {
-                                    _autovalidateMode = AutovalidateMode.always;
-                                  });
-                                  final form = _formKey.currentState;
-                                  if (form == null || !form.validate()) return;
-                                  if (form.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Processing')),
-                                    );
-                                  }
-                                  form.save();
-                                  context.read<OtpVerifyCubit>().verifyOtp(phoneNumber!, number!);
-                                  //BUG: Have to press the button twice to navigate to home page
-                                  if (state.status == OtpVerifyStatus.loaded) {
-                                    if (!mounted) return;
-                                    Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      HomePage.routeName,
-                                      (route) => false,
-                                    );
-                                  }
-                                },
+                          onPressed: state.status == OtpVerifyStatus.loading ? null : submit,
                           child: Text(
                             state.status == OtpVerifyStatus.loading ? "Submitting..." : "Verify",
                           ),
