@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/utils/shared_preferences.dart';
+import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/auth/login_page.dart';
 
 import 'widgets/menu_items.dart';
@@ -44,15 +45,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 15),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
                 child: Hero(
                   tag: 'profile-hero',
                   child: CircleAvatar(
                     radius: 40,
-                    backgroundImage: NetworkImage(
-                      "https://i.pinimg.com/originals/fa/cf/10/facf10980b28a60c9f755c59aba40d39.jpg",
-                    ),
+                    backgroundImage: displayImage(userData.profileImage!),
                   ),
                 ),
               ),
