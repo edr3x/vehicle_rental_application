@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
+import 'package:rental_system_app/api/api.dart';
 
-NetworkImage displayImage(String image) => NetworkImage(
-      "http://10.0.2.2:8080/image/$image",
-    );
+NetworkImage displayImage(String image) => NetworkImage("$imageUrl/$image");
