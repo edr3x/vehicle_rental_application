@@ -9,6 +9,7 @@ import 'package:rental_system_app/api/services/auth_flow.dart';
 import 'package:rental_system_app/views/pages/splash_page.dart';
 
 import 'api/services/user_services.dart';
+import 'constants/global_variables.dart';
 import 'routes.dart';
 
 void main() => runApp(const MyApp());
@@ -55,7 +56,17 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: "Vehicle Renting",
           theme: ThemeData(
-            primarySwatch: Colors.green,
+            scaffoldBackgroundColor: GlobalVariables.backgroundColor,
+            colorScheme: const ColorScheme.dark(
+              primary: GlobalVariables.primaryColor,
+            ),
+            appBarTheme: const AppBarTheme(
+              elevation: 0,
+              backgroundColor: GlobalVariables.backgroundColor,
+              iconTheme: IconThemeData(
+                color: Colors.white,
+              ),
+            ),
           ),
           home: const SplashPage(),
           onGenerateRoute: (set) => generateRoute(set),

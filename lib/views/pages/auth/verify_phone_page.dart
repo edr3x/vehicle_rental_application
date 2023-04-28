@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_system_app/api/blocs/auth/number_verify_cubit/phone_number_verify_cubit.dart';
 import 'package:rental_system_app/api/blocs/auth/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/pages/exports.dart';
+
+import 'widgets/auth_button.dart';
 
 class VerifyPhone extends StatefulWidget {
   static const String routeName = '/verify_phone';
@@ -77,49 +80,79 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             _pageNavigation(context, state);
           },
           builder: (context, state) {
-            return Scaffold(
-              body: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Form(
-                    autovalidateMode: _autovalidateMode,
-                    key: _formKey,
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        TextFormField(
-                          keyboardType: TextInputType.number,
-                          autocorrect: false,
-                          maxLength: 6,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
+            return GestureDetector(
+              onTapDown: (_) => FocusScope.of(context).unfocus(),
+              child: Scaffold(
+                body: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Form(
+                      autovalidateMode: _autovalidateMode,
+                      key: _formKey,
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Text(
+                              "Enter OTP sent to your phone",
+                              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                             ),
-                            labelText: 'Verification Code',
-                            prefixIcon: Icon(Icons.phone),
                           ),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter verification code';
-                            }
-                            if (value.length != 6) {
-                              return 'Please enter a valid verification code';
-                            }
-                            return null;
-                          },
-                          onSaved: (String? value) {
-                            number = int.parse(value!);
-                          },
-                        ),
-                        ElevatedButton(
-                          onPressed: state.status == OtpVerifyStatus.loading ? null : submit,
-                          child: Text(
-                            state.status == OtpVerifyStatus.loading ? "Submitting..." : "Verify",
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            keyboardType: TextInputType.number,
+                            autocorrect: false,
+                            maxLength: 6,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.0),
+                                ),
+                              ),
+                              labelText: 'Verification Code',
+                              prefixIcon: Icon(Icons.phone),
+                            ),
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter verification code';
+                              }
+                              if (value.length != 6) {
+                                return 'Please enter a valid verification code';
+                              }
+                              return null;
+                            },
+                            onSaved: (String? value) {
+                              number = int.parse(value!);
+                            },
                           ),
-                        ),
-                      ],
+                          CustomAuthButton(
+                            text: state.status == OtpVerifyStatus.loading
+                                ? "Submitting..."
+                                : "Verify",
+                            onTap: submit,
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Didn't receive OTP?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  context.read<PhoneNumberVerifyCubit>().verifyPhone(phoneNumber!);
+                                },
+                                child: const Text(
+                                  "Resend",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
