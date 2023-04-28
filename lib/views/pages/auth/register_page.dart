@@ -12,9 +12,13 @@ class UserRegisterPage extends StatefulWidget {
   State<UserRegisterPage> createState() => _UserRegisterPageState();
 }
 
+enum Gender { male, female, other }
+
 class _UserRegisterPageState extends State<UserRegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+
+  Gender? _selectedGender;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +70,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                 autovalidateMode: _autovalidateMode,
                 child: SingleChildScrollView(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       TextFormField(
                         autocorrect: false,
@@ -122,6 +125,49 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                         onSaved: (String? value) {
                           fullName = value?.trim();
                         },
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: RadioListTile<Gender>(
+                              contentPadding: const EdgeInsets.all(0),
+                              value: Gender.male,
+                              groupValue: _selectedGender,
+                              title: const Text("M"),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                });
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: RadioListTile<Gender>(
+                              contentPadding: const EdgeInsets.all(0),
+                              value: Gender.female,
+                              groupValue: _selectedGender,
+                              title: const Text("F"),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                });
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: RadioListTile<Gender>(
+                              contentPadding: const EdgeInsets.all(0),
+                              value: Gender.other,
+                              groupValue: _selectedGender,
+                              title: const Text("O"),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 14),
                       CustomAuthButton(
