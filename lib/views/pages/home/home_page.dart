@@ -17,7 +17,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var profileImage = context.read<GetUserDetailsCubit>().state.data.data!.profileImage;
 
-    print(profileImage);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -33,7 +32,7 @@ class _HomePageState extends State<HomePage> {
               icon: Hero(
                 tag: 'profile-hero',
                 child: CircleAvatar(
-                  backgroundImage: displayImage(profileImage!),
+                  backgroundImage: displayImage(profileImage ?? ""),
                 ),
               ),
             ),

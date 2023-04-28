@@ -45,7 +45,7 @@ class UpdateBasicUserDetailsService {
 
     String token = await UtilSharedPreferences.getToken();
 
-    final Uri url = Uri.parse("$api/auth/sendotp");
+    final Uri url = Uri.parse("$api/user/profile");
     try {
       final http.Response response = await client.patch(
         url,
@@ -69,4 +69,14 @@ class UpdateBasicUserDetailsService {
       rethrow;
     }
   }
+}
+
+class UpdateUserAddressService {
+  Future<dynamic> data({
+    required String province,
+    required String district,
+    required String municipality,
+    required String city,
+    required String street,
+  }) async {}
 }
