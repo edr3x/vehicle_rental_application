@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
           create: (context) => UserRepository(
             getUserDataService: GetUserDataService(),
             updateBasicUserDetailsService: UpdateBasicUserDetailsService(),
+            updateUserAddressService: UpdateUserAddressService(),
           ),
         ),
       ],

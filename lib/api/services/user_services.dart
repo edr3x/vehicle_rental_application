@@ -3,6 +3,7 @@ import "dart:convert";
 import "package:http/http.dart" as http;
 import 'package:rental_system_app/api/api.dart';
 import "package:rental_system_app/api/models/user/get_user_data_model.dart";
+import "package:rental_system_app/api/models/user/update_address_model.dart";
 import "package:rental_system_app/utils/shared_preferences.dart";
 
 import "../../utils/http_error_handler.dart";
@@ -60,7 +61,7 @@ class UpdateBasicUserDetailsService {
         },
       );
 
-      if (response.statusCode != 201) {
+      if (response.statusCode != 200) {
         throw Exception(httpErrorHandler(response));
       }
 
@@ -72,11 +73,42 @@ class UpdateBasicUserDetailsService {
 }
 
 class UpdateUserAddressService {
-  Future<dynamic> data({
+  Future<UpdateAddressModel> data({
     required String province,
     required String district,
     required String municipality,
     required String city,
     required String street,
-  }) async {}
+  }) async {
+    http.Client client = http.Client();
+
+    String token = await UtilSharedPreferences.getToken();
+
+    final Uri url = Uri.parse("$api/user/address");
+
+    try {
+      final http.Response response = await client.patch(
+        url,
+        body: jsonEncode({
+          "province": province,
+          "district": district,
+          "municipality": municipality,
+          "city": city,
+          "street": street,
+        }),
+        headers: {
+          ...apiHeader,
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(httpErrorHandler(response));
+      }
+
+      return updateAddressModelFromJson(response.body);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
