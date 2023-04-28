@@ -27,6 +27,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (context) => const UserRegisterPage(),
       );
 
+    case UpdateAddressPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const UpdateAddressPage(),
+      );
+
     case ProfilePage.routeName:
       return MaterialPageRoute(
         settings: settings,

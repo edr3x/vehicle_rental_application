@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
+import 'package:rental_system_app/views/pages/auth/address_page.dart';
 import 'package:rental_system_app/views/pages/auth/login_page.dart';
 
 import 'widgets/menu_items.dart';
@@ -51,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   tag: 'profile-hero',
                   child: CircleAvatar(
                     radius: 40,
-                    backgroundImage: displayImage(userData.profileImage!),
+                    backgroundImage: displayImage(userData.profileImage ?? ""),
                   ),
                 ),
               ),
@@ -74,10 +75,20 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 15),
               Expanded(
                 child: ListView(
-                  children: const [
-                    ProfileMenuItems(
+                  children: [
+                    const ProfileMenuItems(
                       title: "Address",
                       icon: Icons.my_location,
+                    ),
+                    ProfileMenuItems(
+                      title: "TestPage",
+                      icon: Icons.my_location,
+                      onPress: () {
+                        Navigator.pushNamed(
+                          context,
+                          UpdateAddressPage.routeName,
+                        );
+                      },
                     ),
                   ],
                 ),

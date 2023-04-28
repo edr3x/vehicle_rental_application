@@ -4,6 +4,7 @@ import 'package:rental_system_app/api/blocs/auth/number_verify_cubit/phone_numbe
 import 'package:rental_system_app/api/blocs/auth/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/post_user_data_cubit/post_user_data_cubit.dart';
+import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 import 'package:rental_system_app/api/repo/user_repo.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
@@ -55,6 +56,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<PostUserDataCubit>(
             create: (context) => PostUserDataCubit(
+              userRepository: context.read<UserRepository>(),
+            ),
+          ),
+          BlocProvider<UpdateAddressCubit>(
+            create: (context) => UpdateAddressCubit(
               userRepository: context.read<UserRepository>(),
             ),
           ),
