@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/auth/number_verify_cubit/phone_number_verify_cubit.dart';
 import 'package:rental_system_app/api/blocs/auth/otp_verify_cubit/otp_verify_cubit.dart';
+import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/pages/exports.dart';
 
@@ -35,6 +36,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
             (route) => false,
           );
         }
+        context.read<GetUserDetailsCubit>().getUserDetails();
       } else {
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -57,11 +59,6 @@ class _VerifyPhoneState extends State<VerifyPhone> {
 
       final form = _formKey.currentState;
       if (form == null || !form.validate()) return;
-      if (form.validate()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Processing')),
-        );
-      }
 
       form.save();
 
