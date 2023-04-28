@@ -19,6 +19,11 @@ class UpdateBasicUserDetailsModel {
   bool? success;
   Data? data;
 
+  factory UpdateBasicUserDetailsModel.initial() => UpdateBasicUserDetailsModel(
+        success: false,
+        data: Data.initial(),
+      );
+
   factory UpdateBasicUserDetailsModel.fromJson(Map<String, dynamic> json) =>
       UpdateBasicUserDetailsModel(
         success: json["success"],
@@ -43,6 +48,13 @@ class Data {
   int? phone;
   String? email;
   String? gender;
+
+  factory Data.initial() => Data(
+        email: "",
+        phone: 0,
+        fullName: "",
+        gender: "",
+      );
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         fullName: json["fullName"],
