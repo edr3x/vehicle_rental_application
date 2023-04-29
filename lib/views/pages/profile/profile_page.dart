@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
-import 'package:rental_system_app/views/pages/auth/address_page.dart';
 import 'package:rental_system_app/views/pages/auth/login_page.dart';
 
 import 'widgets/menu_items.dart';
