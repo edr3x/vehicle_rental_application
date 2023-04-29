@@ -70,7 +70,7 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                title: const Text("Address Update Page"),
+                title: const Text("Update Address"),
               ),
               body: Center(
                 child: Padding(
