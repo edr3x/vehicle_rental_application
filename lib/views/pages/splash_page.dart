@@ -27,17 +27,26 @@ class _SplashPageState extends State<SplashPage> {
           Navigator.pushNamed(context, LoginPage.routeName);
         } else if (state.status == GetUserDetailsStatus.loaded) {
           if (state.data.data!.isProfileUpdated!) {
-            if (state.data.data!.role == "user") {
+            if (state.data.data!.isAddressUpdated!) {
+              if (state.data.data!.role == "user") {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  HomePage.routeName,
+                  (route) =>
+                      route.settings.name == ModalRoute.of(context)!.settings.name ? true : false,
+                );
+              } else if (state.data.data!.role == "driver") {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  DriverHomePage.routeName,
+                  (route) =>
+                      route.settings.name == ModalRoute.of(context)!.settings.name ? true : false,
+                );
+              }
+            } else {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                HomePage.routeName,
-                (route) =>
-                    route.settings.name == ModalRoute.of(context)!.settings.name ? true : false,
-              );
-            } else if (state.data.data!.role == "driver") {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                DriverHomePage.routeName,
+                UpdateAddressPage.routeName,
                 (route) =>
                     route.settings.name == ModalRoute.of(context)!.settings.name ? true : false,
               );

@@ -42,6 +42,7 @@ class Data {
     this.gender,
     this.role,
     this.isProfileUpdated,
+    this.isAddressUpdated,
     this.profileImage,
     this.address,
   });
@@ -52,6 +53,7 @@ class Data {
   String? gender;
   String? role;
   bool? isProfileUpdated;
+  bool? isAddressUpdated;
   String? profileImage;
   Address? address;
 
@@ -62,6 +64,7 @@ class Data {
         gender: "",
         role: "",
         isProfileUpdated: false,
+        isAddressUpdated: false,
         profileImage: "",
         address: Address.initial(),
       );
@@ -73,6 +76,7 @@ class Data {
         gender: json["gender"],
         role: json["role"],
         isProfileUpdated: json["isProfileUpdated"],
+        isAddressUpdated: json["isAddressUpdated"],
         profileImage: json["profileImage"],
         address: json["address"] == null ? null : Address.fromJson(json["address"]),
       );
@@ -84,6 +88,7 @@ class Data {
         "gender": gender,
         "role": role,
         "isProfileUpdated": isProfileUpdated,
+        "isAddressUpdated": isAddressUpdated,
         "profileImage": profileImage,
         "address": address?.toJson(),
       };
