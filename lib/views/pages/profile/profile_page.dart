@@ -83,12 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ProfileMenuItems(
                       title: "TestPage",
                       icon: Icons.my_location,
-                      onPress: () {
-                        Navigator.pushNamed(
-                          context,
-                          UpdateAddressPage.routeName,
-                        );
-                      },
+                      onPress: () {},
                     ),
                   ],
                 ),

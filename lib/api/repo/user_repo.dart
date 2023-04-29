@@ -54,7 +54,7 @@ class UserRepository {
     required String street,
   }) async {
     try {
-      final UpdateAddressModel response = await updateUserAddress(
+      final UpdateAddressModel response = await updateUserAddressService.data(
         province: province,
         district: district,
         municipality: municipality,

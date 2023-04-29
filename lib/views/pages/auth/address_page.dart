@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
+import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/pages/auth/login_page.dart';
 import 'package:rental_system_app/views/pages/home/home_page.dart';
 
 import 'widgets/auth_button.dart';
@@ -25,21 +27,27 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
   String? _city;
   String? _street;
 
-  void _submit() {
-    setState(() {
-      _autovalidateMode = AutovalidateMode.always;
-    });
-
-    final form = _formKey.currentState;
-    if (form == null || !form.validate()) return;
-
-    form.save();
-
-    print("$_province, $_district, $_municipality, $_city, $_street");
-  }
-
   @override
   Widget build(BuildContext context) {
+    void submit() {
+      setState(() {
+        _autovalidateMode = AutovalidateMode.always;
+      });
+
+      final form = _formKey.currentState;
+      if (form == null || !form.validate()) return;
+
+      form.save();
+
+      context.read<UpdateAddressCubit>().updateAddress(
+            province: _province!,
+            district: _district!,
+            municipality: _municipality!,
+            city: _city!,
+            street: _street!,
+          );
+    }
+
     return WillPopScope(
       onWillPop: () async => false,
       child: BlocConsumer<UpdateAddressCubit, UpdateAddressState>(
@@ -82,7 +90,7 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
                                 ),
                               ),
                               labelText: 'Province',
-                              prefixIcon: Icon(Icons.person),
+                              prefixIcon: Icon(Icons.location_on),
                             ),
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
@@ -104,7 +112,7 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
                                 ),
                               ),
                               labelText: 'District',
-                              prefixIcon: Icon(Icons.person),
+                              prefixIcon: Icon(Icons.add_location_alt),
                             ),
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
@@ -126,7 +134,7 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
                                 ),
                               ),
                               labelText: 'Municipality',
-                              prefixIcon: Icon(Icons.person),
+                              prefixIcon: Icon(Icons.my_location),
                             ),
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
@@ -148,7 +156,7 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
                                 ),
                               ),
                               labelText: 'City',
-                              prefixIcon: Icon(Icons.person),
+                              prefixIcon: Icon(Icons.location_city),
                             ),
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
@@ -170,7 +178,7 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
                                 ),
                               ),
                               labelText: 'Street',
-                              prefixIcon: Icon(Icons.person),
+                              prefixIcon: Icon(Icons.streetview_rounded),
                             ),
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
@@ -184,8 +192,37 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
                           ),
                           const SizedBox(height: 14),
                           CustomAuthButton(
-                            text: "Submit",
-                            onTap: _submit,
+                            text: state.status == UpdateAddressStatus.loading
+                                ? "Submitting..."
+                                : "Submit",
+                            onTap: submit,
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Already Registered?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  bool logoutSuccess = await UtilSharedPreferences.removeToken();
+                                  if (logoutSuccess) {
+                                    if (!mounted) return;
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      LoginPage.routeName,
+                                      (route) => false,
+                                    );
+                                  }
+                                },
+                                child: const Text(
+                                  "Login Here",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
