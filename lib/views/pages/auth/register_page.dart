@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/post_user_data_cubit/post_user_data_cubit.dart';
 import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/pages/auth/address_page.dart';
 import 'package:rental_system_app/views/pages/auth/login_page.dart';
-import 'package:rental_system_app/views/pages/home/home_page.dart';
 
 import 'widgets/auth_button.dart';
 
@@ -23,16 +23,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
 
   Gender? _selectedGender;
-
-  _pageNavigation(BuildContext context, PostUserDataState state) {
-    if (state.status == PostUserDataStatus.loaded) {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        HomePage.routeName,
-        (route) => false,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +48,11 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
         gender = "other";
       }
 
-      print("Full Name: $fullName \n \n Email: $email \n \n Gender: $gender");
+      context.read<PostUserDataCubit>().updateUserDetails(
+            fullName: fullName!,
+            gender: gender!,
+            email: email!,
+          );
     }
 
     return WillPopScope(
@@ -68,7 +62,13 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
           if (state.status == PostUserDataStatus.error) {
             errorDialog(context, state.error.errMsg);
           }
-          _pageNavigation(context, state);
+          if (state.status == PostUserDataStatus.loaded) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              UpdateAddressPage.routeName,
+              (route) => false,
+            );
+          }
         },
         builder: (context, state) {
           return GestureDetector(
@@ -76,25 +76,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-                title: const Text("User Register Page"),
-                actions: [
-                  IconButton(
-                    onPressed: () async {
-                      bool logoutSuccess = await UtilSharedPreferences.removeToken();
-                      if (logoutSuccess) {
-                        if (!mounted) return;
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          LoginPage.routeName,
-                          (route) => false,
-                        );
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.logout,
-                    ),
-                  ),
-                ],
+                title: const Text("Register Page"),
               ),
               body: Center(
                 child: Padding(
@@ -167,7 +149,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   contentPadding: const EdgeInsets.all(0),
                                   value: Gender.male,
                                   groupValue: _selectedGender,
-                                  title: const Text("M"),
+                                  title: const Text("male"),
                                   onChanged: (value) {
                                     setState(() {
                                       _selectedGender = value;
@@ -180,7 +162,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   contentPadding: const EdgeInsets.all(0),
                                   value: Gender.female,
                                   groupValue: _selectedGender,
-                                  title: const Text("F"),
+                                  title: const Text("female"),
                                   onChanged: (value) {
                                     setState(() {
                                       _selectedGender = value;
@@ -193,7 +175,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                                   contentPadding: const EdgeInsets.all(0),
                                   value: Gender.other,
                                   groupValue: _selectedGender,
-                                  title: const Text("O"),
+                                  title: const Text("other"),
                                   onChanged: (value) {
                                     setState(() {
                                       _selectedGender = value;
@@ -205,8 +187,37 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                           ),
                           const SizedBox(height: 14),
                           CustomAuthButton(
-                            text: "Submit",
+                            text: state.status == PostUserDataStatus.loading
+                                ? "Submitting"
+                                : "Submit",
                             onTap: submit,
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Already Registered?",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  bool logoutSuccess = await UtilSharedPreferences.removeToken();
+                                  if (logoutSuccess) {
+                                    if (!mounted) return;
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      LoginPage.routeName,
+                                      (route) => false,
+                                    );
+                                  }
+                                },
+                                child: const Text(
+                                  "Login Here",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

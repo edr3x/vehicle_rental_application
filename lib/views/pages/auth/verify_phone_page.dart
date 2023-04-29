@@ -108,7 +108,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                                 ),
                               ),
                               labelText: 'Verification Code',
-                              prefixIcon: Icon(Icons.phone),
+                              prefixIcon: Icon(Icons.lock),
                             ),
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
