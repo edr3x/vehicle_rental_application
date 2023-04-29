@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
+import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/pages/home/home_page.dart';
 
@@ -73,6 +75,43 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
+                          TypeAheadFormField(
+                            textFieldConfiguration: const TextFieldConfiguration(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0),
+                                  ),
+                                ),
+                                labelText: 'Province',
+                                prefixIcon: Icon(Icons.person),
+                              ),
+                            ),
+                            onSuggestionSelected: (String val) {
+                              _province = val;
+                              print(val);
+                            },
+                            itemBuilder: (_, String item) {
+                              return ListTile(
+                                title: Text(item),
+                              );
+                            },
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your Province';
+                              }
+                              return null;
+                            },
+                            onSaved: (String? value) {
+                              _province = value?.trim();
+                            },
+                            suggestionsCallback: (pattern) => GlobalVariables.provinceList.where(
+                              (item) => item.toLowerCase().contains(
+                                    pattern.toLowerCase(),
+                                  ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
                           TextFormField(
                             autocorrect: false,
                             decoration: const InputDecoration(
