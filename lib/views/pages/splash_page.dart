@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
         } else if (state.status == GetUserDetailsStatus.loaded) {
           if (state.data.data!.isProfileUpdated!) {
             if (state.data.data!.isAddressUpdated!) {
-              if (state.data.data!.role == "user") {
+              if (state.data.data!.role == "user" || state.data.data!.role == "admin") {
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   HomePage.routeName,

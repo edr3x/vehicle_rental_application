@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
               icon: Hero(
                 tag: 'profile-hero',
                 child: CircleAvatar(
-                  backgroundImage: displayImage(profileImage ?? ""),
+                  backgroundImage: displayImage(profileImage),
                 ),
               ),
             ),

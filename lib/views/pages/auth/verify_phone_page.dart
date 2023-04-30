@@ -23,7 +23,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
   _pageNavigation(BuildContext context, OtpVerifyState state) {
     if (state.status == OtpVerifyStatus.loaded) {
       if (state.otpVerify.data!.isProfileUpdated!) {
-        if (state.otpVerify.data!.role == "user") {
+        if (state.otpVerify.data!.role == "user" || state.otpVerify.data!.role == "admin") {
           Navigator.pushNamedAndRemoveUntil(
             context,
             HomePage.routeName,
@@ -67,96 +67,92 @@ class _VerifyPhoneState extends State<VerifyPhone> {
 
     return WillPopScope(
       onWillPop: () async => false,
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: BlocConsumer<OtpVerifyCubit, OtpVerifyState>(
-          listener: (context, state) {
-            if (state.status == OtpVerifyStatus.error) {
-              errorDialog(context, state.error.errMsg);
-            }
-            _pageNavigation(context, state);
-          },
-          builder: (context, state) {
-            return GestureDetector(
-              onTapDown: (_) => FocusScope.of(context).unfocus(),
-              child: Scaffold(
-                body: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Form(
-                      autovalidateMode: _autovalidateMode,
-                      key: _formKey,
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Text(
-                              "Enter OTP sent to your phone",
-                              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      child: BlocConsumer<OtpVerifyCubit, OtpVerifyState>(
+        listener: (context, state) {
+          if (state.status == OtpVerifyStatus.error) {
+            errorDialog(context, state.error.errMsg);
+          }
+          _pageNavigation(context, state);
+        },
+        builder: (context, state) {
+          return GestureDetector(
+            onTapDown: (_) => FocusScope.of(context).unfocus(),
+            child: Scaffold(
+              body: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Form(
+                    autovalidateMode: _autovalidateMode,
+                    key: _formKey,
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Text(
+                            "Enter OTP sent to your phone",
+                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          autocorrect: false,
+                          maxLength: 6,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'Verification Code',
+                            prefixIcon: Icon(Icons.lock),
                           ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            keyboardType: TextInputType.number,
-                            autocorrect: false,
-                            maxLength: 6,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0),
-                                ),
-                              ),
-                              labelText: 'Verification Code',
-                              prefixIcon: Icon(Icons.lock),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter verification code';
+                            }
+                            if (value.length != 6) {
+                              return 'Please enter a valid verification code';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            number = int.parse(value!);
+                          },
+                        ),
+                        CustomAuthButton(
+                          text:
+                              state.status == OtpVerifyStatus.loading ? "Submitting..." : "Verify",
+                          onTap: submit,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Didn't receive OTP?",
+                              style: TextStyle(fontSize: 15),
                             ),
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter verification code';
-                              }
-                              if (value.length != 6) {
-                                return 'Please enter a valid verification code';
-                              }
-                              return null;
-                            },
-                            onSaved: (String? value) {
-                              number = int.parse(value!);
-                            },
-                          ),
-                          CustomAuthButton(
-                            text: state.status == OtpVerifyStatus.loading
-                                ? "Submitting..."
-                                : "Verify",
-                            onTap: submit,
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Didn't receive OTP?",
-                                style: TextStyle(fontSize: 15),
+                            TextButton(
+                              onPressed: () {
+                                context.read<PhoneNumberVerifyCubit>().verifyPhone(phoneNumber!);
+                              },
+                              child: const Text(
+                                "Resend",
+                                style: TextStyle(fontSize: 17),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  context.read<PhoneNumberVerifyCubit>().verifyPhone(phoneNumber!);
-                                },
-                                child: const Text(
-                                  "Resend",
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
