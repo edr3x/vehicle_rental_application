@@ -59,9 +59,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 8,
               ),
               ListTile(
-                title: const Text(
-                  "Edr3xx",
-                  style: TextStyle(
+                title: Text(
+                  userData.fullName!,
+                  style: const TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),

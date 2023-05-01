@@ -6,3 +6,4 @@ export 'auth/register_page.dart';
 export 'driver/driver_home_page.dart';
 export 'profile/profile_page.dart';
 export 'search/search_result_page.dart';
+export 'notification/notificatoni_page.dart';

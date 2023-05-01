@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
+import 'package:rental_system_app/views/pages/notification/notificatoni_page.dart';
 import 'package:rental_system_app/views/pages/profile/profile_page.dart';
 import 'package:rental_system_app/views/pages/search/search_result_page.dart';
 
@@ -14,6 +15,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String greeting() {
+    DateTime now = DateTime.now();
+
+    if (now.hour >= 0 && now.hour < 12) return "Good Morning";
+
+    if (now.hour >= 12 && now.hour < 17) return "Good Afternoon";
+
+    if (now.hour >= 17 && now.hour < 21) return "Good Evening";
+
+    return "Good Night";
+  }
+
   @override
   Widget build(BuildContext context) {
     var profile = context.read<GetUserDetailsCubit>().state.data.data!;
@@ -32,9 +45,25 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           elevation: 0,
           automaticallyImplyLeading: false,
-          title: const Text("HomePage"),
-          actions: [
-            IconButton(
+          title: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: greeting(),
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const TextSpan(text: "\n"),
+                TextSpan(
+                    text: profile.gender == "male"
+                        ? "Mr. ${profile.fullName}"
+                        : "Ms. ${profile.fullName}",
+                    style: const TextStyle(fontSize: 18)),
+              ],
+            ),
+          ),
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, ProfilePage.routeName);
               },
@@ -43,6 +72,17 @@ class _HomePageState extends State<HomePage> {
                 child: CircleAvatar(
                   backgroundImage: displayImage(profile.profileImage),
                 ),
+              ),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, NotificationPage.routeName);
+                },
+                icon: const Icon(Icons.notifications_outlined),
               ),
             ),
           ],

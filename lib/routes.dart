@@ -51,6 +51,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (context) => const SearchResultPage(),
       );
 
+    case NotificationPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const NotificationPage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(
