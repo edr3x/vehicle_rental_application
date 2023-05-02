@@ -5,6 +5,7 @@ import 'package:rental_system_app/views/pages/home/current_page_cubit/current_pa
 import 'package:rental_system_app/views/pages/home/widgets/category_select.dart';
 import 'package:rental_system_app/views/pages/home/widgets/custom_home_bar.dart';
 import 'package:rental_system_app/views/pages/home/widgets/second_title.dart';
+import 'package:rental_system_app/views/pages/home/widgets/show_available_vehicle.dart';
 
 class HomePage extends StatelessWidget {
   static const String routeName = '/home-page';
@@ -18,16 +19,15 @@ class HomePage extends StatelessWidget {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const CustomHomeBar(),
-                  const SecondHomeTitle(title: "Recommended For You"),
-                  const SecondHomeTitle(title: "Available Near You"),
-                  const SelectCategoryRow(),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                CustomHomeBar(),
+                SecondHomeTitle(title: "Recommended For You"),
+                SecondHomeTitle(title: "Available Near You"),
+                SelectCategoryRow(),
+                ShowAvailableVehicle(),
+              ],
             ),
           ),
         ),
