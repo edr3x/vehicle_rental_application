@@ -17,7 +17,7 @@ class SecondHomeTitle extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
           ),

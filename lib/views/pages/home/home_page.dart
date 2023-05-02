@@ -4,6 +4,7 @@ import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/pages/home/current_page_cubit/current_page_cubit.dart';
 import 'package:rental_system_app/views/pages/home/widgets/category_select.dart';
 import 'package:rental_system_app/views/pages/home/widgets/custom_home_bar.dart';
+import 'package:rental_system_app/views/pages/home/widgets/recommended_vehicle.dart';
 import 'package:rental_system_app/views/pages/home/widgets/second_title.dart';
 import 'package:rental_system_app/views/pages/home/widgets/show_available_vehicle.dart';
 
@@ -24,7 +25,8 @@ class HomePage extends StatelessWidget {
               children: const [
                 CustomHomeBar(),
                 SecondHomeTitle(title: "Recommended For You"),
-                Spacer(),
+                RecommendedVehicle(),
+                SizedBox(height: 10),
                 SecondHomeTitle(title: "Available Near You"),
                 SelectCategoryRow(),
                 SizedBox(height: 10),
@@ -59,7 +61,7 @@ class SelectCategoryRow extends StatelessWidget {
             },
           ),
           CategorySelect(
-            icon: Icons.bike_scooter,
+            icon: Icons.motorcycle_rounded,
             label: "Bike",
             iconColor: state.currentPageIndex == 1 ? GlobalVariables.primaryColor : Colors.white,
             onTap: () {
@@ -75,7 +77,7 @@ class SelectCategoryRow extends StatelessWidget {
             },
           ),
           CategorySelect(
-            icon: Icons.pedal_bike,
+            icon: Icons.pedal_bike_outlined,
             label: "Bicycle",
             iconColor: state.currentPageIndex == 3 ? GlobalVariables.primaryColor : Colors.white,
             onTap: () {

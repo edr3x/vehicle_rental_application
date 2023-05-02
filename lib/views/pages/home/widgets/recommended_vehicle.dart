@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 
-class ShowVehicles extends StatelessWidget {
-  const ShowVehicles({super.key});
+class RecommendedVehicle extends StatelessWidget {
+  const RecommendedVehicle({super.key});
 
   @override
   Widget build(BuildContext context) {
