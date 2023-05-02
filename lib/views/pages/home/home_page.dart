@@ -68,7 +68,7 @@ class SelectCategoryRow extends StatelessWidget {
             },
           ),
           CategorySelect(
-            icon: Icons.car_rental_rounded,
+            icon: Icons.directions_car,
             label: "Car",
             iconColor: state.currentPageIndex == 2 ? GlobalVariables.primaryColor : Colors.white,
             onTap: () {
