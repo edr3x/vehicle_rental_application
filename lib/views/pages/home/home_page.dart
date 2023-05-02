@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
                 SecondHomeTitle(title: "Available Near You"),
                 SelectCategoryRow(),
                 SizedBox(height: 10),
-                ShowVehicles(),
+                NearbyAvailableVehicle(),
                 SizedBox(height: 20),
               ],
             ),
@@ -47,8 +47,7 @@ class SelectCategoryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var pageCubit = context.read<CurrentPageCubit>();
-    return BlocConsumer<CurrentPageCubit, CurrentPageState>(
-      listener: (context, state) {},
+    return BlocBuilder<CurrentPageCubit, CurrentPageState>(
       builder: (context, state) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
