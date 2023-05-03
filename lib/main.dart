@@ -5,9 +5,12 @@ import 'package:rental_system_app/api/blocs/auth/otp_verify_cubit/otp_verify_cub
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/post_user_data_cubit/post_user_data_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
+import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 import 'package:rental_system_app/api/repo/user_repo.dart';
+import 'package:rental_system_app/api/repo/vehicle_repo.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
+import 'package:rental_system_app/api/services/vehicle_services.dart';
 import 'package:rental_system_app/views/pages/splash_page.dart';
 
 import 'api/services/user_services.dart';
@@ -36,6 +39,11 @@ class MyApp extends StatelessWidget {
             updateUserAddressService: UpdateUserAddressService(),
           ),
         ),
+        RepositoryProvider<VehicleRepository>(
+          create: (context) => VehicleRepository(
+            getNearbyVehicleService: GetNearbyVehicleService(),
+          ),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -62,6 +70,11 @@ class MyApp extends StatelessWidget {
           BlocProvider<UpdateAddressCubit>(
             create: (context) => UpdateAddressCubit(
               userRepository: context.read<UserRepository>(),
+            ),
+          ),
+          BlocProvider<GetVehicleNearMeCubit>(
+            create: (context) => GetVehicleNearMeCubit(
+              vehicleRepository: context.read<VehicleRepository>(),
             ),
           ),
         ],
