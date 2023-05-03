@@ -25,7 +25,8 @@ class HomePage extends StatelessWidget {
               children: const [
                 CustomHomeBar(),
                 SecondHomeTitle(title: "Recommended For You"),
-                RecommendedVehicle(),
+                // RecommendedVehicle(),
+                NearbyAvailableVehicle(),
                 SizedBox(height: 10),
                 SecondHomeTitle(title: "Available Near You"),
                 SelectCategoryRow(),

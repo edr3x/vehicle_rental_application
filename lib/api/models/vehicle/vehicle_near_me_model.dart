@@ -45,7 +45,7 @@ class Data {
 
   factory Data.initial() => Data(
         msg: '',
-        result: List<Result>.from(['result'].map((x) => Result.initial())),
+        result: [],
       );
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -67,14 +67,14 @@ class Result {
   String? addedById;
   String? type;
   String? category;
+  String? rate;
   Brand? subCategory;
   Brand? brand;
   String? model;
   String? thumbnail;
-  String? rate;
   List<String>? pickupAddress;
   bool? isBooked;
-  int? distance;
+  double? distance;
 
   Result({
     this.id,
@@ -82,10 +82,10 @@ class Result {
     this.addedById,
     this.type,
     this.category,
+    this.rate,
     this.subCategory,
     this.brand,
     this.model,
-    this.rate,
     this.thumbnail,
     this.pickupAddress,
     this.isBooked,
@@ -98,14 +98,14 @@ class Result {
         addedById: '',
         type: '',
         category: '',
+        rate: '',
         subCategory: Brand.initial(),
         brand: Brand.initial(),
         model: '',
-        rate: '',
         thumbnail: '',
         pickupAddress: [],
         isBooked: false,
-        distance: 0,
+        distance: 0.0,
       );
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
@@ -113,8 +113,8 @@ class Result {
         title: json["title"],
         addedById: json["addedById"],
         type: json["type"],
-        rate: json["rate"],
         category: json["category"],
+        rate: json["rate"],
         subCategory: json["subCategory"] == null ? null : Brand.fromJson(json["subCategory"]),
         brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
         model: json["model"],
@@ -123,7 +123,7 @@ class Result {
             ? []
             : List<String>.from(json["pickupAddress"]!.map((x) => x)),
         isBooked: json["isBooked"],
-        distance: json["distance"],
+        distance: json["distance"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
