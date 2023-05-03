@@ -13,27 +13,25 @@ class NearbyAvailableVehicle extends StatefulWidget {
 }
 
 class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
-  @override
-  void initState() {
-    super.initState();
+  // myth: have to identify why this is not working
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-          lat: "10.287422",
-          lon: "9.33",
-          category: "car",
-        );
-  }
+  //   context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
+  //         lat: "10.287422",
+  //         lon: "9.33",
+  //         category: "car",
+  //       );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    var vehicleData = context.read<GetVehicleNearMeCubit>().state.data.data!;
-
     return Expanded(
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 10,
         itemBuilder: (context, index) {
-          print(" VehicleData: ${vehicleData.result![index].rate}");
           return Container(
             margin: const EdgeInsets.all(8.0),
             width: MediaQuery.of(context).size.width * 0.5,
