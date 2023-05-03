@@ -45,7 +45,7 @@ class Data {
 
   factory Data.initial() => Data(
         msg: '',
-        result: [],
+        result: List<Result>.from(['result'].map((x) => Result.initial())),
       );
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -71,6 +71,7 @@ class Result {
   Brand? brand;
   String? model;
   String? thumbnail;
+  String? rate;
   List<String>? pickupAddress;
   bool? isBooked;
   int? distance;
@@ -84,17 +85,35 @@ class Result {
     this.subCategory,
     this.brand,
     this.model,
+    this.rate,
     this.thumbnail,
     this.pickupAddress,
     this.isBooked,
     this.distance,
   });
 
+  factory Result.initial() => Result(
+        id: '',
+        title: '',
+        addedById: '',
+        type: '',
+        category: '',
+        subCategory: Brand.initial(),
+        brand: Brand.initial(),
+        model: '',
+        rate: '',
+        thumbnail: '',
+        pickupAddress: [],
+        isBooked: false,
+        distance: 0,
+      );
+
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
         title: json["title"],
         addedById: json["addedById"],
         type: json["type"],
+        rate: json["rate"],
         category: json["category"],
         subCategory: json["subCategory"] == null ? null : Brand.fromJson(json["subCategory"]),
         brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
@@ -113,6 +132,7 @@ class Result {
         "addedById": addedById,
         "type": type,
         "category": category,
+        "rate": rate,
         "subCategory": subCategory?.toJson(),
         "brand": brand?.toJson(),
         "model": model,
@@ -132,6 +152,11 @@ class Brand {
     this.id,
     this.title,
   });
+
+  factory Brand.initial() => Brand(
+        id: '',
+        title: '',
+      );
 
   factory Brand.fromJson(Map<String, dynamic> json) => Brand(
         id: json["id"],
