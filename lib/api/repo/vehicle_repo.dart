@@ -1,0 +1,32 @@
+import 'package:rental_system_app/api/models/vehicle/vehicle_near_me_model.dart';
+import 'package:rental_system_app/api/services/vehicle_services.dart';
+import 'package:rental_system_app/excepitions/custom_error.dart';
+import 'package:rental_system_app/excepitions/data_exception.dart';
+
+class VehicleRepository {
+  final GetNearbyVehicleService getNearbyVehicleService;
+
+  VehicleRepository({
+    required this.getNearbyVehicleService,
+  });
+
+  Future<VehicleNearMeModel> getNearbyVehicle({
+    required String lat,
+    required String lon,
+    required String category,
+  }) async {
+    try {
+      final VehicleNearMeModel response = await getNearbyVehicleService.data(
+        lat: lat,
+        lon: lon,
+        category: category,
+      );
+
+      return response;
+    } on DataException catch (e) {
+      throw CustomError(errMsg: e.message);
+    } catch (e) {
+      throw CustomError(errMsg: e.toString());
+    }
+  }
+}
