@@ -4,6 +4,7 @@ import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_detai
 import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/auth/login_page.dart';
+import 'package:rental_system_app/views/pages/location/location_page.dart';
 
 import 'widgets/menu_items.dart';
 
@@ -80,9 +81,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       icon: Icons.my_location,
                     ),
                     ProfileMenuItems(
-                      title: "TestPage",
+                      title: "LocationPage",
                       icon: Icons.my_location,
-                      onPress: () {},
+                      onPress: () {
+                        Navigator.pushNamed(context, LocationPage.routeName);
+                      },
                     ),
                   ],
                 ),
