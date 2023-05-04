@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_system_app/api/api.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
-import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/vehicle_details_page.dart';
 
 class NearbyAvailableVehicle extends StatefulWidget {

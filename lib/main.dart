@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<VehicleRepository>(
           create: (context) => VehicleRepository(
+            getVehicleDetailsService: GetVehicleDetailsService(),
             getNearbyVehicleService: GetNearbyVehicleService(),
           ),
         ),

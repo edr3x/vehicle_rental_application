@@ -1,3 +1,4 @@
+import 'package:rental_system_app/api/models/vehicle/vehicle_details_model.dart';
 import 'package:rental_system_app/api/models/vehicle/vehicle_near_me_model.dart';
 import 'package:rental_system_app/api/services/vehicle_services.dart';
 import 'package:rental_system_app/excepitions/custom_error.dart';
@@ -5,9 +6,11 @@ import 'package:rental_system_app/excepitions/data_exception.dart';
 
 class VehicleRepository {
   final GetNearbyVehicleService getNearbyVehicleService;
+  final GetVehicleDetailsService getVehicleDetailsService;
 
   VehicleRepository({
     required this.getNearbyVehicleService,
+    required this.getVehicleDetailsService,
   });
 
   Future<VehicleNearMeModel> getNearbyVehicle({
@@ -21,6 +24,21 @@ class VehicleRepository {
         lon: lon,
         category: category,
       );
+
+      return response;
+    } on DataException catch (e) {
+      throw CustomError(errMsg: e.message);
+    } catch (e) {
+      throw CustomError(errMsg: e.toString());
+    }
+  }
+
+  Future<VehicleDetailsModel> getVehicleDetailsRepo({
+    required String vehicleId,
+  }) async {
+    try {
+      final VehicleDetailsModel response =
+          await getVehicleDetailsService.data(vehicleId: vehicleId);
 
       return response;
     } on DataException catch (e) {
