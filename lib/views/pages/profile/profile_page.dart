@@ -76,16 +76,20 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                 child: ListView(
                   children: [
-                    const ProfileMenuItems(
-                      title: "Address",
-                      icon: Icons.my_location,
-                    ),
                     ProfileMenuItems(
-                      title: "LocationPage",
-                      icon: Icons.my_location,
+                      title: "Update Profile",
+                      icon: Icons.person_2,
                       onPress: () {
                         Navigator.pushNamed(context, LocationPage.routeName);
                       },
+                    ),
+                    const ProfileMenuItems(
+                      title: "Past Bookings",
+                      icon: Icons.book_online_outlined,
+                    ),
+                    const ProfileMenuItems(
+                      title: "Post Vehicles",
+                      icon: Icons.car_rental,
                     ),
                   ],
                 ),

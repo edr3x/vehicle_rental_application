@@ -14,23 +14,25 @@ class NearbyAvailableVehicle extends StatefulWidget {
 
 class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
   // myth: have to identify why this is not working
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  //   context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-  //         lat: "10.287422",
-  //         lon: "9.33",
-  //         category: "car",
-  //       );
-  // }
+    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
+          lat: "10.287422",
+          lon: "9.33",
+          category: "car",
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
+    var vehicleNearMe = context.watch<GetVehicleNearMeCubit>().state.data.data!.result!;
+
     return Expanded(
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: vehicleNearMe.length,
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.all(8.0),
@@ -96,10 +98,10 @@ class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
                           RichText(
                             overflow: TextOverflow.ellipsis,
                             text: TextSpan(
-                              text: "Tesla Model Y",
+                              text: vehicleNearMe[index].title,
                               style: const TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 25,
+                                fontSize: 15,
                               ),
                             ),
                           ),
@@ -107,7 +109,7 @@ class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
                             height: 10,
                           ),
                           Text(
-                            "Rs. 10,000 /day",
+                            vehicleNearMe[index].rate ?? "rate",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
