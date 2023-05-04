@@ -33,7 +33,7 @@ class VehicleRepository {
     }
   }
 
-  Future<VehicleDetailsModel> getVehicleDetailsRepo({
+  Future<VehicleDetailsModel> getVehicleDetails({
     required String vehicleId,
   }) async {
     try {

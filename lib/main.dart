@@ -5,6 +5,7 @@ import 'package:rental_system_app/api/blocs/auth/otp_verify_cubit/otp_verify_cub
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/post_user_data_cubit/post_user_data_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
+import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 import 'package:rental_system_app/api/repo/user_repo.dart';
@@ -75,6 +76,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<GetVehicleNearMeCubit>(
             create: (context) => GetVehicleNearMeCubit(
+              vehicleRepository: context.read<VehicleRepository>(),
+            ),
+          ),
+          BlocProvider<GetVehicleDetailsCubit>(
+            create: (context) => GetVehicleDetailsCubit(
               vehicleRepository: context.read<VehicleRepository>(),
             ),
           ),

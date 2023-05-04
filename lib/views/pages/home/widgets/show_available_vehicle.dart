@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/vehicle_details_page.dart';
@@ -38,8 +39,10 @@ class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
               Navigator.pushNamed(
                 context,
                 VehicleDetailsPage.routeName,
-                arguments: vehicleNearMe[index].id,
               );
+              context.read<GetVehicleDetailsCubit>().getVehicleDetails(
+                    vehicleId: vehicleNearMe[index].id!,
+                  );
             },
             child: Container(
               margin: const EdgeInsets.all(8.0),
