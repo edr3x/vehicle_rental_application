@@ -68,6 +68,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (context) => const LocationPage(),
       );
 
+    case VehicleDetailsPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const VehicleDetailsPage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(
