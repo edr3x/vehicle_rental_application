@@ -46,7 +46,7 @@ class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
             },
             child: Container(
               margin: const EdgeInsets.all(8.0),
-              width: MediaQuery.of(context).size.width * 0.5,
+              width: MediaQuery.of(context).size.width * 0.75,
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
