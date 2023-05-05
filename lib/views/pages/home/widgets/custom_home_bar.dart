@@ -44,7 +44,7 @@ class CustomHomeBar extends StatelessWidget {
                   icon: Hero(
                     tag: 'profile-hero',
                     child: CircleAvatar(
-                      backgroundImage: displayImage(profile.profileImage),
+                      backgroundImage: displayProfileImage(profile.profileImage),
                     ),
                   ),
                 ),

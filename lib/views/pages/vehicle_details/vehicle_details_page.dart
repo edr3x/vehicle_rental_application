@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_system_app/api/api.dart';
 import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/widgets/bottom_bar.dart';
 
 class VehicleDetailsPage extends StatelessWidget {
@@ -31,8 +33,17 @@ class VehicleDetailsPage extends StatelessWidget {
           ),
           body: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  height: 250,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: displayVehicle(details.thumbnail, 20),
+                ),
                 Text("Vehicle ID : ${details.id}"),
                 Text("Vehicle Title : ${details.title}"),
                 Text("Vehicle Type : ${details.type}"),

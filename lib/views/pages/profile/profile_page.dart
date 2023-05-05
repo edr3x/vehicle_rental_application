@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   tag: 'profile-hero',
                   child: CircleAvatar(
                     radius: 40,
-                    backgroundImage: displayImage(userData.profileImage),
+                    backgroundImage: displayProfileImage(userData.profileImage),
                   ),
                 ),
               ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
+import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/vehicle_details_page.dart';
 
 class NearbyAvailableVehicle extends StatefulWidget {
@@ -56,14 +57,7 @@ class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/loading.gif',
-                        image: "https://cdn.euroncap.com/media/70303/tesla-model-y.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    child: displayVehicle(vehicleNearMe[index].thumbnail, 20),
                   ),
                   Positioned(
                     bottom: 0,
