@@ -43,14 +43,14 @@ class Data {
     this.result,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        msg: json["msg"],
-        result: json["result"] == null ? null : Result.fromJson(json["result"]),
-      );
-
   factory Data.initial() => Data(
         msg: "",
         result: Result.inital(),
+      );
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        msg: json["msg"],
+        result: json["result"] == null ? null : Result.fromJson(json["result"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,10 +62,11 @@ class Data {
 class Result {
   String? id;
   String? title;
-  String? addedById;
+  AddedBy? addedBy;
   String? type;
   String? category;
-  Brand? subCategory;
+  String? thumbnail;
+  SubCategory? subCategory;
   Brand? brand;
   String? model;
   List<String>? images;
@@ -80,9 +81,10 @@ class Result {
   Result({
     this.id,
     this.title,
-    this.addedById,
+    this.addedBy,
     this.type,
     this.category,
+    this.thumbnail,
     this.subCategory,
     this.brand,
     this.model,
@@ -99,10 +101,10 @@ class Result {
   factory Result.inital() => Result(
         id: "",
         title: "",
-        addedById: "",
+        addedBy: AddedBy.initial(),
         type: "",
         category: "",
-        subCategory: Brand.initial(),
+        subCategory: SubCategory.initial(),
         brand: Brand.initial(),
         model: "",
         images: [],
@@ -118,10 +120,11 @@ class Result {
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
         title: json["title"],
-        addedById: json["addedById"],
+        addedBy: json["addedBy"] == null ? null : AddedBy.fromJson(json["addedBy"]),
         type: json["type"],
         category: json["category"],
-        subCategory: json["subCategory"] == null ? null : Brand.fromJson(json["subCategory"]),
+        thumbnail: json["thumbnail"],
+        subCategory: json["subCategory"] == null ? null : SubCategory.fromJson(json["subCategory"]),
         brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
         model: json["model"],
         images: json["images"] == null ? [] : List<String>.from(json["images"]!.map((x) => x)),
@@ -139,9 +142,10 @@ class Result {
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "addedById": addedById,
+        "addedBy": addedBy?.toJson(),
         "type": type,
         "category": category,
+        "thumbnail": thumbnail,
         "subCategory": subCategory?.toJson(),
         "brand": brand?.toJson(),
         "model": model,
@@ -157,28 +161,68 @@ class Result {
       };
 }
 
+class AddedBy {
+  String? id;
+  int? phone;
+  String? profileImage;
+  String? fullName;
+
+  AddedBy({
+    this.id,
+    this.phone,
+    this.profileImage,
+    this.fullName,
+  });
+
+  factory AddedBy.initial() => AddedBy(
+        id: "",
+        phone: 0,
+        fullName: "",
+        profileImage: "",
+      );
+
+  factory AddedBy.fromJson(Map<String, dynamic> json) => AddedBy(
+        id: json["id"],
+        phone: json["phone"],
+        profileImage: json["profileImage"],
+        fullName: json["fullName"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "phone": phone,
+        "profileImage": profileImage,
+        "fullName": fullName,
+      };
+}
+
 class Brand {
   String? id;
   String? title;
+  String? logo;
 
   Brand({
     this.id,
     this.title,
+    this.logo,
   });
+
+  factory Brand.initial() => Brand(
+        id: '',
+        title: '',
+        logo: '',
+      );
 
   factory Brand.fromJson(Map<String, dynamic> json) => Brand(
         id: json["id"],
         title: json["title"],
-      );
-
-  factory Brand.initial() => Brand(
-        id: "",
-        title: "",
+        logo: json["logo"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
+        "logo": logo,
       };
 }
 
@@ -294,5 +338,30 @@ class Features {
         "transmission": transmission,
         "gClearance": gClearance,
         "fuelTank": fuelTank,
+      };
+}
+
+class SubCategory {
+  String? id;
+  String? title;
+
+  SubCategory({
+    this.id,
+    this.title,
+  });
+
+  factory SubCategory.initial() => SubCategory(
+        id: '',
+        title: '',
+      );
+
+  factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
+        id: json["id"],
+        title: json["title"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
       };
 }
