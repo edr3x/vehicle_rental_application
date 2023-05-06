@@ -17,7 +17,10 @@ class RenterInfo extends StatelessWidget {
       children: [
         const Text(
           "Renter",
-          style: TextStyle(fontSize: 13),
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
