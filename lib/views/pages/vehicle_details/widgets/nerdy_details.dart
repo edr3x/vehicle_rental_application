@@ -15,18 +15,42 @@ class NerdyVehicleDetails extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: const [
+        children: [
+          DetailsBox(
+            title: "Model",
+            value: details.model ?? " ",
+          ),
           DetailsBox(
             title: "Transmission",
-            value: "Automatic",
+            value: details.features?.transmission ?? " ",
           ),
           DetailsBox(
-            title: "Acceleration",
-            value: "4.2s 0-150km/h",
+            title: "Vehicle-Number",
+            value: details.vehicleNumber ?? " ",
           ),
           DetailsBox(
-            title: "Acceleration",
-            value: "Automatic",
+            title: "Engine",
+            value: details.type ?? " ",
+          ),
+          DetailsBox(
+            title: "DriveTrain",
+            value: details.driveTrain ?? " ",
+          ),
+          DetailsBox(
+            title: "No. of Seats",
+            value: "${details.features?.noOfSeats}",
+          ),
+          DetailsBox(
+            title: "AC",
+            value: details.features!.hasAc! ? "Yes" : "No",
+          ),
+          DetailsBox(
+            title: "Air Bag",
+            value: details.features!.hasAirbag! ? "Yes" : "No",
+          ),
+          DetailsBox(
+            title: "Ground Clearance",
+            value: details.features!.hasAirbag! ? "Yes" : "No",
           ),
         ],
       ),
