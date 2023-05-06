@@ -6,25 +6,8 @@ import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/vehicle_details_page.dart';
 
-class NearbyAvailableVehicle extends StatefulWidget {
+class NearbyAvailableVehicle extends StatelessWidget {
   const NearbyAvailableVehicle({super.key});
-
-  @override
-  State<NearbyAvailableVehicle> createState() => _NearbyAvailableVehicleState();
-}
-
-class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
-  // myth: have to identify why this is not working
-  @override
-  void initState() {
-    super.initState();
-
-    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-          lat: "10.287422",
-          lon: "9.33",
-          category: "car",
-        );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +29,7 @@ class _NearbyAvailableVehicleState extends State<NearbyAvailableVehicle> {
                   );
             },
             child: Container(
-              margin: const EdgeInsets.all(8.0),
+              margin: const EdgeInsets.only(top: 9, bottom: 9, right: 16.0),
               width: MediaQuery.of(context).size.width * 0.75,
               height: 20,
               decoration: BoxDecoration(

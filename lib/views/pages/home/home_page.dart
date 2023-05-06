@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/pages/home/current_page_cubit/current_page_cubit.dart';
 import 'package:rental_system_app/views/pages/home/widgets/category_select.dart';
 import 'package:rental_system_app/views/pages/home/widgets/custom_home_bar.dart';
-import 'package:rental_system_app/views/pages/home/widgets/recommended_vehicle.dart';
 import 'package:rental_system_app/views/pages/home/widgets/second_title.dart';
 import 'package:rental_system_app/views/pages/home/widgets/show_available_vehicle.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const String routeName = '/home-page';
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
+          lat: "10.287422",
+          lon: "9.33",
+          category: "car",
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
