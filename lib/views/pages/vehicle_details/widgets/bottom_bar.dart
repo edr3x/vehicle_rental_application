@@ -65,6 +65,7 @@ class DetailsPageBottomBar extends StatelessWidget {
               "Book Now",
               style: TextStyle(
                 color: Colors.white,
+                fontSize: 18,
               ),
             ),
           ),
