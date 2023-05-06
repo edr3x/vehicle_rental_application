@@ -47,7 +47,7 @@ class DetailsBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 85,
       width: MediaQuery.of(context).size.width * 0.45,
       margin: const EdgeInsets.only(right: 16, top: 18, bottom: 18),
       padding: const EdgeInsets.all(20),

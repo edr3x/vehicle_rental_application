@@ -13,6 +13,7 @@ import 'package:rental_system_app/api/repo/vehicle_repo.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
 import 'package:rental_system_app/api/services/vehicle_services.dart';
 import 'package:rental_system_app/views/pages/splash_page.dart';
+import 'package:rental_system_app/views/pages/vehicle_details/blocs/location_data_cubit/location_data_cubit.dart';
 
 import 'api/services/user_services.dart';
 import 'constants/global_variables.dart';
@@ -84,6 +85,9 @@ class MyApp extends StatelessWidget {
               vehicleRepository: context.read<VehicleRepository>(),
             ),
           ),
+          BlocProvider<LocationDataCubit>(
+            create: (context) => LocationDataCubit(),
+          )
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

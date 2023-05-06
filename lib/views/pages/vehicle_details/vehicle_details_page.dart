@@ -6,6 +6,7 @@ import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/ge
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
+import 'package:rental_system_app/views/pages/vehicle_details/blocs/location_data_cubit/location_data_cubit.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/widgets/bottom_bar.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/widgets/nerdy_details.dart';
 
@@ -20,20 +21,6 @@ class VehicleDetailsPage extends StatefulWidget {
 }
 
 class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
-  Placemark? _location;
-
-  void placemarks() async {
-    List<Placemark> place = await placemarkFromCoordinates(27.7172633, 85.3450567);
-
-    _location = place[0];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    placemarks();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GetVehicleDetailsCubit, GetVehicleDetailsState>(
@@ -50,6 +37,11 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
           );
         }
         var details = state.data.data!.result!;
+        context.read<LocationDataCubit>().locationInfo(
+              latitude: "27.7172633",
+              longitude: "85.3450567",
+            );
+        Placemark location = context.watch<LocationDataCubit>().state.location;
         return Scaffold(
           appBar: AppBar(
             title: const Text("Vehicle Details"),
@@ -103,6 +95,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                       children: [
                         RenterInfo(renterDetails: details.addedBy!),
                         NerdyVehicleDetails(details: details),
+                        const SizedBox(height: 4),
                         const Text(
                           "Location",
                           style: TextStyle(
@@ -110,13 +103,13 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: GlobalVariables.backgroundColor,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            minimumSize: const Size(100, 43),
+                            minimumSize: const Size(100, 50),
                           ),
                           child: Row(
                             children: [
@@ -124,9 +117,12 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                                 Icons.location_pin,
                                 color: Colors.white,
                               ),
-                              Text(
-                                "${_location!.subLocality}, ${_location!.locality}",
-                                style: const TextStyle(color: Colors.white),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 14.0),
+                                child: Text(
+                                  "${location.street}, ${location.subLocality ?? ' '}, ${location.locality ?? ' '}",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
                               ),
                             ],
                           ),
