@@ -40,7 +40,7 @@ class CategorySelect extends StatelessWidget {
               label,
               style: TextStyle(
                 color: iconColor,
-                fontSize: 16,
+                fontSize: 15,
               ),
             )
           ],
