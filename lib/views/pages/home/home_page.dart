@@ -21,11 +21,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-          position: context.read<CurrentLocationCubit>().state.position,
-          category: "all",
-        );
-
+    var currentPos = context.read<CurrentLocationCubit>().state.position;
+    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(position: currentPos);
     super.initState();
   }
 

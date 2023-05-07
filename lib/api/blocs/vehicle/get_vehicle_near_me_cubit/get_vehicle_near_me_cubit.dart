@@ -15,7 +15,7 @@ class GetVehicleNearMeCubit extends Cubit<GetVehicleNearMeState> {
   }) : super(GetVehicleNearMeState.initial());
 
   Future<void> getNearbyVehicle({
-    required String category,
+    String category = "all",
     required Position position,
   }) async {
     emit(state.copyWith(status: GetVehicleNearMeConnectionStatus.loading));
