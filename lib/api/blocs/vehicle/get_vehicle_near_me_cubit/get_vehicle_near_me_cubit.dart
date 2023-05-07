@@ -56,4 +56,10 @@ class GetVehicleNearMeCubit extends Cubit<GetVehicleNearMeState> {
       emit(state.copyWith(status: GetVehicleNearMeConnectionStatus.error, error: e));
     }
   }
+
+  @override
+  Future<void> close() {
+    pageSubscription.cancel();
+    return super.close();
+  }
 }
