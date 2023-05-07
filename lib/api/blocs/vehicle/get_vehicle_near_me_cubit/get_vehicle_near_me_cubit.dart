@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:rental_system_app/api/models/vehicle/vehicle_near_me_model.dart';
 import 'package:rental_system_app/api/repo/vehicle_repo.dart';
 import 'package:rental_system_app/excepitions/custom_error.dart';
@@ -14,15 +15,14 @@ class GetVehicleNearMeCubit extends Cubit<GetVehicleNearMeState> {
   }) : super(GetVehicleNearMeState.initial());
 
   Future<void> getNearbyVehicle({
-    required String lat,
-    required String lon,
     required String category,
   }) async {
     emit(state.copyWith(status: GetVehicleNearMeConnectionStatus.loading));
     try {
+      Position position = await Geolocator.getCurrentPosition();
       final VehicleNearMeModel response = await vehicleRepository.getNearbyVehicle(
-        lat: lat,
-        lon: lon,
+        lat: "${position.latitude}",
+        lon: "${position.longitude}",
         category: category,
       );
 

@@ -38,8 +38,8 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
         }
         var details = state.data.data!.result!;
         context.read<LocationDataCubit>().locationInfo(
-              latitude: "27.7172633",
-              longitude: "85.3450567",
+              latitude: details.pickupAddress![0],
+              longitude: details.pickupAddress![1],
             );
         Placemark location = context.watch<LocationDataCubit>().state.location;
         return Scaffold(

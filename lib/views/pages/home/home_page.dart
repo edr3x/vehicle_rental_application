@@ -21,9 +21,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-          lat: "10.287422",
-          lon: "9.33",
-          category: "car",
+          category: "all",
         );
   }
 
@@ -63,7 +61,18 @@ class SelectCategoryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var pageCubit = context.read<CurrentPageCubit>();
-    return BlocBuilder<CurrentPageCubit, CurrentPageState>(
+    return BlocConsumer<CurrentPageCubit, CurrentPageState>(
+      listener: (context, state) {
+        if (state.currentPageIndex == 0) {
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "all");
+        } else if (state.currentPageIndex == 1) {
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "bike");
+        } else if (state.currentPageIndex == 2) {
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "car");
+        } else if (state.currentPageIndex == 3) {
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "bicycle");
+        }
+      },
       builder: (context, state) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
