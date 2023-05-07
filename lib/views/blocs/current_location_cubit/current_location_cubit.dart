@@ -8,7 +8,13 @@ class CurrentLocationCubit extends Cubit<CurrentLocationState> {
   CurrentLocationCubit() : super(CurrentLocationState.initial());
 
   Future<void> currentLocation() async {
-    Position position = await Geolocator.getCurrentPosition();
-    emit(state.copyWith(position: position));
+    emit(state.copyWith(status: LocationStatus.loading));
+    try {
+      final Position position = await Geolocator.getCurrentPosition();
+
+      emit(state.copyWith(status: LocationStatus.success, position: position));
+    } catch (e) {
+      print("Error: $e");
+    }
   }
 }

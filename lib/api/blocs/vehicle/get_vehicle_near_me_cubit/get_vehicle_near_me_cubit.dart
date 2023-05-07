@@ -11,7 +11,7 @@ import 'package:rental_system_app/views/blocs/current_page_cubit/current_page_cu
 part 'get_vehicle_near_me_state.dart';
 
 class GetVehicleNearMeCubit extends Cubit<GetVehicleNearMeState> {
-  String category = "all";
+  String? category;
 
   late StreamSubscription pageSubscription;
   final CurrentPageCubit currentPageCubit;
@@ -23,6 +23,7 @@ class GetVehicleNearMeCubit extends Cubit<GetVehicleNearMeState> {
     required this.currentPageCubit,
   }) : super(GetVehicleNearMeState.initial()) {
     pageSubscription = currentPageCubit.stream.listen((CurrentPageState pageState) {
+      print(pageState.currentPageIndex);
       if (pageState.currentPageIndex == 0) {
         category = "all";
       } else if (pageState.currentPageIndex == 1) {
@@ -43,7 +44,7 @@ class GetVehicleNearMeCubit extends Cubit<GetVehicleNearMeState> {
       final VehicleNearMeModel response = await vehicleRepository.getNearbyVehicle(
         lat: "${position.latitude}",
         lon: "${position.longitude}",
-        category: category,
+        category: category ?? "all",
       );
 
       emit(

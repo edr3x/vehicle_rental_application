@@ -45,12 +45,6 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (context) => const DriverHomePage(),
       );
 
-    case SearchResultPage.routeName:
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (context) => const SearchResultPage(),
-      );
-
     case NotificationPage.routeName:
       return MaterialPageRoute(
         settings: settings,

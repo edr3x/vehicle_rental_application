@@ -10,57 +10,54 @@ import 'package:rental_system_app/views/pages/home/widgets/custom_home_bar.dart'
 import 'package:rental_system_app/views/pages/home/widgets/second_title.dart';
 import 'package:rental_system_app/views/pages/home/widgets/show_available_vehicle.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   static const String routeName = '/home-page';
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    var currentPos = context.read<CurrentLocationCubit>().state.position;
-    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(position: currentPos);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        body: BlocConsumer<GetVehicleNearMeCubit, GetVehicleNearMeState>(
-          listener: (context, state) {
-            if (state.status == GetVehicleNearMeConnectionStatus.error) {
-              errorDialog(context, state.error.errMsg);
-            }
-          },
-          builder: (context, state) {
-            if (state.status == GetVehicleNearMeConnectionStatus.loading ||
-                state.status == GetVehicleNearMeConnectionStatus.initial) {
+        body: BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
+          builder: (context, CurrentLocationState locState) {
+            if (locState.status == LocationStatus.initial ||
+                locState.status == LocationStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             }
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    CustomHomeBar(),
-                    SecondHomeTitle(title: "Recommended For You"),
-                    // RecommendedVehicle(),
-                    NearbyAvailableVehicle(),
-                    SizedBox(height: 10),
-                    SecondHomeTitle(title: "Available Near You"),
-                    SelectCategoryRow(),
-                    SizedBox(height: 10),
-                    NearbyAvailableVehicle(),
-                    SizedBox(height: 20),
-                  ],
-                ),
-              ),
+            context.read<GetVehicleNearMeCubit>().getNearbyVehicle(position: locState.position);
+            return BlocConsumer<GetVehicleNearMeCubit, GetVehicleNearMeState>(
+              listener: (context, state) {
+                if (state.status == GetVehicleNearMeConnectionStatus.error) {
+                  errorDialog(context, state.error.errMsg);
+                }
+              },
+              builder: (context, state) {
+                if (state.status == GetVehicleNearMeConnectionStatus.loading ||
+                    state.status == GetVehicleNearMeConnectionStatus.initial) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        CustomHomeBar(),
+                        SecondHomeTitle(title: "Recommended For You"),
+                        // RecommendedVehicle(),
+                        NearbyAvailableVehicle(),
+                        SizedBox(height: 10),
+                        SecondHomeTitle(title: "Available Near You"),
+                        SelectCategoryRow(),
+                        SizedBox(height: 10),
+                        NearbyAvailableVehicle(),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                );
+              },
             );
           },
         ),
