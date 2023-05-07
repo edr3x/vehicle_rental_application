@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
+import 'package:rental_system_app/views/blocs/current_location_cubit/current_location_cubit.dart';
 import 'package:rental_system_app/views/pages/exports.dart';
 
 class SplashPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     BlocProvider.of<GetUserDetailsCubit>(context).getUserDetails();
+    BlocProvider.of<CurrentLocationCubit>(context).currentLocation();
   }
 
   @override
