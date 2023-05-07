@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_system_app/views/pages/home/current_page_cubit/current_page_cubit.dart';
 import 'views/pages/exports.dart';
 
 Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
@@ -8,10 +6,7 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
     case HomePage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => BlocProvider<CurrentPageCubit>(
-          create: (context) => CurrentPageCubit(),
-          child: const HomePage(),
-        ),
+        builder: (context) => const HomePage(),
       );
 
     case LoginPage.routeName:

@@ -12,12 +12,14 @@ import 'package:rental_system_app/api/repo/user_repo.dart';
 import 'package:rental_system_app/api/repo/vehicle_repo.dart';
 import 'package:rental_system_app/api/services/auth_flow.dart';
 import 'package:rental_system_app/api/services/vehicle_services.dart';
+import 'package:rental_system_app/views/blocs/current_location_cubit/current_location_cubit.dart';
+import 'package:rental_system_app/views/blocs/current_page_cubit/current_page_cubit.dart';
 import 'package:rental_system_app/views/pages/splash_page.dart';
-import 'package:rental_system_app/views/pages/vehicle_details/blocs/location_data_cubit/location_data_cubit.dart';
 
 import 'api/services/user_services.dart';
 import 'constants/global_variables.dart';
 import 'routes.dart';
+import 'views/blocs/location_data_cubit/location_data_cubit.dart';
 
 void main() => runApp(const MyApp());
 
@@ -75,6 +77,15 @@ class MyApp extends StatelessWidget {
               userRepository: context.read<UserRepository>(),
             ),
           ),
+          BlocProvider<CurrentLocationCubit>(
+            create: (context) => CurrentLocationCubit(),
+          ),
+          BlocProvider<LocationDataCubit>(
+            create: (context) => LocationDataCubit(),
+          ),
+          BlocProvider<CurrentPageCubit>(
+            create: (context) => CurrentPageCubit(),
+          ),
           BlocProvider<GetVehicleNearMeCubit>(
             create: (context) => GetVehicleNearMeCubit(
               vehicleRepository: context.read<VehicleRepository>(),
@@ -85,9 +96,6 @@ class MyApp extends StatelessWidget {
               vehicleRepository: context.read<VehicleRepository>(),
             ),
           ),
-          BlocProvider<LocationDataCubit>(
-            create: (context) => LocationDataCubit(),
-          )
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
