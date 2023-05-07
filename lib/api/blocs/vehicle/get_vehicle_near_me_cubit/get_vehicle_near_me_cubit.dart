@@ -16,10 +16,10 @@ class GetVehicleNearMeCubit extends Cubit<GetVehicleNearMeState> {
 
   Future<void> getNearbyVehicle({
     required String category,
+    required Position position,
   }) async {
     emit(state.copyWith(status: GetVehicleNearMeConnectionStatus.loading));
     try {
-      Position position = await Geolocator.getCurrentPosition();
       final VehicleNearMeModel response = await vehicleRepository.getNearbyVehicle(
         lat: "${position.latitude}",
         lon: "${position.longitude}",

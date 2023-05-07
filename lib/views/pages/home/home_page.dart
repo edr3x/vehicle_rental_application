@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
+import 'package:rental_system_app/views/blocs/current_location_cubit/current_location_cubit.dart';
+import 'package:rental_system_app/views/blocs/current_page_cubit/current_page_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
-import 'package:rental_system_app/views/pages/home/current_page_cubit/current_page_cubit.dart';
 import 'package:rental_system_app/views/pages/home/widgets/category_select.dart';
 import 'package:rental_system_app/views/pages/home/widgets/custom_home_bar.dart';
 import 'package:rental_system_app/views/pages/home/widgets/second_title.dart';
@@ -20,8 +21,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
+    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
+          position: context.read<CurrentLocationCubit>().state.position,
+          category: "all",
+        );
+
     super.initState();
-    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "all");
   }
 
   @override
@@ -73,16 +78,30 @@ class SelectCategoryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var pageCubit = context.read<CurrentPageCubit>();
+    var currentPos = context.read<CurrentLocationCubit>().state.position;
+
     return BlocConsumer<CurrentPageCubit, CurrentPageState>(
       listener: (context, state) {
         if (state.currentPageIndex == 0) {
-          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "all");
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
+                position: currentPos,
+                category: "all",
+              );
         } else if (state.currentPageIndex == 1) {
-          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "bike");
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
+                position: currentPos,
+                category: "bike",
+              );
         } else if (state.currentPageIndex == 2) {
-          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "car");
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
+                position: currentPos,
+                category: "car",
+              );
         } else if (state.currentPageIndex == 3) {
-          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "bicycle");
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
+                position: currentPos,
+                category: "bicycle",
+              );
         }
       },
       builder: (context, state) => Row(
