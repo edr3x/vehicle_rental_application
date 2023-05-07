@@ -89,6 +89,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<GetVehicleNearMeCubit>(
             create: (context) => GetVehicleNearMeCubit(
               vehicleRepository: context.read<VehicleRepository>(),
+              currentPageCubit: context.read<CurrentPageCubit>(),
             ),
           ),
           BlocProvider<GetVehicleDetailsCubit>(

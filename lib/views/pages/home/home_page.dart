@@ -82,22 +82,18 @@ class SelectCategoryRow extends StatelessWidget {
         if (state.currentPageIndex == 0) {
           context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
                 position: currentPos,
-                category: "all",
               );
         } else if (state.currentPageIndex == 1) {
           context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
                 position: currentPos,
-                category: "bike",
               );
         } else if (state.currentPageIndex == 2) {
           context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
                 position: currentPos,
-                category: "car",
               );
         } else if (state.currentPageIndex == 3) {
           context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
                 position: currentPos,
-                category: "bicycle",
               );
         }
       },
