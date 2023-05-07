@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
+import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/pages/home/current_page_cubit/current_page_cubit.dart';
 import 'package:rental_system_app/views/pages/home/widgets/category_select.dart';
 import 'package:rental_system_app/views/pages/home/widgets/custom_home_bar.dart';
@@ -20,9 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-          category: "all",
-        );
+    context.read<GetVehicleNearMeCubit>().getNearbyVehicle(category: "all");
   }
 
   @override
@@ -30,25 +29,38 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                CustomHomeBar(),
-                SecondHomeTitle(title: "Recommended For You"),
-                // RecommendedVehicle(),
-                NearbyAvailableVehicle(),
-                SizedBox(height: 10),
-                SecondHomeTitle(title: "Available Near You"),
-                SelectCategoryRow(),
-                SizedBox(height: 10),
-                NearbyAvailableVehicle(),
-                SizedBox(height: 20),
-              ],
-            ),
-          ),
+        body: BlocConsumer<GetVehicleNearMeCubit, GetVehicleNearMeState>(
+          listener: (context, state) {
+            if (state.status == GetVehicleNearMeConnectionStatus.error) {
+              errorDialog(context, state.error.errMsg);
+            }
+          },
+          builder: (context, state) {
+            if (state.status == GetVehicleNearMeConnectionStatus.loading ||
+                state.status == GetVehicleNearMeConnectionStatus.initial) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    CustomHomeBar(),
+                    SecondHomeTitle(title: "Recommended For You"),
+                    // RecommendedVehicle(),
+                    NearbyAvailableVehicle(),
+                    SizedBox(height: 10),
+                    SecondHomeTitle(title: "Available Near You"),
+                    SelectCategoryRow(),
+                    SizedBox(height: 10),
+                    NearbyAvailableVehicle(),
+                    SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
