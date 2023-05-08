@@ -23,7 +23,6 @@ class GetVehicleNearMeCubit extends Cubit<GetVehicleNearMeState> {
     required this.currentPageCubit,
   }) : super(GetVehicleNearMeState.initial()) {
     pageSubscription = currentPageCubit.stream.listen((CurrentPageState pageState) {
-      print(pageState.currentPageIndex);
       if (pageState.currentPageIndex == 0) {
         category = "all";
       } else if (pageState.currentPageIndex == 1) {

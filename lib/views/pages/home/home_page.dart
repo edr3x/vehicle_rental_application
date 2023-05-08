@@ -76,22 +76,11 @@ class SelectCategoryRow extends StatelessWidget {
 
     return BlocConsumer<CurrentPageCubit, CurrentPageState>(
       listener: (context, state) {
-        if (state.currentPageIndex == 0) {
-          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-                position: currentPos,
-              );
-        } else if (state.currentPageIndex == 1) {
-          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-                position: currentPos,
-              );
-        } else if (state.currentPageIndex == 2) {
-          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-                position: currentPos,
-              );
-        } else if (state.currentPageIndex == 3) {
-          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(
-                position: currentPos,
-              );
+        if (state.currentPageIndex == 0 ||
+            state.currentPageIndex == 1 ||
+            state.currentPageIndex == 2 ||
+            state.currentPageIndex == 3) {
+          context.read<GetVehicleNearMeCubit>().getNearbyVehicle(position: currentPos);
         }
       },
       builder: (context, state) => Row(
