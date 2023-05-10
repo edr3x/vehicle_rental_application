@@ -50,7 +50,7 @@ class _RenterInfoState extends State<RenterInfo> {
                   await launchUrl(url, mode: LaunchMode.externalApplication);
                 } else {
                   if (!mounted) return;
-                  errorDialog(context, "Could not open map.");
+                  errorDialog(context, "Could not open messages.");
                 }
               },
               icon: const Icon(
@@ -66,7 +66,7 @@ class _RenterInfoState extends State<RenterInfo> {
                   await launchUrl(url, mode: LaunchMode.externalApplication);
                 } else {
                   if (!mounted) return;
-                  errorDialog(context, "Could not open map.");
+                  errorDialog(context, "Could not open phone.");
                 }
               },
               icon: const Icon(
