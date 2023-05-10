@@ -1,6 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rental_system_app">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- Provide required visibility configuration for API level 30 and above -->
+    <queries>
+      <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="https" />
+      </intent>
+      <!-- If your app checks for SMS support -->
+      <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="sms" />
+      </intent>
+      <!-- If your app checks for call support -->
+      <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="tel" />
+      </intent>
+    </queries>
    <application
         android:label="rental_system_app"
         android:name="${applicationName}"

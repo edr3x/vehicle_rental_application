@@ -9,6 +9,7 @@ import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dar
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/widgets/bottom_bar.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/widgets/nerdy_details.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'widgets/renter_info.dart';
 
@@ -105,7 +106,22 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
                         ),
                         const SizedBox(height: 10),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            double latitude = double.parse(details.pickupAddress![0]);
+                            double longitude = double.parse(details.pickupAddress![1]);
+                            Uri googleUrl = Uri.parse(
+                              'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude',
+                            );
+                            if (await canLaunchUrl(googleUrl)) {
+                              await launchUrl(
+                                googleUrl,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            } else {
+                              if (!mounted) return;
+                              errorDialog(context, "Could not open map.");
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: GlobalVariables.backgroundColor,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
