@@ -37,12 +37,12 @@ class HomePage extends StatelessWidget {
                     state.status == GetVehicleNearMeConnectionStatus.initial) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                return SafeArea(
+                return const SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         CustomHomeBar(),
                         SecondHomeTitle(title: "Recommended For You"),
                         // RecommendedVehicle(),

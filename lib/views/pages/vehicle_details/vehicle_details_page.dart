@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/blocs/location_data_cubit/location_data_cubit.dart';
@@ -26,7 +25,7 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<GetVehicleDetailsCubit, GetVehicleDetailsState>(
       listener: (context, state) {
-        if (state.status == UpdateAddressStatus.error) {
+        if (state.status == GetVehicleDetailsStatus.error) {
           errorDialog(context, state.error.errMsg);
         }
       },
