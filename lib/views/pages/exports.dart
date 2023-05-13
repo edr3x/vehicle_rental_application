@@ -8,3 +8,4 @@ export 'profile/profile_page.dart';
 export 'notification/notification_page.dart';
 export 'location/location_page.dart';
 export 'vehicle_details/vehicle_details_page.dart';
+export 'booking/booking_page.dart';

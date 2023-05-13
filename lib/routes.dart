@@ -6,61 +6,67 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
     case HomePage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const HomePage(),
+        builder: (_) => const HomePage(),
       );
 
     case LoginPage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const LoginPage(),
+        builder: (_) => const LoginPage(),
       );
 
     case VerifyPhone.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const VerifyPhone(),
+        builder: (_) => const VerifyPhone(),
       );
 
     case UserRegisterPage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const UserRegisterPage(),
+        builder: (_) => const UserRegisterPage(),
       );
 
     case UpdateAddressPage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const UpdateAddressPage(),
+        builder: (_) => const UpdateAddressPage(),
       );
 
     case ProfilePage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const ProfilePage(),
+        builder: (_) => const ProfilePage(),
       );
 
     case DriverHomePage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const DriverHomePage(),
+        builder: (_) => const DriverHomePage(),
       );
 
     case NotificationPage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const NotificationPage(),
+        builder: (_) => const NotificationPage(),
       );
 
     case LocationPage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const LocationPage(),
+        builder: (_) => const LocationPage(),
       );
 
     case VehicleDetailsPage.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const VehicleDetailsPage(),
+        builder: (_) => const VehicleDetailsPage(),
+      );
+
+    case BookingPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const BookingPage(),
       );
 
     default:
