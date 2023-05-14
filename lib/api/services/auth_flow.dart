@@ -27,7 +27,6 @@ class SendCodeService {
 
       return verifyPhoneModelFromJson(response.body);
     } catch (e) {
-      print("Http error: $e");
       rethrow;
     }
   }

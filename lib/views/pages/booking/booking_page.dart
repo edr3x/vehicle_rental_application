@@ -215,9 +215,6 @@ class _BookingPageState extends State<BookingPage> {
                         ],
                       ),
                     );
-                    print(
-                      "Start Date: ${_convertDate(_startDate)} \n End Date: ${_convertDate(_endDate)} \n Vehicle ID: ${details.id}",
-                    );
                   },
                   child: const Text(
                     "Confirm",
