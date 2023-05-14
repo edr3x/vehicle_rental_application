@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/auth/number_verify_cubit/phone_number_verify_cubit.dart';
 import 'package:rental_system_app/api/blocs/auth/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:rental_system_app/api/blocs/booking/book_vehicle_cubit/book_vehicle_cubit.dart';
+import 'package:rental_system_app/api/blocs/booking/my_bookings_cubit/my_bookings_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/post_user_data_cubit/post_user_data_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<BookingRepository>(
           create: (context) => BookingRepository(
             bookVehicleService: BookVehicleService(),
+            myBookingsService: MyBookingsService(),
           ),
         ),
       ],
@@ -107,6 +109,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<BookVehicleCubit>(
             create: (context) => BookVehicleCubit(
+              bookingRepository: context.read<BookingRepository>(),
+            ),
+          ),
+          BlocProvider<MyBookingsCubit>(
+            create: (context) => MyBookingsCubit(
               bookingRepository: context.read<BookingRepository>(),
             ),
           ),

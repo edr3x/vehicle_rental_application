@@ -83,11 +83,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                     ),
                     const ProfileMenuItems(
-                      title: "Past Bookings",
+                      title: "My Bookings",
                       icon: Icons.book_online_outlined,
                     ),
                     const ProfileMenuItems(
-                      title: "Post Vehicles",
+                      title: "My Vehicles",
                       icon: Icons.car_rental,
                     ),
                   ],
