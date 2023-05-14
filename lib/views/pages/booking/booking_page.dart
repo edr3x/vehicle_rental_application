@@ -4,6 +4,7 @@ import 'package:rental_system_app/api/blocs/booking/book_vehicle_cubit/book_vehi
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/pages/home/home_page.dart';
 
 import '../../common/widgets/display_image.dart';
 
@@ -19,12 +20,23 @@ class _BookingPageState extends State<BookingPage> {
   DateTime _startDate = DateTime(2023, 05, 05);
   DateTime _endDate = DateTime(2023, 05, 12);
 
+  String _convertDate(DateTime time) => time.toUtc().toIso8601String();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<BookVehicleCubit, BookVehicleState>(
       listener: (context, state) {
         if (state.status == BookVehicleStatus.error) {
           errorDialog(context, state.error.errMsg);
+        }
+        if (state.status == BookVehicleStatus.loaded) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              duration: Duration(seconds: 3),
+              content: Text("Vehicle booked successfully"),
+            ),
+          );
+          Navigator.pushNamed(context, HomePage.routeName);
         }
       },
       builder: (context, state) {
@@ -178,7 +190,35 @@ class _BookingPageState extends State<BookingPage> {
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => AlertDialog(
+                        title: const Text("Confirm"),
+                        content: const Text("Are you sure you want to book this vehicle?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("Cancel"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context.read<BookVehicleCubit>().bookVehicle(
+                                    vehicleId: details.id!,
+                                    startDate: _convertDate(_startDate),
+                                    endDate: _convertDate(_endDate),
+                                  );
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ],
+                      ),
+                    );
+                    print(
+                      "Start Date: ${_convertDate(_startDate)} \n End Date: ${_convertDate(_endDate)} \n Vehicle ID: ${details.id}",
+                    );
+                  },
                   child: const Text(
                     "Confirm",
                     style: TextStyle(
