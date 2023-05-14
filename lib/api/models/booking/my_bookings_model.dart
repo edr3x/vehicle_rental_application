@@ -45,6 +45,7 @@ class Datum {
   String? bookedById;
   DateTime? createdAt;
   DateTime? updatedAt;
+  Vehicle? vehicle;
 
   Datum({
     this.id,
@@ -56,6 +57,7 @@ class Datum {
     this.bookedById,
     this.createdAt,
     this.updatedAt,
+    this.vehicle,
   });
 
   factory Datum.initial() => Datum(
@@ -68,6 +70,10 @@ class Datum {
         bookedById: '',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        vehicle: Vehicle(
+          title: '',
+          thumbnail: '',
+        ),
       );
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -80,6 +86,7 @@ class Datum {
         bookedById: json["bookedById"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+        vehicle: json["Vehicle"] == null ? null : Vehicle.fromJson(json["Vehicle"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -92,5 +99,26 @@ class Datum {
         "bookedById": bookedById,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
+        "Vehicle": vehicle?.toJson(),
+      };
+}
+
+class Vehicle {
+  String? title;
+  String? thumbnail;
+
+  Vehicle({
+    this.title,
+    this.thumbnail,
+  });
+
+  factory Vehicle.fromJson(Map<String, dynamic> json) => Vehicle(
+        title: json["title"],
+        thumbnail: json["thumbnail"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "title": title,
+        "thumbnail": thumbnail,
       };
 }

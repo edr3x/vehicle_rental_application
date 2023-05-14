@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_system_app/api/blocs/booking/my_bookings_cubit/my_bookings_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
@@ -82,9 +83,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         Navigator.pushNamed(context, LocationPage.routeName);
                       },
                     ),
-                    const ProfileMenuItems(
+                    ProfileMenuItems(
                       title: "My Bookings",
                       icon: Icons.book_online_outlined,
+                      onPress: () {
+                        Navigator.pushNamed(context, MyBookingsPage.routeName);
+                        context.read<MyBookingsCubit>().myBookingsHistory();
+                      },
                     ),
                     const ProfileMenuItems(
                       title: "My Vehicles",
