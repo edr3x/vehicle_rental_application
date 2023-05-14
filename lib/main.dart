@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_system_app/api/blocs/auth/number_verify_cubit/phone_number_verify_cubit.dart';
-import 'package:rental_system_app/api/blocs/auth/otp_verify_cubit/otp_verify_cubit.dart';
-import 'package:rental_system_app/api/blocs/booking/book_vehicle_cubit/book_vehicle_cubit.dart';
-import 'package:rental_system_app/api/blocs/booking/my_bookings_cubit/my_bookings_cubit.dart';
-import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
-import 'package:rental_system_app/api/blocs/user/post_user_data_cubit/post_user_data_cubit.dart';
-import 'package:rental_system_app/api/blocs/user/update_address_cubit/update_address_cubit.dart';
-import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
-import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
-import 'package:rental_system_app/api/repo/auth_repo.dart';
-import 'package:rental_system_app/api/repo/booking_repo.dart';
-import 'package:rental_system_app/api/repo/user_repo.dart';
-import 'package:rental_system_app/api/repo/vehicle_repo.dart';
-import 'package:rental_system_app/api/services/auth_flow.dart';
-import 'package:rental_system_app/api/services/booking_services.dart';
-import 'package:rental_system_app/api/services/vehicle_services.dart';
-import 'package:rental_system_app/views/blocs/current_location_cubit/current_location_cubit.dart';
-import 'package:rental_system_app/views/blocs/current_page_cubit/current_page_cubit.dart';
-import 'package:rental_system_app/views/pages/splash_page.dart';
 
-import 'api/services/user_services.dart';
-import 'constants/global_variables.dart';
-import 'routes.dart';
+import 'package:rental_system_app/api/blocs/exports.dart';
+import 'package:rental_system_app/api/repo/exports.dart';
+import 'package:rental_system_app/api/services/exports.dart';
+
 import 'views/blocs/location_data_cubit/location_data_cubit.dart';
+import 'views/blocs/current_location_cubit/current_location_cubit.dart';
+import 'views/blocs/current_page_cubit/current_page_cubit.dart';
+
+import 'routes.dart';
+import 'constants/global_variables.dart';
+
+import 'package:rental_system_app/views/pages/splash_page.dart';
 
 void main() => runApp(const MyApp());
 
