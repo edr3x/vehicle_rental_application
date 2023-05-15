@@ -1,5 +1,6 @@
 import 'package:rental_system_app/api/models/booking/book_vehicle_model.dart';
 import 'package:rental_system_app/api/models/booking/booking_details_model.dart';
+import 'package:rental_system_app/api/models/booking/cancel_booking_model.dart';
 import 'package:rental_system_app/api/models/booking/my_bookings_model.dart';
 import 'package:rental_system_app/api/services/booking_services.dart';
 import 'package:rental_system_app/excepitions/custom_error.dart';
@@ -9,11 +10,13 @@ class BookingRepository {
   final BookVehicleService bookVehicleService;
   final MyBookingsService myBookingsService;
   final BookingDetailsService bookingDetailsService;
+  final CancelBookingService cancelBookingService;
 
   BookingRepository({
     required this.bookVehicleService,
     required this.myBookingsService,
     required this.bookingDetailsService,
+    required this.cancelBookingService,
   });
 
   Future<BookVehicleModel> bookVehicle({
@@ -53,6 +56,22 @@ class BookingRepository {
   }) async {
     try {
       final BookingDetailsModel response = await bookingDetailsService.data(
+        bookingId: bookingId,
+      );
+
+      return response;
+    } on DataException catch (e) {
+      throw CustomError(errMsg: e.message);
+    } catch (e) {
+      throw CustomError(errMsg: e.toString());
+    }
+  }
+
+  Future<CancelBookingModel> cancelBooking({
+    required String bookingId,
+  }) async {
+    try {
+      final CancelBookingModel response = await cancelBookingService.data(
         bookingId: bookingId,
       );
 
