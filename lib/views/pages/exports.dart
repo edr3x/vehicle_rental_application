@@ -10,3 +10,4 @@ export 'location/location_page.dart';
 export 'vehicle_details/vehicle_details_page.dart';
 export 'booking/booking_page.dart';
 export 'booking/my_bookings_page.dart';
+export 'booking/bookings_details_page.dart';

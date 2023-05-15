@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/booking/my_bookings_cubit/my_bookings_cubit.dart';
+import 'package:rental_system_app/api/blocs/exports.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/pages/booking/bookings_details_page.dart';
 
 import '../../common/widgets/display_image.dart';
 
@@ -37,7 +39,12 @@ class MyBookingsPage extends StatelessWidget {
               itemCount: myBookings.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, BookingDetailsPage.routeName);
+                    context.read<BookingDetailsCubit>().bookingDetails(
+                          bookingId: myBookings[index].id!,
+                        );
+                  },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 20),
                     height: 240,

@@ -75,6 +75,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (_) => const MyBookingsPage(),
       );
 
+    case BookingDetailsPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const BookingDetailsPage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(
