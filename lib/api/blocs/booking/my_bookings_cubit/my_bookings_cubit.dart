@@ -13,6 +13,8 @@ class MyBookingsCubit extends Cubit<MyBookingsState> {
   }) : super(MyBookingsState.initial());
 
   Future<void> myBookingsHistory() async {
+    emit(state.copyWith(status: MyBookingsStatus.loading));
+
     try {
       final MyBookingsModel response = await bookingRepository.myBookings();
 
