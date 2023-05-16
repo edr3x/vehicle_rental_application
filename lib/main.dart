@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
             myBookingsService: MyBookingsService(),
             bookingDetailsService: BookingDetailsService(),
             cancelBookingService: CancelBookingService(),
+            bookingRequestsService: BookingRequestsService(),
           ),
         ),
       ],
