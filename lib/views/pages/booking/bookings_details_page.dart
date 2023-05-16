@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/exports.dart';
-import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/common/widgets/custom_snackbar.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';

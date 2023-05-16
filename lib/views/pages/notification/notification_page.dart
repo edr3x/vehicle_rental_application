@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rental_system_app/constants/global_variables.dart';
+import 'package:rental_system_app/views/pages/notification/widgets/notification_container.dart';
 
 class NotificationPage extends StatelessWidget {
   static const String routeName = '/notification-page';
@@ -23,8 +25,12 @@ class NotificationPage extends StatelessWidget {
           )
         ],
       ),
-      body: const Center(
-        child: Text("Hello From Notification page"),
+      body: Center(
+        child: Column(
+          children: [
+            NotificationContainerWidget(),
+          ],
+        ),
       ),
     );
   }
