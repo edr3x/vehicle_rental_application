@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_system_app/api/blocs/booking/booking_requests_cubit/booking_requests_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
@@ -78,6 +79,7 @@ class CustomHomeBar extends StatelessWidget {
               iconSize: 26,
               onPressed: () {
                 Navigator.pushNamed(context, NotificationPage.routeName);
+                context.read<BookingRequestsCubit>().listBookingRequests();
               },
               icon: const Icon(Icons.notifications_outlined),
             ),

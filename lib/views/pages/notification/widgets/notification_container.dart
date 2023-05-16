@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:rental_system_app/api/models/booking/booking_requests_model.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 
 class NotificationContainerWidget extends StatelessWidget {
-  const NotificationContainerWidget({super.key});
+  final Booking details;
+  const NotificationContainerWidget({
+    super.key,
+    required this.details,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +25,12 @@ class NotificationContainerWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                // CircleAvatar(
-                //   backgroundImage: displayProfileImage(widget.renterDetails.profileImage),
-                //   radius: 20,
-                // ),
+                CircleAvatar(
+                  backgroundImage: displayProfileImage(
+                    details.bookedBy!.profileImage,
+                  ),
+                  radius: 20,
+                ),
               ],
             ),
           ],

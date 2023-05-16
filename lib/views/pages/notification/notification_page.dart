@@ -17,20 +17,22 @@ class NotificationPage extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        //TODO: remove this after container finalize
-        // if (state.status == BookingRequestsStatus.loading ||
-        //     state.status == BookingRequestsStatus.initial) {
-        //   return const Center(
-        //     child: CircularProgressIndicator(),
-        //   );
-        // }
+        if (state.status == BookingRequestsStatus.loading ||
+            state.status == BookingRequestsStatus.initial) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: const Text("NotificationPage"),
+            title: const Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: Text("Notifications"),
+            ),
             actions: [
               Padding(
-                padding: const EdgeInsets.only(left: 14.0),
+                padding: const EdgeInsets.only(left: 14.0, right: 12),
                 child: IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(
@@ -41,11 +43,14 @@ class NotificationPage extends StatelessWidget {
               )
             ],
           ),
-          body: const Center(
-            child: Column(
-              children: [
-                NotificationContainerWidget(),
-              ],
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.data.data!.bookings!.length,
+              itemBuilder: (context, index) => NotificationContainerWidget(
+                details: state.data.data!.bookings![index],
+              ),
             ),
           ),
         );
