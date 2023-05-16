@@ -119,6 +119,11 @@ class MyApp extends StatelessWidget {
               bookingRepository: context.read<BookingRepository>(),
             ),
           ),
+          BlocProvider<BookingRequestsCubit>(
+            create: (context) => BookingRequestsCubit(
+              bookingRepository: context.read<BookingRepository>(),
+            ),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
