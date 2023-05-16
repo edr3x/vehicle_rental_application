@@ -8,3 +8,4 @@ export 'user/update_address_cubit/update_address_cubit.dart';
 export 'vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 export 'vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 export 'booking/booking_details_cubit/booking_details_cubit.dart';
+export 'booking/cancel_booking_cubit/cancel_booking_cubit.dart';
