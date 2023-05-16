@@ -5,6 +5,7 @@ import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dar
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/booking/widgets/date_display.dart';
 import 'package:rental_system_app/views/pages/booking/widgets/renter_details.dart';
+import 'package:rental_system_app/views/pages/home/home_page.dart';
 
 class BookingDetailsPage extends StatelessWidget {
   static const String routeName = '/booking-details-page';
@@ -116,44 +117,85 @@ class BookingDetailsPage extends StatelessWidget {
                   ),
                 ),
                 if (bookingDetails.status == "pending" || bookingDetails.status == "active")
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 10),
-                    child: ElevatedButton(
-                      onPressed: () => showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (context) => AlertDialog(
-                          title: const Text("Confirm"),
-                          content: const Text("Are you sure you want cancel the booking?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text("NO"),
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text("YES"),
-                            ),
-                          ],
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text(
-                        "Cancel Booking",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                  CancelBookingButtonBloc(bookingId: bookingDetails.id!),
               ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CancelBookingButtonBloc extends StatelessWidget {
+  final String bookingId;
+  const CancelBookingButtonBloc({
+    super.key,
+    required this.bookingId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<CancelBookingCubit, CancelBookingState>(
+      listener: (context, state) {
+        if (state.status == CancelBookingStatus.error) {
+          errorDialog(context, state.error.errMsg);
+        }
+        if (state.status == CancelBookingStatus.loaded) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              duration: Duration(seconds: 3),
+              content: Text("Booking Cancelled successfully"),
+            ),
+          );
+          Navigator.pushNamed(
+            context,
+            HomePage.routeName,
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state.status == CancelBookingStatus.loading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 10),
+          child: ElevatedButton(
+            onPressed: () => showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (context) => AlertDialog(
+                title: const Text("Confirm"),
+                content: const Text("Are you sure you want cancel the booking?"),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("NO"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.read<CancelBookingCubit>().cancelBooking(bookingId: bookingId);
+                    },
+                    child: const Text("YES"),
+                  ),
+                ],
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text(
+              "Cancel Booking",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
         );
