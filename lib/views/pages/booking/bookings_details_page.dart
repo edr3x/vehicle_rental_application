@@ -92,7 +92,7 @@ class BookingDetailsPage extends StatelessWidget {
                   child: displayVehicle(bookingDetails.vehicle!.thumbnail, 20),
                 ),
                 const SizedBox(height: 20),
-                RenterInfoWidget(renterInfo: bookingDetails.vehicle!.addedBy!),
+                RenterInfoWidget(person: "Renter", renterInfo: bookingDetails.vehicle!.addedBy!),
                 DisplayDateWidget(title: "From", time: startDate),
                 DisplayDateWidget(title: "To", time: endDate),
                 Padding(

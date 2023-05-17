@@ -5,9 +5,11 @@ import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RenterInfoWidget extends StatelessWidget {
+  final String person;
   final EdBy renterInfo;
   const RenterInfoWidget({
     super.key,
+    required this.person,
     required this.renterInfo,
   });
 
@@ -18,9 +20,9 @@ class RenterInfoWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Renter",
-            style: TextStyle(
+          Text(
+            person,
+            style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
             ),

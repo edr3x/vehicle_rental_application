@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/booking/booking_details_cubit/booking_details_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
+import 'package:rental_system_app/views/pages/booking/widgets/renter_details.dart';
 
 class BookingDetailsForRenterPage extends StatelessWidget {
   static const String routeName = '/booking-details-for-renter-page';
@@ -87,6 +88,8 @@ class BookingDetailsForRenterPage extends StatelessWidget {
                 child: displayVehicle(bookingDetails.vehicle!.thumbnail, 20),
               ),
               const SizedBox(height: 20),
+              //myth: here this is done to reuse a widget,thus name mismatch
+              RenterInfoWidget(person: "Booked By", renterInfo: bookingDetails.bookedBy!),
             ],
           ),
         );
