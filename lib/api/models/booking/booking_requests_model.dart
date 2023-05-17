@@ -69,6 +69,7 @@ class Booking {
   String? status;
   String? description;
   String? bookedById;
+  Vehicle? vehicle;
   DateTime? createdAt;
   DateTime? updatedAt;
   BookedBy? bookedBy;
@@ -84,6 +85,7 @@ class Booking {
     this.createdAt,
     this.updatedAt,
     this.bookedBy,
+    this.vehicle,
   });
 
   factory Booking.initial() => Booking(
@@ -94,6 +96,7 @@ class Booking {
         status: "",
         description: "",
         bookedById: "",
+        vehicle: Vehicle.initial(),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         bookedBy: BookedBy.initial(),
@@ -109,6 +112,7 @@ class Booking {
         bookedById: json["bookedById"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+        vehicle: json["Vehicle"] == null ? null : Vehicle.fromJson(json["Vehicle"]),
         bookedBy: json["bookedBy"] == null ? null : BookedBy.fromJson(json["bookedBy"]),
       );
 
@@ -123,6 +127,7 @@ class Booking {
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "bookedBy": bookedBy?.toJson(),
+        "vehicle": vehicle?.toJson(),
       };
 }
 
@@ -148,5 +153,25 @@ class BookedBy {
   Map<String, dynamic> toJson() => {
         "profileImage": profileImage,
         "fullName": fullName,
+      };
+}
+
+class Vehicle {
+  String? title;
+
+  Vehicle({
+    this.title,
+  });
+
+  factory Vehicle.initial() => Vehicle(
+        title: "",
+      );
+
+  factory Vehicle.fromJson(Map<String, dynamic> json) => Vehicle(
+        title: json["title"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "title": title,
       };
 }

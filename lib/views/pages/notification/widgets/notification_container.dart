@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:rental_system_app/api/blocs/booking/booking_details_cubit/booking_details_cubit.dart';
 import 'package:rental_system_app/api/models/booking/booking_requests_model.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
+import 'package:rental_system_app/views/pages/booking/booking_details_for_renter_page.dart';
 
 class NotificationContainerWidget extends StatelessWidget {
   final Booking details;
@@ -18,7 +21,8 @@ class NotificationContainerWidget extends StatelessWidget {
     int duration = endDate.difference(startDate).inDays;
     return GestureDetector(
       onTap: () {
-        print("check ${details.id}");
+        context.read<BookingDetailsCubit>().bookingDetails(bookingId: details.id!);
+        Navigator.pushNamed(context, BookingDetailsForRenterPage.routeName);
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 12, left: 18, right: 18),
@@ -61,7 +65,7 @@ class NotificationContainerWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Requested to Book One of your Vehicle for $duration days",
+                  "Requested to Book your ${details.vehicle?.title} for $duration days",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 17,
