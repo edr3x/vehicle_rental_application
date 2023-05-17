@@ -80,6 +80,11 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         settings: settings,
         builder: (_) => const BookingDetailsPage(),
       );
+    case BookingDetailsForRenterPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const BookingDetailsForRenterPage(),
+      );
 
     default:
       return MaterialPageRoute(
