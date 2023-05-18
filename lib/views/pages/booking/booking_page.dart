@@ -200,6 +200,7 @@ class _BookingPageState extends State<BookingPage> {
                           ),
                           TextButton(
                             onPressed: () {
+                              Navigator.pop(context);
                               context.read<BookVehicleCubit>().bookVehicle(
                                     vehicleId: details.id!,
                                     startDate: _convertDate(_startDate),
