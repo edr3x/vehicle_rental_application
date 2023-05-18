@@ -18,8 +18,8 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-  DateTime _startDate = DateTime(2023, 05, 05);
-  DateTime _endDate = DateTime(2023, 05, 12);
+  DateTime _startDate = DateTime.now();
+  DateTime _endDate = DateTime.now().add(const Duration(days: 10));
 
   String _convertDate(DateTime time) => time.toUtc().toIso8601String();
 
@@ -125,6 +125,16 @@ class _BookingPageState extends State<BookingPage> {
                       lastDate: DateTime(3000),
                     );
                     if (newDate != null) {
+                      if (newDate.isBefore(DateTime.now())) {
+                        if (!mounted) return;
+                        errorDialog(context, "Start date cannot be before current time");
+                        return;
+                      }
+                      if (newDate.isAfter(_endDate)) {
+                        if (!mounted) return;
+                        errorDialog(context, "Start date cannot be after end date");
+                        return;
+                      }
                       setState(() {
                         _startDate = newDate;
                       });
