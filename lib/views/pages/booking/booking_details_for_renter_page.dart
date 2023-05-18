@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/booking/booking_details_cubit/booking_details_cubit.dart';
+import 'package:rental_system_app/api/blocs/booking/handle_booking_request_cubit/handle_booking_request_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/common/widgets/custom_snackbar.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/booking/widgets/renter_details.dart';
+import 'package:rental_system_app/views/pages/home/home_page.dart';
 
 class BookingDetailsForRenterPage extends StatelessWidget {
   static const String routeName = '/booking-details-for-renter-page';
@@ -90,7 +93,107 @@ class BookingDetailsForRenterPage extends StatelessWidget {
               const SizedBox(height: 20),
               //myth: here this is done to reuse a widget,thus name mismatch
               RenterInfoWidget(person: "Booked By", renterInfo: bookingDetails.bookedBy!),
+              // if (bookingDetails.status == "pending")
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 60),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Status",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      bookingDetails.status!,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              HandleRequestWidget(bookingId: bookingDetails.id!),
             ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class HandleRequestWidget extends StatelessWidget {
+  final String bookingId;
+  const HandleRequestWidget({
+    super.key,
+    required this.bookingId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<HandleBookingRequestCubit, HandleBookingRequestState>(
+      listener: (context, state) {
+        if (state.status == HandleBookingRequestStatus.error) {
+          errorDialog(context, state.error.errMsg);
+        }
+        if (state.status == HandleBookingRequestStatus.loaded) {
+          customSnackBar(context, state.data.data!.msg!);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            HomePage.routeName,
+            (route) => false,
+          );
+        }
+      },
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 10),
+          child: ElevatedButton(
+            onPressed: () => showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (context) => AlertDialog(
+                title: const Text("Confirm"),
+                content: const Text("Select an option to handle the booking request"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      context.read<HandleBookingRequestCubit>().handleBookingRequest(
+                            bookingId: bookingId,
+                            action: "reject",
+                          );
+                    },
+                    child: const Text("Reject"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.read<HandleBookingRequestCubit>().handleBookingRequest(
+                            bookingId: bookingId,
+                            action: "accept",
+                          );
+                    },
+                    child: const Text("Accept"),
+                  ),
+                ],
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text(
+              "Handle Booking",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
           ),
         );
       },
