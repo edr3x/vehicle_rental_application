@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/booking/my_bookings_cubit/my_bookings_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
+import 'package:rental_system_app/api/blocs/vehicle/my_vehicles_cubit/my_vehicles_cubit.dart';
 import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/exports.dart';
+import 'package:rental_system_app/views/pages/vehicle/my_vehicles_page.dart';
 
 import 'widgets/menu_items.dart';
 
@@ -91,9 +93,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         context.read<MyBookingsCubit>().myBookingsHistory();
                       },
                     ),
-                    const ProfileMenuItems(
+                    ProfileMenuItems(
                       title: "My Vehicles",
                       icon: Icons.car_rental,
+                      onPress: () {
+                        Navigator.pushNamed(context, MyVehiclesPage.routeName);
+                        context.read<MyVehiclesCubit>().getMyVehicles();
+                      },
                     ),
                     ProfileMenuItems(
                       title: "Add Vehicle",

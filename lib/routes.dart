@@ -90,6 +90,11 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         settings: settings,
         builder: (_) => const AddVehiclePage(),
       );
+    case MyVehiclesPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const MyVehiclesPage(),
+      );
 
     default:
       return MaterialPageRoute(
