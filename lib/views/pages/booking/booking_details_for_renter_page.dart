@@ -93,7 +93,6 @@ class BookingDetailsForRenterPage extends StatelessWidget {
               const SizedBox(height: 20),
               //myth: here this is done to reuse a widget,thus name mismatch
               RenterInfoWidget(person: "Booked By", renterInfo: bookingDetails.bookedBy!),
-              // if (bookingDetails.status == "pending")
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 60),
                 child: Row(

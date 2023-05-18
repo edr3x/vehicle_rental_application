@@ -85,6 +85,11 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         settings: settings,
         builder: (_) => const BookingDetailsForRenterPage(),
       );
+    case AddVehiclePage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const AddVehiclePage(),
+      );
 
     default:
       return MaterialPageRoute(

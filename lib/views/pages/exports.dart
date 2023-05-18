@@ -12,3 +12,4 @@ export 'booking/booking_page.dart';
 export 'booking/my_bookings_page.dart';
 export 'booking/bookings_details_page.dart';
 export 'booking/booking_details_for_renter_page.dart';
+export 'vehicle/add_vehicle_page.dart';

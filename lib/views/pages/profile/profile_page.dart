@@ -95,6 +95,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       title: "My Vehicles",
                       icon: Icons.car_rental,
                     ),
+                    ProfileMenuItems(
+                      title: "Add Vehicle",
+                      icon: Icons.car_repair,
+                      onPress: () {
+                        Navigator.pushNamed(context, AddVehiclePage.routeName);
+                      },
+                    ),
                   ],
                 ),
               ),
