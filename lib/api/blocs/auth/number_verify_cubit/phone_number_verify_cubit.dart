@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:rental_system_app/api/models/auth/verify_phone_model.dart';
 import 'package:rental_system_app/api/repo/auth_repo.dart';
 import 'package:rental_system_app/excepitions/custom_error.dart';

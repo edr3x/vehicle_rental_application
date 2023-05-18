@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rental_system_app/api/blocs/booking/booking_details_cubit/booking_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/booking/my_bookings_cubit/my_bookings_cubit.dart';
-import 'package:rental_system_app/api/blocs/exports.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/pages/booking/bookings_details_page.dart';
