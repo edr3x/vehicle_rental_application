@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rental_system_app/api/blocs/exports.dart';
+import 'package:rental_system_app/api/models/vehicle/my_vehicles_model.dart';
 import 'package:rental_system_app/api/repo/exports.dart';
 import 'package:rental_system_app/api/services/exports.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           create: (context) => VehicleRepository(
             getVehicleDetailsService: GetVehicleDetailsService(),
             getNearbyVehicleService: GetNearbyVehicleService(),
+            myVehiclesService: MyVehiclesService(),
           ),
         ),
         RepositoryProvider<BookingRepository>(
@@ -128,6 +130,11 @@ class MyApp extends StatelessWidget {
           BlocProvider<HandleBookingRequestCubit>(
             create: (context) => HandleBookingRequestCubit(
               bookingRepository: context.read<BookingRepository>(),
+            ),
+          ),
+          BlocProvider<MyVehiclesCubit>(
+            create: (context) => MyVehiclesCubit(
+              vehicleRepository: context.read<VehicleRepository>(),
             ),
           ),
         ],
