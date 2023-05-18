@@ -2,6 +2,7 @@ import 'package:rental_system_app/api/models/booking/book_vehicle_model.dart';
 import 'package:rental_system_app/api/models/booking/booking_details_model.dart';
 import 'package:rental_system_app/api/models/booking/booking_requests_model.dart';
 import 'package:rental_system_app/api/models/booking/cancel_booking_model.dart';
+import 'package:rental_system_app/api/models/booking/handle_booking_request_model.dart';
 import 'package:rental_system_app/api/models/booking/my_bookings_model.dart';
 import 'package:rental_system_app/api/services/booking_services.dart';
 import 'package:rental_system_app/excepitions/custom_error.dart';
@@ -13,6 +14,7 @@ class BookingRepository {
   final BookingDetailsService bookingDetailsService;
   final CancelBookingService cancelBookingService;
   final BookingRequestsService bookingRequestsService;
+  final HandleBookingRequestService handleBookingRequestService;
 
   BookingRepository({
     required this.bookVehicleService,
@@ -20,6 +22,7 @@ class BookingRepository {
     required this.bookingDetailsService,
     required this.cancelBookingService,
     required this.bookingRequestsService,
+    required this.handleBookingRequestService,
   });
 
   Future<BookVehicleModel> bookVehicle({
@@ -89,6 +92,24 @@ class BookingRepository {
   Future<BookingRequestsModel> bookingRequests() async {
     try {
       final BookingRequestsModel response = await bookingRequestsService.data();
+
+      return response;
+    } on DataException catch (e) {
+      throw CustomError(errMsg: e.message);
+    } catch (e) {
+      throw CustomError(errMsg: e.toString());
+    }
+  }
+
+  Future<HandleBookingRequestModel> handleBookingRequest({
+    required String bookingId,
+    required String action,
+  }) async {
+    try {
+      final HandleBookingRequestModel response = await handleBookingRequestService.data(
+        bookingId: bookingId,
+        action: action,
+      );
 
       return response;
     } on DataException catch (e) {

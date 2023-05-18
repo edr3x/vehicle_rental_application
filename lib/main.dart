@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
             bookingDetailsService: BookingDetailsService(),
             cancelBookingService: CancelBookingService(),
             bookingRequestsService: BookingRequestsService(),
+            handleBookingRequestService: HandleBookingRequestService(),
           ),
         ),
       ],
@@ -121,6 +122,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<BookingRequestsCubit>(
             create: (context) => BookingRequestsCubit(
+              bookingRepository: context.read<BookingRepository>(),
+            ),
+          ),
+          BlocProvider<HandleBookingRequestCubit>(
+            create: (context) => HandleBookingRequestCubit(
               bookingRepository: context.read<BookingRepository>(),
             ),
           ),

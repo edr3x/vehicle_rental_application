@@ -6,6 +6,7 @@ import "package:rental_system_app/api/models/booking/book_vehicle_model.dart";
 import "package:rental_system_app/api/models/booking/booking_details_model.dart";
 import "package:rental_system_app/api/models/booking/booking_requests_model.dart";
 import "package:rental_system_app/api/models/booking/cancel_booking_model.dart";
+import "package:rental_system_app/api/models/booking/handle_booking_request_model.dart";
 import "package:rental_system_app/api/models/booking/my_bookings_model.dart";
 import "package:rental_system_app/utils/http_error_handler.dart";
 import "package:rental_system_app/utils/shared_preferences.dart";
@@ -152,6 +153,36 @@ class BookingRequestsService {
       }
 
       return bookingRequestsModelFromJson(response.body);
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
+class HandleBookingRequestService {
+  Future<HandleBookingRequestModel> data({
+    required String bookingId,
+    required String action,
+  }) async {
+    http.Client client = http.Client();
+
+    String token = await UtilSharedPreferences.getToken();
+
+    final Uri url = Uri.parse("$api/booking/requests/$bookingId?action=$action");
+    try {
+      final http.Response response = await client.get(
+        url,
+        headers: {
+          ...apiHeader,
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(httpErrorHandler(response));
+      }
+
+      return handleBookingRequestModelFromJson(response.body);
     } catch (e) {
       rethrow;
     }
