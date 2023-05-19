@@ -110,6 +110,35 @@ class AddVehicleService {
     required String imageFile,
     required String title,
     required String category,
+    required String type,
+    required String subCategoryId,
+    required String brandId,
+    required String model,
+    required String vehicleNumber,
+    required String description,
+    required String rentGuidelines,
+    required String transmission,
+    required String rate,
+    required String lat,
+    required String lon,
+    required String driveTrain,
+    required String color,
+    int noOfSeats = 2,
+    int noOfDoors = 0,
+    bool hasAC = false,
+    bool hasABS = false,
+    bool hasAirbag = false,
+    bool hasSunRoof = false,
+    bool hasPowerSteering = false,
+    bool hasUSBPort = false,
+    bool hasBluetooth = false,
+    bool hasKeylessEntry = false,
+    bool hasHeatedSeats = false,
+    bool hasBackCamera = false,
+    bool hasParkingSensors = false,
+    bool hasAutoDrive = false,
+    int groundClearance = 5,
+    int fuelTankCapacity = 1,
   }) async {
     http.Client client = http.Client();
 
@@ -124,9 +153,13 @@ class AddVehicleService {
         'Authorization': 'Bearer $token',
       });
       http.StreamedResponse res = await request.send();
+
       if (res.statusCode != 201) {
-        print("Got BIGGGGGGG ERROR ON UPLOADING IMAGE");
+        throw Exception(
+          " Request failed\n Status Code: ${res.statusCode}\n Reason: ${res.reasonPhrase}",
+        );
       }
+
       String responseString = await res.stream.bytesToString();
       String uploadedImage = jsonDecode(responseString)["data"] as String;
 
@@ -139,36 +172,36 @@ class AddVehicleService {
         body: jsonEncode({
           "title": title,
           "category": category,
-          "type": "electric",
-          "subCategoryId": "cee914e3-0c2d-4284-9bda-0f5f8765fefc",
-          "brandId": "bfb48a75-cd07-4e8c-b5c3-1f373f906acd",
-          "model": "27785",
+          "type": type,
+          "subCategoryId": subCategoryId,
+          "brandId": brandId,
+          "model": model,
           "thumbnail": uploadedImage,
-          "vehicleNumber": "Ba-2-Pa-2356",
-          "description": "hello there this is another vehicle",
-          "rentGuidelines": "drive with care",
-          "rate": "2000/day",
-          "pickupAddress": ["10.287422", "9.2542368"],
-          "driveTrain": "rearWheel",
+          "vehicleNumber": vehicleNumber,
+          "description": description,
+          "rentGuidelines": rentGuidelines,
+          "rate": rate,
+          "pickupAddress": [lat, lon],
+          "driveTrain": driveTrain,
           "features": {
-            "color": "white",
-            "noOfSeats": 2,
-            "noOfDoors": 0,
-            "hasAC": false,
-            "hasABS": false,
-            "hasAirbag": false,
-            "hasSunRoof": false,
-            "hasPowerSteering": false,
-            "hasUSBPort": false,
-            "hasBluetooth": false,
-            "hasKeylessEntry": true,
-            "hasHeatedSeats": false,
-            "hasBackCamera": false,
-            "hasParkingSensors": false,
-            "hasAutoDrive": false,
-            "transmission": "automatic",
-            "gClearance": 5,
-            "fuelTank": 1
+            "color": color,
+            "noOfSeats": noOfSeats,
+            "noOfDoors": noOfDoors,
+            "hasAC": hasAC,
+            "hasABS": hasABS,
+            "hasAirbag": hasAirbag,
+            "hasSunRoof": hasSunRoof,
+            "hasPowerSteering": hasPowerSteering,
+            "hasUSBPort": hasUSBPort,
+            "hasBluetooth": hasBluetooth,
+            "hasKeylessEntry": hasKeylessEntry,
+            "hasHeatedSeats": hasHeatedSeats,
+            "hasBackCamera": hasBackCamera,
+            "hasParkingSensors": hasParkingSensors,
+            "hasAutoDrive": hasAutoDrive,
+            "transmission": transmission,
+            "gClearance": groundClearance,
+            "fuelTank": fuelTankCapacity,
           }
         }),
       );

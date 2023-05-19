@@ -3,6 +3,7 @@ export 'auth/otp_verify_cubit/otp_verify_cubit.dart';
 export 'user/get_user_details/get_user_details_cubit.dart';
 export 'user/post_user_data_cubit/post_user_data_cubit.dart';
 export 'user/update_address_cubit/update_address_cubit.dart';
+export 'vehicle/add_vehicle_cubit/add_vehicle_cubit.dart';
 export 'vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 export 'vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 export 'vehicle/my_vehicles_cubit/my_vehicles_cubit.dart';

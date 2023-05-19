@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
             getVehicleDetailsService: GetVehicleDetailsService(),
             getNearbyVehicleService: GetNearbyVehicleService(),
             myVehiclesService: MyVehiclesService(),
+            addVehicleService: AddVehicleService(),
           ),
         ),
         RepositoryProvider<BookingRepository>(
@@ -133,6 +134,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<MyVehiclesCubit>(
             create: (context) => MyVehiclesCubit(
+              vehicleRepository: context.read<VehicleRepository>(),
+            ),
+          ),
+          BlocProvider<AddVehicleCubit>(
+            create: (context) => AddVehicleCubit(
               vehicleRepository: context.read<VehicleRepository>(),
             ),
           ),
