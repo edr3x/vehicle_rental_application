@@ -7,6 +7,7 @@ import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dar
 import 'package:rental_system_app/views/common/widgets/custom_snackbar.dart';
 import 'package:rental_system_app/views/pages/auth/widgets/auth_button.dart';
 import 'package:rental_system_app/views/pages/home/home_page.dart';
+import 'package:rental_system_app/views/pages/vehicle/widgets/vehicle_cats.dart';
 
 class AddVehiclePage extends StatefulWidget {
   static const String routeName = '/add-vehicle';
@@ -33,6 +34,16 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   DriveTrain? _drivetTrain;
   Transmission? _transmission;
 
+  String? _title;
+  String? _model;
+  String? _rate;
+  String? _latitude;
+  String? _longitude;
+  String? _description;
+  String? _rentGuidelines;
+  String? _color;
+  String? _plateNumber;
+
   String _selectedBrand = "Tesla";
   String _selectedSubCategory = "SUV";
 
@@ -56,101 +67,92 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
     });
   }
 
+  void submit() {
+    setState(() {
+      _autovalidateMode = AutovalidateMode.always;
+    });
+
+    final form = _formKey.currentState;
+    if (form == null || !form.validate()) return;
+
+    form.save();
+
+    String category = "";
+    if (_category == VehicleCategory.car) {
+      category = "car";
+    } else if (_category == VehicleCategory.bike) {
+      category = "bike";
+    } else if (_category == VehicleCategory.bicycle) {
+      category = "bicycle";
+    }
+
+    String type = "";
+    if (_type == VehicleType.electric) {
+      type = "electric";
+    } else if (_type == VehicleType.petrol) {
+      type = "petrol";
+    } else if (_type == VehicleType.diesel) {
+      type = "diesel";
+    }
+
+    String driveTrain = "";
+    if (_drivetTrain == DriveTrain.frontWheel) {
+      driveTrain = "frontWheel";
+    } else if (_drivetTrain == DriveTrain.rearWheel) {
+      driveTrain = "rearWheel";
+    } else if (_drivetTrain == DriveTrain.fourWheel) {
+      driveTrain = "fourWheel";
+    } else if (_drivetTrain == DriveTrain.allWheel) {
+      driveTrain = "allWheel";
+    }
+
+    String transmission = "";
+    if (_transmission == Transmission.automatic) {
+      transmission = "automatic";
+    } else if (_transmission == Transmission.manual) {
+      transmission = "manual";
+    }
+    print("button pressed 1 \n\n");
+
+    print(
+      " \n\n type: $type,\n title: $_title, \n model: $_model,\n category: $category,\n image: ${_image!.path},\n desc: $_description,\n plage: $_plateNumber, \n rentguidelines: $_rentGuidelines, transmission: $transmission, \n drive:  $driveTrain, ac: $_hasAC, color: $_color, \n lat: $_latitude, lon: $_longitude!, \n air: $_hasAirbag, doors:  $_noOfDoors, \n usb: $_hasUSBPort,\n blue: $_hasBluetooth, seaging:  $_seatingCapacity, auto: $_hasAutoDrive,\n heated:  $_hasHeatedSeats, \n keyless: $_hasKeylessEntry, gc: $_groundClearance,\n sensors: $_hasParkingSensors,",
+    );
+    // context.read<AddVehicleCubit>().addVehicle(
+    //       title: title!,
+    //       type: type,
+    //       brandId: "bfb48a75-cd07-4e8c-b5c3-1f373f906acd",
+    //       model: model!,
+    //       subCategoryId: "cee914e3-0c2d-4284-9bda-0f5f8765fefc", // have to do this
+    //       category: category,
+    //       imageFile: _image!.path,
+    //       description: description!,
+    //       vehicleNumber: plateNumber!,
+    //       rentGuidelines: rentGuidelines!,
+    //       transmission: transmission,
+    //       driveTrain: driveTrain,
+    //       rate: "${rate!}/day",
+    //       hasAC: _hasAC,
+    //       color: color!,
+    //       lat: latitude!,
+    //       lon: longitude!,
+    //       hasAirbag: _hasAirbag,
+    //       noOfDoors: _noOfDoors,
+    //       hasUSBPort: _hasUSBPort,
+    //       hasBluetooth: _hasBluetooth,
+    //       noOfSeats: _seatingCapacity,
+    //       hasAutoDrive: _hasAutoDrive,
+    //       hasHeatedSeats: _hasHeatedSeats,
+    //       hasKeylessEntry: _hasKeylessEntry,
+    //       groundClearance: _groundClearance,
+    //       hasParkingSensors: _hasParkingSensors,
+    //     );
+    print("button pressed 2");
+  }
+
   @override
   Widget build(BuildContext context) {
-    String? title;
-    String? model;
-    String? rate;
-    String? latitude;
-    String? longitude;
-    String? description;
-    String? rentGuidelines;
-    String? color;
-    String? plateNumber;
-
-    latitude = context.read<CurrentLocationCubit>().state.position.latitude.toString();
-    longitude = context.read<CurrentLocationCubit>().state.position.longitude.toString();
-
-    void submit() {
-      setState(() {
-        _autovalidateMode = AutovalidateMode.always;
-      });
-
-      final form = _formKey.currentState;
-      if (form == null || !form.validate()) return;
-
-      form.save();
-
-      String category = "";
-      if (_category == VehicleCategory.car) {
-        category = "car";
-      } else if (_category == VehicleCategory.bike) {
-        category = "bike";
-      } else if (_category == VehicleCategory.bicycle) {
-        category = "bicycle";
-      }
-
-      String type = "";
-      if (_type == VehicleType.electric) {
-        type = "electric";
-      } else if (_type == VehicleType.petrol) {
-        type = "petrol";
-      } else if (_type == VehicleType.diesel) {
-        type = "diesel";
-      }
-
-      String driveTrain = "";
-      if (_drivetTrain == DriveTrain.frontWheel) {
-        driveTrain = "frontWheel";
-      } else if (_drivetTrain == DriveTrain.rearWheel) {
-        driveTrain = "rearWheel";
-      } else if (_drivetTrain == DriveTrain.fourWheel) {
-        driveTrain = "fourWheel";
-      } else if (_drivetTrain == DriveTrain.allWheel) {
-        driveTrain = "allWheel";
-      }
-
-      String transmission = "";
-      if (_transmission == Transmission.automatic) {
-        transmission = "automatic";
-      } else if (_transmission == Transmission.manual) {
-        transmission = "manual";
-      }
-      print("button pressed 1 \n\n");
-
-      print(
-        " \n\n $type, $title, $model, $category, ${_image!.path}, $description, $plateNumber, $rentGuidelines, $transmission, $driveTrain, $_hasAC, $color, $latitude, $longitude!, $_hasAirbag, $_noOfDoors, $_hasUSBPort, $_hasBluetooth, $_seatingCapacity, $_hasAutoDrive, $_hasHeatedSeats, $_hasKeylessEntry, $_groundClearance, $_hasParkingSensors,",
-      );
-      // context.read<AddVehicleCubit>().addVehicle(
-      //       type: type,
-      //       brandId: "bfb48a75-cd07-4e8c-b5c3-1f373f906acd",
-      //       model: _model!,
-      //       subCategoryId: "cee914e3-0c2d-4284-9bda-0f5f8765fefc", // have to do this
-      //       category: category,
-      //       imageFile: _image!.path,
-      //       description: _description!,
-      //       vehicleNumber: _plateNumber!,
-      //       rentGuidelines: _rentGuidelines!,
-      //       transmission: transmission,
-      //       driveTrain: driveTrain,
-      //       rate: "${_rate!}/day",
-      //       hasAC: _hasAC,
-      //       color: _color!,
-      //       lat: _latitude!,
-      //       lon: _longitude!,
-      //       hasAirbag: _hasAirbag,
-      //       noOfDoors: _noOfDoors,
-      //       hasUSBPort: _hasUSBPort,
-      //       hasBluetooth: _hasBluetooth,
-      //       noOfSeats: _seatingCapacity,
-      //       hasAutoDrive: _hasAutoDrive,
-      //       hasHeatedSeats: _hasHeatedSeats,
-      //       hasKeylessEntry: _hasKeylessEntry,
-      //       groundClearance: _groundClearance,
-      //       hasParkingSensors: _hasParkingSensors,
-      //     );
-      print("button pressed 2");
-    }
+    _latitude = context.read<CurrentLocationCubit>().state.position.latitude.toString();
+    _longitude = context.read<CurrentLocationCubit>().state.position.longitude.toString();
 
     return BlocConsumer<AddVehicleCubit, AddVehicleState>(
       listener: (context, state) {
@@ -179,377 +181,378 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 child: Form(
                   key: _formKey,
                   autovalidateMode: _autovalidateMode,
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 79.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            fixedSize: const Size(double.infinity, 60),
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.black, width: 2),
-                              borderRadius: BorderRadius.circular(10),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 79.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey,
+                              fixedSize: const Size(double.infinity, 60),
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              choosePhoto(ImageSource.gallery);
+                            },
+                            child: const Text(
+                              "Select Image",
+                              style: TextStyle(color: Colors.black),
                             ),
                           ),
-                          onPressed: () {
-                            choosePhoto(ImageSource.gallery);
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                            labelText: 'Vehicle Title',
+                            prefixIcon: Icon(Icons.title),
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter vehicle name';
+                            }
+                            return null;
                           },
-                          child: const Text(
-                            "Select Image",
-                            style: TextStyle(color: Colors.black),
-                          ),
+                          onSaved: (String? value) {
+                            _title = value!;
+                          },
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        categorySelect(),
+                        typeSelect(),
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Brand',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
                           ),
-                          labelText: 'Vehicle Title',
-                          prefixIcon: Icon(Icons.title),
+                          items: brands.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            _selectedBrand = value!;
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter vehicle name';
-                          }
-                          return null;
-                        },
-                        onSaved: (String? value) {
-                          title = value!;
-                        },
-                      ),
-                      categorySelect(),
-                      typeSelect(),
-                      const SizedBox(height: 10),
-                      // DropdownButtonFormField(
-                      //   decoration: const InputDecoration(
-                      //     labelText: 'Brand',
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.all(
-                      //         Radius.circular(10.0),
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   items: brands.map((String value) {
-                      //     return DropdownMenuItem<String>(
-                      //       value: value,
-                      //       child: Text(value),
-                      //     );
-                      //   }).toList(),
-                      //   onChanged: (String? value) {
-                      //     _selectedBrand = value!;
-                      //   },
-                      // ),
-                      // const SizedBox(height: 10),
-                      // DropdownButtonFormField(
-                      //   decoration: const InputDecoration(
-                      //     labelText: 'Sub-Category',
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.all(
-                      //         Radius.circular(10.0),
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   items: subCategories.map((String value) {
-                      //     return DropdownMenuItem<String>(
-                      //       value: value,
-                      //       child: Text(value),
-                      //     );
-                      //   }).toList(),
-                      //   onChanged: (String? value) {
-                      //     _selectedSubCategory = value!;
-                      //   },
-                      // ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Sub-Category',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
                           ),
-                          labelText: 'Model',
-                          prefixIcon: Icon(Icons.model_training),
+                          items: subCategories.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            _selectedSubCategory = value!;
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Provide vehicle model';
-                          }
-                          return null;
-                        },
-                        onSaved: (String? value) {
-                          model = value!;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'Model',
+                            prefixIcon: Icon(Icons.model_training),
                           ),
-                          labelText: 'Plate Number',
-                          prefixIcon: Icon(Icons.numbers),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Provide vehicle model';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _model = value!;
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Provide vehicle Number Plate';
-                          }
-                          return null;
-                        },
-                        onSaved: (String? value) {
-                          plateNumber = value!;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'Plate Number',
+                            prefixIcon: Icon(Icons.numbers),
                           ),
-                          labelText: 'Price Per day in Rs.',
-                          prefixIcon: Icon(Icons.money),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Provide vehicle Number Plate';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _plateNumber = value!;
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Provide the price';
-                          }
-                          return null;
-                        },
-                        onSaved: (String? value) {
-                          model = value!;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'Price Per day in Rs.',
+                            prefixIcon: Icon(Icons.money),
                           ),
-                          labelText: 'color',
-                          prefixIcon: Icon(Icons.color_lens),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Provide the price';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _rate = value!;
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Provide the color of vehicle';
-                          }
-                          return null;
-                        },
-                        onSaved: (String? value) {
-                          model = value!;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'color',
+                            prefixIcon: Icon(Icons.color_lens),
                           ),
-                          labelText: 'Seating Capacity',
-                          prefixIcon: Icon(Icons.event_seat_sharp),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please Provide the color of vehicle';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _color = value!;
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Provide the Seating Capacity of vehicle';
-                          }
-                          return null;
-                        },
-                        onSaved: (String? value) {
-                          _seatingCapacity = int.parse(value!);
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'Seating Capacity',
+                            prefixIcon: Icon(Icons.event_seat_sharp),
                           ),
-                          labelText: 'No. of Doors',
-                          prefixIcon: Icon(Icons.sensor_door_sharp),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please Provide the Seating Capacity of vehicle';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _seatingCapacity = int.parse(value!);
+                          },
                         ),
-                        onSaved: (String? value) {
-                          if (value != null && value.isNotEmpty) {
-                            _noOfDoors = int.parse(value);
-                          } else {
-                            _noOfDoors = 0;
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'No. of Doors',
+                            prefixIcon: Icon(Icons.sensor_door_sharp),
                           ),
-                          labelText: 'Ground Clearance',
-                          prefixIcon: Icon(Icons.vertical_split),
+                          onSaved: (String? value) {
+                            if (value != null && value.isNotEmpty) {
+                              _noOfDoors = int.parse(value);
+                            } else {
+                              _noOfDoors = 0;
+                            }
+                          },
                         ),
-                        onSaved: (String? value) {
-                          if (value != null && value.isNotEmpty) {
-                            _groundClearance = int.parse(value);
-                          } else {
-                            _groundClearance = 3;
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      SwitchListTile(
-                        title: const Text('Has AC?'),
-                        value: _hasAC,
-                        onChanged: (bool newVal) {
-                          setState(() {
-                            _hasAC = newVal;
-                          });
-                        },
-                      ),
-                      SwitchListTile(
-                        title: const Text('Has Airbag?'),
-                        value: _hasAirbag,
-                        onChanged: (bool newVal) {
-                          setState(() {
-                            _hasAirbag = newVal;
-                          });
-                        },
-                      ),
-                      SwitchListTile(
-                        title: const Text('Has USB Port?'),
-                        value: _hasUSBPort,
-                        onChanged: (bool newVal) {
-                          setState(() {
-                            _hasUSBPort = newVal;
-                          });
-                        },
-                      ),
-                      SwitchListTile(
-                        title: const Text('Has Bluetooth?'),
-                        value: _hasBluetooth,
-                        onChanged: (bool newVal) {
-                          setState(() {
-                            _hasBluetooth = newVal;
-                          });
-                        },
-                      ),
-                      SwitchListTile(
-                        title: const Text('Has Heated Seats?'),
-                        value: _hasHeatedSeats,
-                        onChanged: (bool newVal) {
-                          setState(() {
-                            _hasHeatedSeats = newVal;
-                          });
-                        },
-                      ),
-                      SwitchListTile(
-                        title: const Text('Has Keyless entry?'),
-                        value: _hasKeylessEntry,
-                        onChanged: (bool newVal) {
-                          setState(() {
-                            _hasKeylessEntry = newVal;
-                          });
-                        },
-                      ),
-                      SwitchListTile(
-                        title: const Text('Has Parking Sensor?'),
-                        value: _hasParkingSensors,
-                        onChanged: (bool newVal) {
-                          setState(() {
-                            _hasParkingSensors = newVal;
-                          });
-                        },
-                      ),
-                      SwitchListTile(
-                        title: const Text('Has AutoPilot?'),
-                        value: _hasAutoDrive,
-                        onChanged: (bool newVal) {
-                          setState(() {
-                            _hasAutoDrive = newVal;
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'Ground Clearance',
+                            prefixIcon: Icon(Icons.vertical_split),
                           ),
-                          labelText: 'Description',
-                          prefixIcon: Icon(Icons.description),
+                          onSaved: (String? value) {
+                            if (value != null && value.isNotEmpty) {
+                              _groundClearance = int.parse(value);
+                            } else {
+                              _groundClearance = 3;
+                            }
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Provide some Description please';
-                          }
-                          return null;
-                        },
-                        onSaved: (String? value) {
-                          description = value!;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        autocorrect: false,
-                        textInputAction: TextInputAction.done,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
+                        const SizedBox(height: 10),
+                        SwitchListTile(
+                          title: const Text('Has AC?'),
+                          value: _hasAC,
+                          onChanged: (bool newVal) {
+                            setState(() {
+                              _hasAC = newVal;
+                            });
+                          },
+                        ),
+                        SwitchListTile(
+                          title: const Text('Has Airbag?'),
+                          value: _hasAirbag,
+                          onChanged: (bool newVal) {
+                            setState(() {
+                              _hasAirbag = newVal;
+                            });
+                          },
+                        ),
+                        SwitchListTile(
+                          title: const Text('Has USB Port?'),
+                          value: _hasUSBPort,
+                          onChanged: (bool newVal) {
+                            setState(() {
+                              _hasUSBPort = newVal;
+                            });
+                          },
+                        ),
+                        SwitchListTile(
+                          title: const Text('Has Bluetooth?'),
+                          value: _hasBluetooth,
+                          onChanged: (bool newVal) {
+                            setState(() {
+                              _hasBluetooth = newVal;
+                            });
+                          },
+                        ),
+                        SwitchListTile(
+                          title: const Text('Has Heated Seats?'),
+                          value: _hasHeatedSeats,
+                          onChanged: (bool newVal) {
+                            setState(() {
+                              _hasHeatedSeats = newVal;
+                            });
+                          },
+                        ),
+                        SwitchListTile(
+                          title: const Text('Has Keyless entry?'),
+                          value: _hasKeylessEntry,
+                          onChanged: (bool newVal) {
+                            setState(() {
+                              _hasKeylessEntry = newVal;
+                            });
+                          },
+                        ),
+                        SwitchListTile(
+                          title: const Text('Has Parking Sensor?'),
+                          value: _hasParkingSensors,
+                          onChanged: (bool newVal) {
+                            setState(() {
+                              _hasParkingSensors = newVal;
+                            });
+                          },
+                        ),
+                        SwitchListTile(
+                          title: const Text('Has AutoPilot?'),
+                          value: _hasAutoDrive,
+                          onChanged: (bool newVal) {
+                            setState(() {
+                              _hasAutoDrive = newVal;
+                            });
+                          },
+                        ),
+                        TextFormField(
+                          autocorrect: false,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
                             ),
+                            labelText: 'Description',
+                            prefixIcon: Icon(Icons.description),
                           ),
-                          labelText: 'Rent Guidelines',
-                          prefixIcon: Icon(Icons.description),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Provide some Description please';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _description = value!;
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Provide some Rent Guidelines';
-                          }
-                          return null;
-                        },
-                        onSaved: (String? value) {
-                          rentGuidelines = value!;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      CustomAuthButton(
-                        text: state.status == AddVehicleStatus.loading ? "Posting....." : "Post",
-                        onTap: submit,
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          textInputAction: TextInputAction.done,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                            labelText: 'Rent Guidelines',
+                            prefixIcon: Icon(Icons.description),
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Provide some Rent Guidelines';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _rentGuidelines = value!;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        CustomAuthButton(
+                          text: state.status == AddVehicleStatus.loading ? "Posting....." : "Post",
+                          onTap: submit,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
