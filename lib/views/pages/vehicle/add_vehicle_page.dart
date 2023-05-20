@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rental_system_app/api/blocs/vehicle/add_vehicle_cubit/add_vehicle_cubit.dart';
 import 'package:rental_system_app/views/blocs/current_location_cubit/current_location_cubit.dart';
-import 'package:rental_system_app/views/blocs/location_data_cubit/location_data_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/common/widgets/custom_snackbar.dart';
 import 'package:rental_system_app/views/pages/auth/widgets/auth_button.dart';
@@ -115,30 +114,30 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
     }
 
     // context.read<AddVehicleCubit>().addVehicle(
-    //       imageFile: _image!.path,
-    //       title: _title!,
-    //       category: category,
     //       type: type,
-    //       subCategoryId: "", // have to do this
     //       brandId: "",
+    //       title: _title!,
     //       model: _model!,
-    //       vehicleNumber: _plateNumber!,
+    //       subCategoryId: "", // have to do this
+    //       category: category,
+    //       imageFile: _image!.path,
     //       description: _description!,
+    //       vehicleNumber: _plateNumber!,
     //       rentGuidelines: _rentGuidelines!,
     //       transmission: transmission,
-    //       rate: _rate!,
-    //       lat: _latitude!,
-    //       lon: _longitude!,
     //       driveTrain: driveTrain,
-    //       color: _color!,
+    //       rate: _rate!,
     //       hasAC: _hasAC,
+    //       color: _color!,
+    //       lat: _latitude!,
     //       hasABS: _hasABS,
+    //       lon: _longitude!,
     //       hasAirbag: _hasAirbag,
-    //       noOfSeats: _seatingCapacity,
     //       noOfDoors: _noOfDoors,
     //       hasSunRoof: _hasSunRoof,
     //       hasUSBPort: _hasUSBPort,
     //       hasBluetooth: _hasBluetooth,
+    //       noOfSeats: _seatingCapacity,
     //       hasAutoDrive: _hasAutoDrive,
     //       hasBackCamera: _hasBackCamera,
     //       hasHeatedSeats: _hasHeatedSeats,
@@ -232,6 +231,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                       const SizedBox(height: 10),
                       TextFormField(
                         autocorrect: false,
+                        textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
@@ -254,6 +254,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                       const SizedBox(height: 10),
                       TextFormField(
                         autocorrect: false,
+                        textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
@@ -261,11 +262,34 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             ),
                           ),
                           labelText: 'Plate Number',
-                          prefixIcon: Icon(Icons.model_training),
+                          prefixIcon: Icon(Icons.numbers),
                         ),
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return 'Provide vehicle model';
+                            return 'Provide vehicle Number Plate';
+                          }
+                          return null;
+                        },
+                        onSaved: (String? value) {
+                          _plateNumber = value!;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        autocorrect: false,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                          ),
+                          labelText: 'Price Per day in Rs.',
+                          prefixIcon: Icon(Icons.money),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Provide the price';
                           }
                           return null;
                         },
@@ -276,23 +300,70 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                       const SizedBox(height: 10),
                       TextFormField(
                         autocorrect: false,
+                        textInputAction: TextInputAction.next,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10.0),
                             ),
                           ),
-                          labelText: 'Price Per day in Rs.',
-                          prefixIcon: Icon(Icons.model_training),
+                          labelText: 'color',
+                          prefixIcon: Icon(Icons.color_lens),
                         ),
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                            return 'Provide the price';
+                            return 'Please Provide the color of vehicle';
                           }
                           return null;
                         },
                         onSaved: (String? value) {
                           _model = value!;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        autocorrect: false,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                          ),
+                          labelText: 'Description',
+                          prefixIcon: Icon(Icons.description),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Provide some Description please';
+                          }
+                          return null;
+                        },
+                        onSaved: (String? value) {
+                          _description = value!;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        autocorrect: false,
+                        textInputAction: TextInputAction.done,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                          ),
+                          labelText: 'Rent Guidelines',
+                          prefixIcon: Icon(Icons.description),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Provide some Rent Guidelines';
+                          }
+                          return null;
+                        },
+                        onSaved: (String? value) {
+                          _rentGuidelines = value!;
                         },
                       ),
                       const SizedBox(height: 10),
