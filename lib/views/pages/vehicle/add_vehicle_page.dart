@@ -44,21 +44,16 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   String? _color;
   String? _plateNumber;
   bool _hasAC = false;
-  bool _hasABS = false;
   bool _hasAirbag = false;
-  bool _hasSunRoof = false;
-  bool _hasPowerSteering = false;
   bool _hasUSBPort = false;
   bool _hasBluetooth = false;
   bool _hasKeylessEntry = false;
   bool _hasHeatedSeats = false;
-  bool _hasBackCamera = false;
   bool _hasParkingSensors = false;
   bool _hasAutoDrive = false;
   int _seatingCapacity = 0;
   int _noOfDoors = 0;
-  int _groundClearance = 5;
-  int _fuelTankCapacity = 1;
+  int _groundClearance = 3;
 
   void choosePhoto(ImageSource source) async {
     final pickedImage = await _picker.pickImage(source: source);
@@ -113,40 +108,35 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       transmission = "manual";
     }
 
-    // context.read<AddVehicleCubit>().addVehicle(
-    //       type: type,
-    //       brandId: "",
-    //       title: _title!,
-    //       model: _model!,
-    //       subCategoryId: "", // have to do this
-    //       category: category,
-    //       imageFile: _image!.path,
-    //       description: _description!,
-    //       vehicleNumber: _plateNumber!,
-    //       rentGuidelines: _rentGuidelines!,
-    //       transmission: transmission,
-    //       driveTrain: driveTrain,
-    //       rate: _rate!,
-    //       hasAC: _hasAC,
-    //       color: _color!,
-    //       lat: _latitude!,
-    //       hasABS: _hasABS,
-    //       lon: _longitude!,
-    //       hasAirbag: _hasAirbag,
-    //       noOfDoors: _noOfDoors,
-    //       hasSunRoof: _hasSunRoof,
-    //       hasUSBPort: _hasUSBPort,
-    //       hasBluetooth: _hasBluetooth,
-    //       noOfSeats: _seatingCapacity,
-    //       hasAutoDrive: _hasAutoDrive,
-    //       hasBackCamera: _hasBackCamera,
-    //       hasHeatedSeats: _hasHeatedSeats,
-    //       hasKeylessEntry: _hasKeylessEntry,
-    //       groundClearance: _groundClearance,
-    //       hasPowerSteering: _hasPowerSteering,
-    //       fuelTankCapacity: _fuelTankCapacity,
-    //       hasParkingSensors: _hasParkingSensors,
-    //     );
+    context.read<AddVehicleCubit>().addVehicle(
+          type: type,
+          brandId: "",
+          title: _title!,
+          model: _model!,
+          subCategoryId: "", // have to do this
+          category: category,
+          imageFile: _image!.path,
+          description: _description!,
+          vehicleNumber: _plateNumber!,
+          rentGuidelines: _rentGuidelines!,
+          transmission: transmission,
+          driveTrain: driveTrain,
+          rate: _rate!,
+          hasAC: _hasAC,
+          color: _color!,
+          lat: _latitude!,
+          lon: _longitude!,
+          hasAirbag: _hasAirbag,
+          noOfDoors: _noOfDoors,
+          hasUSBPort: _hasUSBPort,
+          hasBluetooth: _hasBluetooth,
+          noOfSeats: _seatingCapacity,
+          hasAutoDrive: _hasAutoDrive,
+          hasHeatedSeats: _hasHeatedSeats,
+          hasKeylessEntry: _hasKeylessEntry,
+          groundClearance: _groundClearance,
+          hasParkingSensors: _hasParkingSensors,
+        );
   }
 
   @override
@@ -321,6 +311,146 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         },
                       ),
                       const SizedBox(height: 10),
+                      TextFormField(
+                        autocorrect: false,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                          ),
+                          labelText: 'Seating Capacity',
+                          prefixIcon: Icon(Icons.event_seat_sharp),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please Provide the Seating Capacity of vehicle';
+                          }
+                          return null;
+                        },
+                        onSaved: (String? value) {
+                          _seatingCapacity = int.parse(value!);
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        autocorrect: false,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                          ),
+                          labelText: 'No. of Doors',
+                          prefixIcon: Icon(Icons.sensor_door_sharp),
+                        ),
+                        onSaved: (String? value) {
+                          if (value != null && value.isNotEmpty) {
+                            _noOfDoors = int.parse(value);
+                          } else {
+                            _noOfDoors = 0;
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        autocorrect: false,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            ),
+                          ),
+                          labelText: 'Ground Clearance',
+                          prefixIcon: Icon(Icons.vertical_split),
+                        ),
+                        onSaved: (String? value) {
+                          if (value != null && value.isNotEmpty) {
+                            _groundClearance = int.parse(value);
+                          } else {
+                            _groundClearance = 3;
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      SwitchListTile(
+                        title: const Text('Has AC?'),
+                        value: _hasAC,
+                        onChanged: (bool newVal) {
+                          setState(() {
+                            _hasAC = newVal;
+                          });
+                        },
+                      ),
+                      SwitchListTile(
+                        title: const Text('Has Airbag?'),
+                        value: _hasAirbag,
+                        onChanged: (bool newVal) {
+                          setState(() {
+                            _hasAirbag = newVal;
+                          });
+                        },
+                      ),
+                      SwitchListTile(
+                        title: const Text('Has USB Port?'),
+                        value: _hasUSBPort,
+                        onChanged: (bool newVal) {
+                          setState(() {
+                            _hasUSBPort = newVal;
+                          });
+                        },
+                      ),
+                      SwitchListTile(
+                        title: const Text('Has Bluetooth?'),
+                        value: _hasBluetooth,
+                        onChanged: (bool newVal) {
+                          setState(() {
+                            _hasBluetooth = newVal;
+                          });
+                        },
+                      ),
+                      SwitchListTile(
+                        title: const Text('Has Heated Seats?'),
+                        value: _hasHeatedSeats,
+                        onChanged: (bool newVal) {
+                          setState(() {
+                            _hasHeatedSeats = newVal;
+                          });
+                        },
+                      ),
+                      SwitchListTile(
+                        title: const Text('Has Keyless entry?'),
+                        value: _hasKeylessEntry,
+                        onChanged: (bool newVal) {
+                          setState(() {
+                            _hasKeylessEntry = newVal;
+                          });
+                        },
+                      ),
+                      SwitchListTile(
+                        title: const Text('Has Parking Sensor?'),
+                        value: _hasParkingSensors,
+                        onChanged: (bool newVal) {
+                          setState(() {
+                            _hasParkingSensors = newVal;
+                          });
+                        },
+                      ),
+                      SwitchListTile(
+                        title: const Text('Has AutoPilot?'),
+                        value: _hasAutoDrive,
+                        onChanged: (bool newVal) {
+                          setState(() {
+                            _hasAutoDrive = newVal;
+                          });
+                        },
+                      ),
                       TextFormField(
                         autocorrect: false,
                         textInputAction: TextInputAction.next,
