@@ -33,16 +33,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   DriveTrain? _drivetTrain;
   Transmission? _transmission;
 
+  String _selectedBrand = "Tesla";
+  String _selectedSubCategory = "SUV";
+
   XFile? _image;
-  String? _title;
-  String? _model;
-  String? _rate;
-  String? _latitude;
-  String? _longitude;
-  String? _description;
-  String? _rentGuidelines;
-  String? _color;
-  String? _plateNumber;
   bool _hasAC = false;
   bool _hasAirbag = false;
   bool _hasUSBPort = false;
@@ -62,87 +56,102 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
     });
   }
 
-  void _submit() {
-    setState(() {
-      _autovalidateMode = AutovalidateMode.always;
-    });
-
-    final form = _formKey.currentState;
-    if (form == null || !form.validate()) return;
-
-    form.save();
-
-    String category = "";
-    if (_category == VehicleCategory.car) {
-      category = "car";
-    } else if (_category == VehicleCategory.bike) {
-      category = "bike";
-    } else if (_category == VehicleCategory.bicycle) {
-      category = "bicycle";
-    }
-
-    String type = "";
-    if (_type == VehicleType.electric) {
-      type = "electric";
-    } else if (_type == VehicleType.petrol) {
-      type = "petrol";
-    } else if (_type == VehicleType.diesel) {
-      type = "diesel";
-    }
-
-    String driveTrain = "";
-    if (_drivetTrain == DriveTrain.frontWheel) {
-      driveTrain = "frontWheel";
-    } else if (_drivetTrain == DriveTrain.rearWheel) {
-      driveTrain = "rearWheel";
-    } else if (_drivetTrain == DriveTrain.fourWheel) {
-      driveTrain = "fourWheel";
-    } else if (_drivetTrain == DriveTrain.allWheel) {
-      driveTrain = "allWheel";
-    }
-
-    String transmission = "";
-    if (_transmission == Transmission.automatic) {
-      transmission = "automatic";
-    } else if (_transmission == Transmission.manual) {
-      transmission = "manual";
-    }
-
-    context.read<AddVehicleCubit>().addVehicle(
-          type: type,
-          brandId: "",
-          title: _title!,
-          model: _model!,
-          subCategoryId: "", // have to do this
-          category: category,
-          imageFile: _image!.path,
-          description: _description!,
-          vehicleNumber: _plateNumber!,
-          rentGuidelines: _rentGuidelines!,
-          transmission: transmission,
-          driveTrain: driveTrain,
-          rate: _rate!,
-          hasAC: _hasAC,
-          color: _color!,
-          lat: _latitude!,
-          lon: _longitude!,
-          hasAirbag: _hasAirbag,
-          noOfDoors: _noOfDoors,
-          hasUSBPort: _hasUSBPort,
-          hasBluetooth: _hasBluetooth,
-          noOfSeats: _seatingCapacity,
-          hasAutoDrive: _hasAutoDrive,
-          hasHeatedSeats: _hasHeatedSeats,
-          hasKeylessEntry: _hasKeylessEntry,
-          groundClearance: _groundClearance,
-          hasParkingSensors: _hasParkingSensors,
-        );
-  }
-
   @override
   Widget build(BuildContext context) {
-    _latitude = context.read<CurrentLocationCubit>().state.position.latitude.toString();
-    _longitude = context.read<CurrentLocationCubit>().state.position.longitude.toString();
+    String? title;
+    String? model;
+    String? rate;
+    String? latitude;
+    String? longitude;
+    String? description;
+    String? rentGuidelines;
+    String? color;
+    String? plateNumber;
+
+    latitude = context.read<CurrentLocationCubit>().state.position.latitude.toString();
+    longitude = context.read<CurrentLocationCubit>().state.position.longitude.toString();
+
+    void submit() {
+      setState(() {
+        _autovalidateMode = AutovalidateMode.always;
+      });
+
+      final form = _formKey.currentState;
+      if (form == null || !form.validate()) return;
+
+      form.save();
+
+      String category = "";
+      if (_category == VehicleCategory.car) {
+        category = "car";
+      } else if (_category == VehicleCategory.bike) {
+        category = "bike";
+      } else if (_category == VehicleCategory.bicycle) {
+        category = "bicycle";
+      }
+
+      String type = "";
+      if (_type == VehicleType.electric) {
+        type = "electric";
+      } else if (_type == VehicleType.petrol) {
+        type = "petrol";
+      } else if (_type == VehicleType.diesel) {
+        type = "diesel";
+      }
+
+      String driveTrain = "";
+      if (_drivetTrain == DriveTrain.frontWheel) {
+        driveTrain = "frontWheel";
+      } else if (_drivetTrain == DriveTrain.rearWheel) {
+        driveTrain = "rearWheel";
+      } else if (_drivetTrain == DriveTrain.fourWheel) {
+        driveTrain = "fourWheel";
+      } else if (_drivetTrain == DriveTrain.allWheel) {
+        driveTrain = "allWheel";
+      }
+
+      String transmission = "";
+      if (_transmission == Transmission.automatic) {
+        transmission = "automatic";
+      } else if (_transmission == Transmission.manual) {
+        transmission = "manual";
+      }
+      print("button pressed 1 \n\n");
+
+      print(
+        " \n\n $type, $title, $model, $category, ${_image!.path}, $description, $plateNumber, $rentGuidelines, $transmission, $driveTrain, $_hasAC, $color, $latitude, $longitude!, $_hasAirbag, $_noOfDoors, $_hasUSBPort, $_hasBluetooth, $_seatingCapacity, $_hasAutoDrive, $_hasHeatedSeats, $_hasKeylessEntry, $_groundClearance, $_hasParkingSensors,",
+      );
+      // context.read<AddVehicleCubit>().addVehicle(
+      //       type: type,
+      //       brandId: "bfb48a75-cd07-4e8c-b5c3-1f373f906acd",
+      //       model: _model!,
+      //       subCategoryId: "cee914e3-0c2d-4284-9bda-0f5f8765fefc", // have to do this
+      //       category: category,
+      //       imageFile: _image!.path,
+      //       description: _description!,
+      //       vehicleNumber: _plateNumber!,
+      //       rentGuidelines: _rentGuidelines!,
+      //       transmission: transmission,
+      //       driveTrain: driveTrain,
+      //       rate: "${_rate!}/day",
+      //       hasAC: _hasAC,
+      //       color: _color!,
+      //       lat: _latitude!,
+      //       lon: _longitude!,
+      //       hasAirbag: _hasAirbag,
+      //       noOfDoors: _noOfDoors,
+      //       hasUSBPort: _hasUSBPort,
+      //       hasBluetooth: _hasBluetooth,
+      //       noOfSeats: _seatingCapacity,
+      //       hasAutoDrive: _hasAutoDrive,
+      //       hasHeatedSeats: _hasHeatedSeats,
+      //       hasKeylessEntry: _hasKeylessEntry,
+      //       groundClearance: _groundClearance,
+      //       hasParkingSensors: _hasParkingSensors,
+      //     );
+      print("button pressed 2");
+    }
+
     return BlocConsumer<AddVehicleCubit, AddVehicleState>(
       listener: (context, state) {
         if (state.status == AddVehicleStatus.error) {
@@ -212,12 +221,51 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           return null;
                         },
                         onSaved: (String? value) {
-                          _title = value!;
+                          title = value!;
                         },
                       ),
                       categorySelect(),
                       typeSelect(),
-                      //TODO: add brand select and subcategory select here
+                      const SizedBox(height: 10),
+                      // DropdownButtonFormField(
+                      //   decoration: const InputDecoration(
+                      //     labelText: 'Brand',
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.all(
+                      //         Radius.circular(10.0),
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   items: brands.map((String value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Text(value),
+                      //     );
+                      //   }).toList(),
+                      //   onChanged: (String? value) {
+                      //     _selectedBrand = value!;
+                      //   },
+                      // ),
+                      // const SizedBox(height: 10),
+                      // DropdownButtonFormField(
+                      //   decoration: const InputDecoration(
+                      //     labelText: 'Sub-Category',
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.all(
+                      //         Radius.circular(10.0),
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   items: subCategories.map((String value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Text(value),
+                      //     );
+                      //   }).toList(),
+                      //   onChanged: (String? value) {
+                      //     _selectedSubCategory = value!;
+                      //   },
+                      // ),
                       const SizedBox(height: 10),
                       TextFormField(
                         autocorrect: false,
@@ -238,7 +286,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           return null;
                         },
                         onSaved: (String? value) {
-                          _model = value!;
+                          model = value!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -261,7 +309,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           return null;
                         },
                         onSaved: (String? value) {
-                          _plateNumber = value!;
+                          plateNumber = value!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -284,7 +332,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           return null;
                         },
                         onSaved: (String? value) {
-                          _model = value!;
+                          model = value!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -307,7 +355,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           return null;
                         },
                         onSaved: (String? value) {
-                          _model = value!;
+                          model = value!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -470,7 +518,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           return null;
                         },
                         onSaved: (String? value) {
-                          _description = value!;
+                          description = value!;
                         },
                       ),
                       const SizedBox(height: 10),
@@ -493,13 +541,13 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           return null;
                         },
                         onSaved: (String? value) {
-                          _rentGuidelines = value!;
+                          rentGuidelines = value!;
                         },
                       ),
                       const SizedBox(height: 10),
                       CustomAuthButton(
                         text: state.status == AddVehicleStatus.loading ? "Posting....." : "Post",
-                        onTap: _submit,
+                        onTap: submit,
                       ),
                     ],
                   ),
