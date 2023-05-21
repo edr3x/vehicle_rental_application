@@ -21,18 +21,15 @@ enum VehicleCategory { car, bike, bicycle }
 
 enum VehicleType { electric, petrol, diesel }
 
-enum DriveTrain { frontWheel, rearWheel, fourWheel, allWheel }
-
-enum Transmission { automatic, manual }
-
 class _AddVehiclePageState extends State<AddVehiclePage> {
   final ImagePicker _picker = ImagePicker();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   VehicleCategory? _category;
   VehicleType? _type;
-  DriveTrain? _drivetTrain;
-  Transmission? _transmission;
+
+  List<String> _driveTrainTypes = ["frontWheel", "rearWheel", "fourWheel", "allWheel"];
+  List<String> _transmissionTypes = ["automatic", "manual"];
 
   String? _title;
   String? _model;
@@ -43,6 +40,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   String? _rentGuidelines;
   String? _color;
   String? _plateNumber;
+  String? _driveTrain;
+  String? _transmission;
 
   String _selectedBrand = "Tesla";
   String _selectedSubCategory = "SUV";
@@ -95,27 +94,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       type = "diesel";
     }
 
-    String driveTrain = "";
-    if (_drivetTrain == DriveTrain.frontWheel) {
-      driveTrain = "frontWheel";
-    } else if (_drivetTrain == DriveTrain.rearWheel) {
-      driveTrain = "rearWheel";
-    } else if (_drivetTrain == DriveTrain.fourWheel) {
-      driveTrain = "fourWheel";
-    } else if (_drivetTrain == DriveTrain.allWheel) {
-      driveTrain = "allWheel";
-    }
-
-    String transmission = "";
-    if (_transmission == Transmission.automatic) {
-      transmission = "automatic";
-    } else if (_transmission == Transmission.manual) {
-      transmission = "manual";
-    }
     print("button pressed 1 \n\n");
 
     print(
-      " \n\n type: $type,\n title: $_title, \n model: $_model,\n category: $category,\n image: ${_image!.path},\n desc: $_description,\n plage: $_plateNumber, \n rentguidelines: $_rentGuidelines, transmission: $transmission, \n drive:  $driveTrain, ac: $_hasAC, color: $_color, \n lat: $_latitude, lon: $_longitude!, \n air: $_hasAirbag, doors:  $_noOfDoors, \n usb: $_hasUSBPort,\n blue: $_hasBluetooth, seaging:  $_seatingCapacity, auto: $_hasAutoDrive,\n heated:  $_hasHeatedSeats, \n keyless: $_hasKeylessEntry, gc: $_groundClearance,\n sensors: $_hasParkingSensors,",
+      " \n\n type: $type,\n title: $_title, \n model: $_model,\n category: $category,\n image: ${_image!.path},\n desc: $_description,\n plage: $_plateNumber, \n rentguidelines: $_rentGuidelines, transmission: $_transmission, \n drive:  $_driveTrain, ac: $_hasAC, color: $_color, \n lat: $_latitude, lon: $_longitude!, \n air: $_hasAirbag, doors:  $_noOfDoors, \n usb: $_hasUSBPort,\n blue: $_hasBluetooth, seaging:  $_seatingCapacity, auto: $_hasAutoDrive,\n heated:  $_hasHeatedSeats, \n keyless: $_hasKeylessEntry, gc: $_groundClearance,\n sensors: $_hasParkingSensors,",
     );
     // context.read<AddVehicleCubit>().addVehicle(
     //       title: title!,
@@ -266,6 +248,46 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           }).toList(),
                           onChanged: (String? value) {
                             _selectedSubCategory = value!;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Drive Train',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                          ),
+                          items: _driveTrainTypes.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            _driveTrain = value!;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Transmission',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                          ),
+                          items: _transmissionTypes.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            _transmission = value!;
                           },
                         ),
                         const SizedBox(height: 10),
