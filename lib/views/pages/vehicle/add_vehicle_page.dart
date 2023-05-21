@@ -94,29 +94,27 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       type = "diesel";
     }
 
-    print("button pressed 1 \n\n");
-
     print(
       " \n\n type: $type,\n title: $_title, \n model: $_model,\n category: $category,\n image: ${_image!.path},\n desc: $_description,\n plage: $_plateNumber, \n rentguidelines: $_rentGuidelines, transmission: $_transmission, \n drive:  $_driveTrain, ac: $_hasAC, color: $_color, \n lat: $_latitude, lon: $_longitude!, \n air: $_hasAirbag, doors:  $_noOfDoors, \n usb: $_hasUSBPort,\n blue: $_hasBluetooth, seaging:  $_seatingCapacity, auto: $_hasAutoDrive,\n heated:  $_hasHeatedSeats, \n keyless: $_hasKeylessEntry, gc: $_groundClearance,\n sensors: $_hasParkingSensors,",
     );
     // context.read<AddVehicleCubit>().addVehicle(
-    //       title: title!,
+    //       title: _title!,
     //       type: type,
     //       brandId: "bfb48a75-cd07-4e8c-b5c3-1f373f906acd",
-    //       model: model!,
+    //       model: _model!,
     //       subCategoryId: "cee914e3-0c2d-4284-9bda-0f5f8765fefc", // have to do this
     //       category: category,
     //       imageFile: _image!.path,
-    //       description: description!,
-    //       vehicleNumber: plateNumber!,
-    //       rentGuidelines: rentGuidelines!,
-    //       transmission: transmission,
-    //       driveTrain: driveTrain,
-    //       rate: "${rate!}/day",
+    //       description: _description!,
+    //       vehicleNumber: _plateNumber!,
+    //       rentGuidelines: _rentGuidelines!,
+    //       transmission: _transmission!,
+    //       driveTrain: _driveTrain!,
+    //       rate: "${_rate!}/day",
     //       hasAC: _hasAC,
-    //       color: color!,
-    //       lat: latitude!,
-    //       lon: longitude!,
+    //       color: _color!,
+    //       lat: _latitude!,
+    //       lon: _longitude!,
     //       hasAirbag: _hasAirbag,
     //       noOfDoors: _noOfDoors,
     //       hasUSBPort: _hasUSBPort,
