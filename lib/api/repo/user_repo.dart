@@ -33,10 +33,16 @@ class UserRepository {
     required String fullName,
     required String gender, //note: "male" | "female" | "other"
     required String email,
+    required String profileImage,
   }) async {
     try {
-      final UpdateBasicUserDetailsModel updateUserDetails = await updateBasicUserDetailsService
-          .data(email: email, fullName: fullName, gender: gender);
+      final UpdateBasicUserDetailsModel updateUserDetails =
+          await updateBasicUserDetailsService.data(
+        email: email,
+        fullName: fullName,
+        gender: gender,
+        profileImage: profileImage,
+      );
 
       return updateUserDetails;
     } on DataException catch (e) {

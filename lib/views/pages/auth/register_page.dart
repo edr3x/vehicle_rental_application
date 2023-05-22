@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rental_system_app/api/blocs/user/post_user_data_cubit/post_user_data_cubit.dart';
 import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
@@ -19,10 +20,21 @@ class UserRegisterPage extends StatefulWidget {
 enum Gender { male, female, other }
 
 class _UserRegisterPageState extends State<UserRegisterPage> {
+  final ImagePicker _picker = ImagePicker();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
 
   Gender? _selectedGender;
+  XFile? _image;
+  bool _gotImage = false;
+
+  void choosePhoto(ImageSource source) async {
+    final pickedImage = await _picker.pickImage(source: source);
+    setState(() {
+      _image = pickedImage;
+      _gotImage = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +64,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
             fullName: fullName!,
             gender: gender!,
             email: email!,
+            profileImage: _image!.path,
           );
     }
 
@@ -78,149 +91,185 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                 automaticallyImplyLeading: false,
                 title: const Text("Register Page"),
               ),
-              body: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Form(
-                    key: _formKey,
-                    autovalidateMode: _autovalidateMode,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            autocorrect: false,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0),
+              body: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: _autovalidateMode,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 50),
+                        Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child: GestureDetector(
+                            onTap: () => choosePhoto(ImageSource.gallery),
+                            child: Container(
+                              padding: const EdgeInsets.all(12.0),
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 2,
                                 ),
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                              labelText: 'Full Name',
-                              prefixIcon: Icon(Icons.person),
+                              child: Column(
+                                children: [
+                                  _gotImage
+                                      ? const Icon(
+                                          Icons.done,
+                                          size: 40,
+                                          color: Colors.white,
+                                        )
+                                      : const Icon(
+                                          Icons.upload,
+                                          size: 40,
+                                          color: Colors.white,
+                                        ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    _gotImage ? "Got the Image" : "Upload Your Image",
+                                    style: Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ],
+                              ),
                             ),
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your Full Name';
-                              }
-                              if (value.length < 3) {
-                                return 'Name must be at least 3 characters long';
-                              }
-                              if (value.length > 30) {
-                                return 'Name must not be more than 30 characters long';
-                              }
-                              return null;
-                            },
-                            onSaved: (String? value) {
-                              fullName = value?.trim();
-                            },
                           ),
-                          const SizedBox(height: 10),
-                          TextFormField(
-                            autocorrect: false,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0),
-                                ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
                               ),
-                              labelText: 'Email',
-                              prefixIcon: Icon(Icons.mail),
                             ),
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your Email Address';
-                              }
-                              final bool isEmailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                              ).hasMatch(value);
-                              if (!isEmailValid) {
-                                return 'Invalid Email Address';
-                              }
-                              return null;
-                            },
-                            onSaved: (String? value) {
-                              email = value?.trim();
-                            },
+                            labelText: 'Full Name',
+                            prefixIcon: Icon(Icons.person),
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: RadioListTile<Gender>(
-                                  contentPadding: const EdgeInsets.all(0),
-                                  value: Gender.male,
-                                  groupValue: _selectedGender,
-                                  title: const Text("male"),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedGender = value;
-                                    });
-                                  },
-                                ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your Full Name';
+                            }
+                            if (value.length < 3) {
+                              return 'Name must be at least 3 characters long';
+                            }
+                            if (value.length > 30) {
+                              return 'Name must not be more than 30 characters long';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            fullName = value?.trim();
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          autocorrect: false,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
                               ),
-                              Expanded(
-                                child: RadioListTile<Gender>(
-                                  contentPadding: const EdgeInsets.all(0),
-                                  value: Gender.female,
-                                  groupValue: _selectedGender,
-                                  title: const Text("female"),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedGender = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Expanded(
-                                child: RadioListTile<Gender>(
-                                  contentPadding: const EdgeInsets.all(0),
-                                  value: Gender.other,
-                                  groupValue: _selectedGender,
-                                  title: const Text("other"),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _selectedGender = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
+                            ),
+                            labelText: 'Email',
+                            prefixIcon: Icon(Icons.mail),
                           ),
-                          const SizedBox(height: 14),
-                          CustomAuthButton(
-                            text: state.status == PostUserDataStatus.loading
-                                ? "Submitting"
-                                : "Submit",
-                            onTap: submit,
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Already Registered?",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  bool logoutSuccess = await UtilSharedPreferences.removeToken();
-                                  if (logoutSuccess) {
-                                    if (!mounted) return;
-                                    Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      LoginPage.routeName,
-                                      (route) => false,
-                                    );
-                                  }
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your Email Address';
+                            }
+                            final bool isEmailValid = RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                            ).hasMatch(value);
+                            if (!isEmailValid) {
+                              return 'Invalid Email Address';
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            email = value?.trim();
+                          },
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: RadioListTile<Gender>(
+                                contentPadding: const EdgeInsets.all(0),
+                                value: Gender.male,
+                                groupValue: _selectedGender,
+                                title: const Text("male"),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedGender = value;
+                                  });
                                 },
-                                child: const Text(
-                                  "Login Here",
-                                  style: TextStyle(fontSize: 17),
-                                ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                            Expanded(
+                              child: RadioListTile<Gender>(
+                                contentPadding: const EdgeInsets.all(0),
+                                value: Gender.female,
+                                groupValue: _selectedGender,
+                                title: const Text("female"),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedGender = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: RadioListTile<Gender>(
+                                contentPadding: const EdgeInsets.all(0),
+                                value: Gender.other,
+                                groupValue: _selectedGender,
+                                title: const Text("other"),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedGender = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        CustomAuthButton(
+                          text:
+                              state.status == PostUserDataStatus.loading ? "Submitting" : "Submit",
+                          onTap: submit,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Already Registered?",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                bool logoutSuccess = await UtilSharedPreferences.removeToken();
+                                if (logoutSuccess) {
+                                  if (!mounted) return;
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    LoginPage.routeName,
+                                    (route) => false,
+                                  );
+                                }
+                              },
+                              child: const Text(
+                                "Login Here",
+                                style: TextStyle(fontSize: 17),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),

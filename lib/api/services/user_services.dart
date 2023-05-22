@@ -41,6 +41,7 @@ class UpdateBasicUserDetailsService {
     required String fullName,
     required String gender, //note: "male" | "female" | "other"
     required String email,
+    required String profileImage,
   }) async {
     http.Client client = http.Client();
 
@@ -48,12 +49,30 @@ class UpdateBasicUserDetailsService {
 
     final Uri url = Uri.parse("$api/user/profile");
     try {
+      http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse("$api/upload"));
+      request.files.add(await http.MultipartFile.fromPath("image", profileImage));
+      request.headers.addAll({
+        "Content-Type": "multipart/form-data",
+        'Authorization': 'Bearer $token',
+      });
+      http.StreamedResponse res = await request.send();
+
+      if (res.statusCode != 201) {
+        throw Exception(
+          " Request failed\n Status Code: ${res.statusCode}\n Reason: ${res.reasonPhrase}",
+        );
+      }
+
+      String responseString = await res.stream.bytesToString();
+      String uploadedImage = jsonDecode(responseString)["data"] as String;
+
       final http.Response response = await client.patch(
         url,
         body: jsonEncode({
           "fullName": fullName,
           "gender": gender,
           "email": email,
+          "profileImage": uploadedImage,
         }),
         headers: {
           ...apiHeader,

@@ -18,6 +18,7 @@ class PostUserDataCubit extends Cubit<PostUserDataState> {
     required String fullName,
     required String gender, //note: "male" | "female" | "other"
     required String email,
+    required String profileImage,
   }) async {
     emit(state.copyWith(status: PostUserDataStatus.loading));
     try {
@@ -26,6 +27,7 @@ class PostUserDataCubit extends Cubit<PostUserDataState> {
         email: email,
         gender: gender,
         fullName: fullName,
+        profileImage: profileImage,
       );
 
       emit(
