@@ -79,10 +79,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: ListView(
                   children: [
                     ProfileMenuItems(
-                      title: "Update Profile",
-                      icon: Icons.person_2,
+                      title: "Add Vehicle",
+                      icon: Icons.car_repair,
                       onPress: () {
-                        Navigator.pushNamed(context, LocationPage.routeName);
+                        Navigator.pushNamed(context, AddVehiclePage.routeName);
                       },
                     ),
                     ProfileMenuItems(
@@ -102,10 +102,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                     ),
                     ProfileMenuItems(
-                      title: "Add Vehicle",
-                      icon: Icons.car_repair,
+                      title: "Calibrate Location",
+                      icon: Icons.location_on,
                       onPress: () {
-                        Navigator.pushNamed(context, AddVehiclePage.routeName);
+                        Navigator.pushNamed(context, LocationPage.routeName);
                       },
                     ),
                   ],
