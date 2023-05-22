@@ -7,7 +7,6 @@ import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dar
 import 'package:rental_system_app/views/common/widgets/custom_snackbar.dart';
 import 'package:rental_system_app/views/pages/auth/widgets/auth_button.dart';
 import 'package:rental_system_app/views/pages/home/home_page.dart';
-import 'package:rental_system_app/views/pages/vehicle/widgets/vehicle_cats.dart';
 
 class AddVehiclePage extends StatefulWidget {
   static const String routeName = '/add-vehicle';
@@ -28,8 +27,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   VehicleCategory? _category;
   VehicleType? _type;
 
-  List<String> _driveTrainTypes = ["frontWheel", "rearWheel", "fourWheel", "allWheel"];
-  List<String> _transmissionTypes = ["automatic", "manual"];
+  final List<String> _driveTrainTypes = ["frontWheel", "rearWheel", "fourWheel", "allWheel"];
+  final List<String> _transmissionTypes = ["automatic", "manual"];
 
   String? _title;
   String? _model;
@@ -43,8 +42,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   String? _driveTrain;
   String? _transmission;
 
-  String _selectedBrand = "Tesla";
-  String _selectedSubCategory = "SUV";
+  // String _selectedBrand = "Tesla";
+  // String _selectedSubCategory = "SUV";
+
+  bool _gotImage = false;
 
   XFile? _image;
   bool _hasAC = false;
@@ -63,6 +64,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
     final pickedImage = await _picker.pickImage(source: source);
     setState(() {
       _image = pickedImage;
+      _gotImage = true;
     });
   }
 
@@ -94,39 +96,35 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       type = "diesel";
     }
 
-    print(
-      " \n\n type: $type,\n title: $_title, \n model: $_model,\n category: $category,\n image: ${_image!.path},\n desc: $_description,\n plage: $_plateNumber, \n rentguidelines: $_rentGuidelines, transmission: $_transmission, \n drive:  $_driveTrain, ac: $_hasAC, color: $_color, \n lat: $_latitude, lon: $_longitude!, \n air: $_hasAirbag, doors:  $_noOfDoors, \n usb: $_hasUSBPort,\n blue: $_hasBluetooth, seaging:  $_seatingCapacity, auto: $_hasAutoDrive,\n heated:  $_hasHeatedSeats, \n keyless: $_hasKeylessEntry, gc: $_groundClearance,\n sensors: $_hasParkingSensors,",
-    );
-    // context.read<AddVehicleCubit>().addVehicle(
-    //       title: _title!,
-    //       type: type,
-    //       brandId: "bfb48a75-cd07-4e8c-b5c3-1f373f906acd",
-    //       model: _model!,
-    //       subCategoryId: "cee914e3-0c2d-4284-9bda-0f5f8765fefc", // have to do this
-    //       category: category,
-    //       imageFile: _image!.path,
-    //       description: _description!,
-    //       vehicleNumber: _plateNumber!,
-    //       rentGuidelines: _rentGuidelines!,
-    //       transmission: _transmission!,
-    //       driveTrain: _driveTrain!,
-    //       rate: "${_rate!}/day",
-    //       hasAC: _hasAC,
-    //       color: _color!,
-    //       lat: _latitude!,
-    //       lon: _longitude!,
-    //       hasAirbag: _hasAirbag,
-    //       noOfDoors: _noOfDoors,
-    //       hasUSBPort: _hasUSBPort,
-    //       hasBluetooth: _hasBluetooth,
-    //       noOfSeats: _seatingCapacity,
-    //       hasAutoDrive: _hasAutoDrive,
-    //       hasHeatedSeats: _hasHeatedSeats,
-    //       hasKeylessEntry: _hasKeylessEntry,
-    //       groundClearance: _groundClearance,
-    //       hasParkingSensors: _hasParkingSensors,
-    //     );
-    print("button pressed 2");
+    context.read<AddVehicleCubit>().addVehicle(
+          title: _title!,
+          type: type,
+          brandId: "086d3451-fa78-49e0-97bc-1a9ed09f9578",
+          model: _model!,
+          subCategoryId: "378d7cb3-fb07-4323-a506-75f3bf22053e",
+          category: category,
+          imageFile: _image!.path,
+          description: _description!,
+          vehicleNumber: _plateNumber!,
+          rentGuidelines: _rentGuidelines!,
+          transmission: _transmission!,
+          driveTrain: _driveTrain!,
+          hasAC: _hasAC,
+          rate: "${_rate!}/day",
+          color: _color!,
+          lat: _latitude!,
+          lon: _longitude!,
+          hasAirbag: _hasAirbag,
+          noOfDoors: _noOfDoors,
+          hasUSBPort: _hasUSBPort,
+          hasBluetooth: _hasBluetooth,
+          noOfSeats: _seatingCapacity,
+          hasAutoDrive: _hasAutoDrive,
+          hasHeatedSeats: _hasHeatedSeats,
+          hasKeylessEntry: _hasKeylessEntry,
+          groundClearance: _groundClearance,
+          hasParkingSensors: _hasParkingSensors,
+        );
   }
 
   @override
@@ -165,22 +163,39 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 79.0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey,
-                              fixedSize: const Size(double.infinity, 60),
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(color: Colors.black, width: 2),
+                          padding: const EdgeInsets.all(14.0),
+                          child: GestureDetector(
+                            onTap: () => choosePhoto(ImageSource.gallery),
+                            child: Container(
+                              padding: const EdgeInsets.all(18.0),
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 2,
+                                ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                            ),
-                            onPressed: () {
-                              choosePhoto(ImageSource.gallery);
-                            },
-                            child: const Text(
-                              "Select Image",
-                              style: TextStyle(color: Colors.black),
+                              child: Column(
+                                children: [
+                                  _gotImage
+                                      ? const Icon(
+                                          Icons.done,
+                                          size: 50,
+                                          color: Colors.white,
+                                        )
+                                      : const Icon(
+                                          Icons.upload,
+                                          size: 50,
+                                          color: Colors.white,
+                                        ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    _gotImage ? "Got the Image" : "Upload Your Vehicle Image",
+                                    style: Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -209,85 +224,46 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         categorySelect(),
                         typeSelect(),
                         const SizedBox(height: 10),
-                        DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Brand',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                            ),
-                          ),
-                          items: brands.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            _selectedBrand = value!;
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Sub-Category',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                            ),
-                          ),
-                          items: subCategories.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            _selectedSubCategory = value!;
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Drive Train',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                            ),
-                          ),
-                          items: _driveTrainTypes.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            _driveTrain = value!;
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Transmission',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                            ),
-                          ),
-                          items: _transmissionTypes.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            _transmission = value!;
-                          },
-                        ),
+                        // DropdownButtonFormField(
+                        //   decoration: const InputDecoration(
+                        //     labelText: 'Brand',
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.all(
+                        //         Radius.circular(10.0),
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   items: brands.map((String value) {
+                        //     return DropdownMenuItem<String>(
+                        //       value: value,
+                        //       child: Text(value),
+                        //     );
+                        //   }).toList(),
+                        //   onChanged: (String? value) {
+                        //     _selectedBrand = value!;
+                        //   },
+                        // ),
+                        // const SizedBox(height: 10),
+                        // DropdownButtonFormField(
+                        //   decoration: const InputDecoration(
+                        //     labelText: 'Sub-Category',
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.all(
+                        //         Radius.circular(10.0),
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   items: subCategories.map((String value) {
+                        //     return DropdownMenuItem<String>(
+                        //       value: value,
+                        //       child: Text(value),
+                        //     );
+                        //   }).toList(),
+                        //   onChanged: (String? value) {
+                        //     _selectedSubCategory = value!;
+                        //   },
+                        // ),
+                        // const SizedBox(height: 10),
                         const SizedBox(height: 10),
                         TextFormField(
                           autocorrect: false,
@@ -446,6 +422,46 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             } else {
                               _groundClearance = 3;
                             }
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Drive Train',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                          ),
+                          items: _driveTrainTypes.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            _driveTrain = value!;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Transmission',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                          ),
+                          items: _transmissionTypes.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            _transmission = value!;
                           },
                         ),
                         const SizedBox(height: 10),
