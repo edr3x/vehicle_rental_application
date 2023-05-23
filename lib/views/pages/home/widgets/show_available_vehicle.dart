@@ -11,109 +11,138 @@ class NearbyAvailableVehicle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isVehicleAvailable = true;
+
     var vehicleNearMe = context.watch<GetVehicleNearMeCubit>().state.data.data!.result!;
 
-    return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: vehicleNearMe.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                VehicleDetailsPage.routeName,
-              );
-              context.read<GetVehicleDetailsCubit>().getVehicleDetails(
-                    vehicleId: vehicleNearMe[index].id!,
-                  );
-            },
-            child: Container(
-              margin: const EdgeInsets.only(top: 9, bottom: 9, right: 16.0),
-              width: MediaQuery.of(context).size.width * 0.75,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(30),
-                color: GlobalVariables.cardBackgroundColor,
-              ),
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: displayVehicle(vehicleNearMe[index].thumbnail, 20),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            Colors.black.withOpacity(0.8),
-                            Colors.transparent,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(18),
-                          bottomRight: Radius.circular(18),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            RichText(
-                              overflow: TextOverflow.ellipsis,
-                              text: TextSpan(
-                                text: vehicleNearMe[index].title,
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              vehicleNearMe[index].rate ?? "rate",
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Color.fromARGB(255, 233, 233, 233),
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+    if (vehicleNearMe.isEmpty) {
+      isVehicleAvailable = false;
+    } else {
+      isVehicleAvailable = true;
+    }
+
+    return Visibility(
+      visible: isVehicleAvailable,
+      replacement: const Center(
+        child: Column(
+          children: [
+            SizedBox(height: 30),
+            Padding(
+              padding: EdgeInsets.all(18.0),
+              child: Text(
+                "No Vehicle Available",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          );
-        },
+            SizedBox(height: 30),
+          ],
+        ),
+      ),
+      child: Expanded(
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: vehicleNearMe.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  VehicleDetailsPage.routeName,
+                );
+                context.read<GetVehicleDetailsCubit>().getVehicleDetails(
+                      vehicleId: vehicleNearMe[index].id!,
+                    );
+              },
+              child: Container(
+                margin: const EdgeInsets.only(top: 9, bottom: 9, right: 16.0),
+                width: MediaQuery.of(context).size.width * 0.75,
+                height: 20,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(30),
+                  color: GlobalVariables.cardBackgroundColor,
+                ),
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: displayVehicle(vehicleNearMe[index].thumbnail, 20),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.8),
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(18),
+                            bottomRight: Radius.circular(18),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  text: vehicleNearMe[index].title,
+                                  style: const TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                vehicleNearMe[index].rate ?? "rate",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 233, 233, 233),
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
