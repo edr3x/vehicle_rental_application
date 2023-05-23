@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
+import 'package:rental_system_app/api/blocs/vehicle/recommended_vehicles_cubit/recommended_vehicles_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/blocs/current_location_cubit/current_location_cubit.dart';
 import 'package:rental_system_app/views/blocs/current_page_cubit/current_page_cubit.dart';
@@ -25,6 +26,7 @@ class HomePage extends StatelessWidget {
                 locState.status == LocationStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             }
+            context.read<RecommendedVehiclesCubit>().getRecommendedVehicles();
             context.read<GetVehicleNearMeCubit>().getNearbyVehicle(position: locState.position);
             return BlocConsumer<GetVehicleNearMeCubit, GetVehicleNearMeState>(
               listener: (context, state) {

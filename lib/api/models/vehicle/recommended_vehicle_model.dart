@@ -18,6 +18,11 @@ class RecommendedVehiclesModel {
     this.data,
   });
 
+  factory RecommendedVehiclesModel.initial() => RecommendedVehiclesModel(
+        success: false,
+        data: Data.initial(),
+      );
+
   factory RecommendedVehiclesModel.fromJson(Map<String, dynamic> json) => RecommendedVehiclesModel(
         success: json["success"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
@@ -37,6 +42,11 @@ class Data {
     this.msg,
     this.result,
   });
+
+  factory Data.initial() => Data(
+        msg: "",
+        result: [],
+      );
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         msg: json["msg"],
@@ -63,6 +73,13 @@ class Result {
     this.title,
     this.rate,
   });
+
+  factory Result.initial() => Result(
+        id: "",
+        thumbnail: "",
+        title: "",
+        rate: "",
+      );
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],

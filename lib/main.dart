@@ -98,6 +98,11 @@ class MyApp extends StatelessWidget {
               currentPageCubit: context.read<CurrentPageCubit>(),
             ),
           ),
+          BlocProvider<RecommendedVehiclesCubit>(
+            create: (context) => RecommendedVehiclesCubit(
+              vehicleRepository: context.read<VehicleRepository>(),
+            ),
+          ),
           BlocProvider<GetVehicleDetailsCubit>(
             create: (context) => GetVehicleDetailsCubit(
               vehicleRepository: context.read<VehicleRepository>(),
