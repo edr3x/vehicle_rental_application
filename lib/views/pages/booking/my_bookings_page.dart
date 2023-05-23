@@ -5,6 +5,7 @@ import 'package:rental_system_app/api/blocs/booking/my_bookings_cubit/my_booking
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/pages/booking/bookings_details_page.dart';
+import 'package:rental_system_app/views/pages/home/home_page.dart';
 
 import '../../common/widgets/display_image.dart';
 
@@ -30,6 +31,22 @@ class MyBookingsPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text('My Bookings'),
+            automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    HomePage.routeName,
+                    (route) => false,
+                  );
+                },
+                icon: const Icon(
+                  Icons.cancel_outlined,
+                  size: 28,
+                ),
+              ),
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),

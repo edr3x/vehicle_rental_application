@@ -32,7 +32,10 @@ class _BookingPageState extends State<BookingPage> {
         }
         if (state.status == BookVehicleStatus.loaded) {
           Navigator.pushNamed(context, HomePage.routeName);
-          errorDialog(context, "Booked Successfully, Contact Renter for further details");
+          errorDialog(
+            context,
+            "Booking Requested Successfully, Contact Renter for further details",
+          );
         }
       },
       builder: (context, state) {
