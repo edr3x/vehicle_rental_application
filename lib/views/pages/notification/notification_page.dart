@@ -10,6 +10,7 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDataAvailable = false;
     return BlocConsumer<BookingRequestsCubit, BookingRequestsState>(
       listener: (context, state) {
         if (state.status == BookingRequestsStatus.error) {
@@ -22,6 +23,11 @@ class NotificationPage extends StatelessWidget {
           return const Center(
             child: CircularProgressIndicator(),
           );
+        }
+        if (state.data.data!.bookings!.isEmpty) {
+          isDataAvailable = false;
+        } else {
+          isDataAvailable = true;
         }
         return Scaffold(
           appBar: AppBar(
@@ -43,13 +49,34 @@ class NotificationPage extends StatelessWidget {
               )
             ],
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.data.data!.bookings!.length,
-              itemBuilder: (context, index) => NotificationContainerWidget(
-                details: state.data.data!.bookings![index],
+          body: Visibility(
+            visible: isDataAvailable,
+            replacement: const Center(
+              child: Column(
+                children: [
+                  SizedBox(height: 30),
+                  Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: Text(
+                      "No Notifications",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                ],
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.data.data!.bookings!.length,
+                itemBuilder: (context, index) => NotificationContainerWidget(
+                  details: state.data.data!.bookings![index],
+                ),
               ),
             ),
           ),
