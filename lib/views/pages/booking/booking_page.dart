@@ -31,8 +31,8 @@ class _BookingPageState extends State<BookingPage> {
           errorDialog(context, state.error.errMsg);
         }
         if (state.status == BookVehicleStatus.loaded) {
-          customSnackBar(context, "Vehicle booked successfully");
           Navigator.pushNamed(context, HomePage.routeName);
+          errorDialog(context, "Booked Successfully, Contact Renter for further details");
         }
       },
       builder: (context, state) {
@@ -186,7 +186,17 @@ class _BookingPageState extends State<BookingPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
+                Text(
+                  "Days: ${_endDate.difference(_startDate).inDays}",
+                  style: const TextStyle(fontSize: 20),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Total Cost: Rs.${_endDate.difference(_startDate).inDays * int.parse(details.rate!.split('/')[0])}",
+                  style: const TextStyle(fontSize: 22),
+                ),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: GlobalVariables.primaryColor,

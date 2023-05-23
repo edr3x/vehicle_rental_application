@@ -6,7 +6,7 @@ import 'package:rental_system_app/views/common/widgets/custom_snackbar.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/booking/widgets/date_display.dart';
 import 'package:rental_system_app/views/pages/booking/widgets/renter_details.dart';
-import 'package:rental_system_app/views/pages/home/home_page.dart';
+import 'package:rental_system_app/views/pages/exports.dart';
 
 class BookingDetailsPage extends StatelessWidget {
   static const String routeName = '/booking-details-page';
@@ -144,9 +144,11 @@ class CancelBookingButtonBloc extends StatelessWidget {
         }
         if (state.status == CancelBookingStatus.loaded) {
           customSnackBar(context, "Booking Cancelled Successfully");
-          Navigator.pushNamed(
+          context.read<MyBookingsCubit>().myBookingsHistory();
+          Navigator.pushNamedAndRemoveUntil(
             context,
-            HomePage.routeName,
+            MyBookingsPage.routeName,
+            (route) => false,
           );
         }
       },
