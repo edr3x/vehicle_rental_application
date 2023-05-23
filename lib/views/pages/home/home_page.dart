@@ -9,7 +9,7 @@ import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dar
 import 'package:rental_system_app/views/pages/home/widgets/category_select.dart';
 import 'package:rental_system_app/views/pages/home/widgets/custom_home_bar.dart';
 import 'package:rental_system_app/views/pages/home/widgets/second_title.dart';
-import 'package:rental_system_app/views/pages/home/widgets/show_available_vehicle.dart';
+import 'package:rental_system_app/views/pages/home/widgets/vehicle_list_tiles.dart';
 
 class HomePage extends StatelessWidget {
   static const String routeName = '/home-page';
@@ -39,22 +39,23 @@ class HomePage extends StatelessWidget {
                     state.status == GetVehicleNearMeConnectionStatus.initial) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                return const SafeArea(
+                var recomms = context.watch<RecommendedVehiclesCubit>().state.data.data!.result!;
+                var nearme = context.watch<GetVehicleNearMeCubit>().state.data.data!.result!;
+                return SafeArea(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        CustomHomeBar(),
-                        SecondHomeTitle(title: "Recommended For You"),
-                        // RecommendedVehicle(),
-                        NearbyAvailableVehicle(),
-                        SizedBox(height: 10),
-                        SecondHomeTitle(title: "Available Near You"),
-                        SelectCategoryRow(),
-                        SizedBox(height: 10),
-                        NearbyAvailableVehicle(),
-                        SizedBox(height: 20),
+                        const CustomHomeBar(),
+                        const SecondHomeTitle(title: "Recommended For You"),
+                        VehicleListTiles(vehicleList: recomms),
+                        const SizedBox(height: 10),
+                        const SecondHomeTitle(title: "Available Near You"),
+                        const SelectCategoryRow(),
+                        const SizedBox(height: 10),
+                        VehicleListTiles(vehicleList: nearme),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),

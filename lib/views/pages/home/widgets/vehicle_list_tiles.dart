@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
-import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/vehicle_details_page.dart';
 
-class NearbyAvailableVehicle extends StatelessWidget {
-  const NearbyAvailableVehicle({super.key});
+class VehicleListTiles extends StatelessWidget {
+  final List vehicleList;
+  const VehicleListTiles({
+    super.key,
+    required this.vehicleList,
+  });
 
   @override
   Widget build(BuildContext context) {
     bool isVehicleAvailable = true;
 
-    var vehicleNearMe = context.watch<GetVehicleNearMeCubit>().state.data.data!.result!;
-
-    if (vehicleNearMe.isEmpty) {
+    if (vehicleList.isEmpty) {
       isVehicleAvailable = false;
     } else {
       isVehicleAvailable = true;
@@ -44,7 +45,7 @@ class NearbyAvailableVehicle extends StatelessWidget {
       child: Expanded(
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: vehicleNearMe.length,
+          itemCount: vehicleList.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
@@ -53,7 +54,7 @@ class NearbyAvailableVehicle extends StatelessWidget {
                   VehicleDetailsPage.routeName,
                 );
                 context.read<GetVehicleDetailsCubit>().getVehicleDetails(
-                      vehicleId: vehicleNearMe[index].id!,
+                      vehicleId: vehicleList[index].id!,
                     );
               },
               child: Container(
@@ -68,7 +69,7 @@ class NearbyAvailableVehicle extends StatelessWidget {
                 child: Stack(
                   children: [
                     Positioned.fill(
-                      child: displayVehicle(vehicleNearMe[index].thumbnail, 20),
+                      child: displayVehicle(vehicleList[index].thumbnail, 20),
                     ),
                     Positioned(
                       bottom: 0,
@@ -113,7 +114,7 @@ class NearbyAvailableVehicle extends StatelessWidget {
                               RichText(
                                 overflow: TextOverflow.ellipsis,
                                 text: TextSpan(
-                                  text: vehicleNearMe[index].title,
+                                  text: vehicleList[index].title,
                                   style: const TextStyle(
                                     color: Color.fromARGB(255, 255, 255, 255),
                                     fontSize: 15,
@@ -124,7 +125,7 @@ class NearbyAvailableVehicle extends StatelessWidget {
                                 height: 10,
                               ),
                               Text(
-                                vehicleNearMe[index].rate ?? "rate",
+                                vehicleList[index].rate ?? "rate",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
