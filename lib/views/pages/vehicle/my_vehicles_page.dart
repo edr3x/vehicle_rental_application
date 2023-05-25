@@ -45,7 +45,7 @@ class MyVehiclesPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(18.0),
                     child: Text(
-                      "No Notifications",
+                      "No Vehicles Posted",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
