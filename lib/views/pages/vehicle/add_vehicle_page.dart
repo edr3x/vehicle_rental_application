@@ -47,8 +47,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   // String _selectedBrand = "Tesla";
   // String _selectedSubCategory = "SUV";
 
-  bool _gotImage = false;
-
   XFile? _image;
   bool _hasAC = false;
   bool _hasAirbag = false;
@@ -66,7 +64,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
     final pickedImage = await _picker.pickImage(source: source);
     setState(() {
       _image = pickedImage;
-      _gotImage = true;
     });
   }
 
@@ -169,8 +166,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                           child: GestureDetector(
                             onTap: () => choosePhoto(ImageSource.gallery),
                             child: Container(
-                              padding: const EdgeInsets.all(18.0),
-                              width: MediaQuery.of(context).size.width * 0.6,
+                              padding: const EdgeInsets.all(10.0),
+                              width: MediaQuery.of(context).size.width * 0.8,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -178,24 +175,13 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Column(
-                                children: [
-                                  if (_gotImage)
-                                    // ImageProvider(FileImage(File(_image!.path)))
-                                    Image.file(File(_image!.path))
-                                  else
-                                    const Icon(
+                              child: _image == null
+                                  ? const Icon(
                                       Icons.upload,
                                       size: 50,
                                       color: Colors.white,
-                                    ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    _gotImage ? "done" : "Upload Your Vehicle Image",
-                                    style: Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ],
-                              ),
+                                    )
+                                  : Image.file(File(_image!.path)),
                             ),
                           ),
                         ),

@@ -28,13 +28,11 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   Gender? _selectedGender;
   XFile? _image;
-  bool _isImageSelected = false;
 
   void choosePhoto(ImageSource source) async {
     final pickedImage = await _picker.pickImage(source: source);
     setState(() {
       _image = pickedImage;
-      _isImageSelected = true;
     });
   }
 
@@ -108,9 +106,9 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                             children: [
                               CircleAvatar(
                                 radius: 60,
-                                backgroundImage: _isImageSelected
-                                    ? FileImage(File(_image!.path)) as ImageProvider
-                                    : const AssetImage("assets/images/default.jpg"),
+                                backgroundImage: _image == null
+                                    ? const AssetImage("assets/images/default.jpg")
+                                    : FileImage(File(_image!.path)) as ImageProvider,
                               ),
                               const Positioned(
                                 top: 89,
