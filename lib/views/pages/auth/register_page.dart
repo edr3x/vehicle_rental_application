@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,13 +28,13 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   Gender? _selectedGender;
   XFile? _image;
-  bool _gotImage = false;
+  bool _isImageSelected = false;
 
   void choosePhoto(ImageSource source) async {
     final pickedImage = await _picker.pickImage(source: source);
     setState(() {
       _image = pickedImage;
-      _gotImage = true;
+      _isImageSelected = true;
     });
   }
 
@@ -100,41 +102,25 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 50),
-                        Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: GestureDetector(
-                            onTap: () => choosePhoto(ImageSource.gallery),
-                            child: Container(
-                              padding: const EdgeInsets.all(12.0),
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 2,
+                        GestureDetector(
+                          onTap: () => choosePhoto(ImageSource.gallery),
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 60,
+                                backgroundImage: _isImageSelected
+                                    ? FileImage(File(_image!.path)) as ImageProvider
+                                    : const AssetImage("assets/images/default.jpg"),
+                              ),
+                              const Positioned(
+                                top: 89,
+                                left: 89,
+                                child: Icon(
+                                  Icons.add_a_photo_rounded,
+                                  color: Colors.blue,
                                 ),
-                                borderRadius: BorderRadius.circular(30),
                               ),
-                              child: Column(
-                                children: [
-                                  _gotImage
-                                      ? const Icon(
-                                          Icons.done,
-                                          size: 40,
-                                          color: Colors.white,
-                                        )
-                                      : const Icon(
-                                          Icons.upload,
-                                          size: 40,
-                                          color: Colors.white,
-                                        ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    _gotImage ? "Got the Image" : "Upload Your Image",
-                                    style: Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 10),

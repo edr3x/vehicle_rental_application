@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -178,20 +180,18 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               ),
                               child: Column(
                                 children: [
-                                  _gotImage
-                                      ? const Icon(
-                                          Icons.done,
-                                          size: 50,
-                                          color: Colors.white,
-                                        )
-                                      : const Icon(
-                                          Icons.upload,
-                                          size: 50,
-                                          color: Colors.white,
-                                        ),
+                                  if (_gotImage)
+                                    // ImageProvider(FileImage(File(_image!.path)))
+                                    Image.file(File(_image!.path))
+                                  else
+                                    const Icon(
+                                      Icons.upload,
+                                      size: 50,
+                                      color: Colors.white,
+                                    ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    _gotImage ? "Got the Image" : "Upload Your Vehicle Image",
+                                    _gotImage ? "done" : "Upload Your Vehicle Image",
                                     style: Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ],
