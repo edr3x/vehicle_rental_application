@@ -4,7 +4,6 @@ import 'package:rental_system_app/api/blocs/booking/book_vehicle_cubit/book_vehi
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
-import 'package:rental_system_app/views/common/widgets/custom_snackbar.dart';
 import 'package:rental_system_app/views/pages/home/home_page.dart';
 
 import '../../common/widgets/display_image.dart';
@@ -32,9 +31,21 @@ class _BookingPageState extends State<BookingPage> {
         }
         if (state.status == BookVehicleStatus.loaded) {
           Navigator.pushNamed(context, HomePage.routeName);
-          errorDialog(
-            context,
-            "Booking Requested Successfully, Contact Renter for further details",
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              title: const Text('Success'),
+              content: const Text(
+                "Booking Requested Successfully, Contact Renter for further details",
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            ),
           );
         }
       },
