@@ -8,6 +8,7 @@ export 'vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 export 'vehicle/recommended_vehicles_cubit/recommended_vehicles_cubit.dart';
 export 'vehicle/get_vehicle_near_me_cubit/get_vehicle_near_me_cubit.dart';
 export 'vehicle/my_vehicles_cubit/my_vehicles_cubit.dart';
+export 'vehicle/bookings_per_vehicle_cubit/bookings_per_vehicle_cubit.dart';
 export 'booking/book_vehicle_cubit/book_vehicle_cubit.dart';
 export 'booking/my_bookings_cubit/my_bookings_cubit.dart';
 export 'booking/booking_details_cubit/booking_details_cubit.dart';
