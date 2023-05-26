@@ -5,6 +5,7 @@ import 'package:rental_system_app/api/blocs/booking/handle_booking_request_cubit
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/common/widgets/custom_snackbar.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
+import 'package:rental_system_app/views/pages/booking/widgets/date_display.dart';
 import 'package:rental_system_app/views/pages/booking/widgets/renter_details.dart';
 import 'package:rental_system_app/views/pages/home/home_page.dart';
 
@@ -91,8 +92,9 @@ class BookingDetailsForRenterPage extends StatelessWidget {
                 child: displayVehicle(bookingDetails.vehicle!.thumbnail, 20),
               ),
               const SizedBox(height: 20),
-              //myth: here this is done to reuse a widget,thus name mismatch
               RenterInfoWidget(person: "Booked By", renterInfo: bookingDetails.bookedBy!),
+              DisplayDateWidget(title: "From", time: startDate),
+              DisplayDateWidget(title: "To", time: endDate),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 60),
                 child: Row(
@@ -115,7 +117,8 @@ class BookingDetailsForRenterPage extends StatelessWidget {
                   ],
                 ),
               ),
-              HandleRequestWidget(bookingId: bookingDetails.id!),
+              if (bookingDetails.status == "pending")
+                HandleRequestWidget(bookingId: bookingDetails.id!),
             ],
           ),
         );

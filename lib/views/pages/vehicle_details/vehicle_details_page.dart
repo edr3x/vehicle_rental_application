@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:rental_system_app/api/blocs/vehicle/bookings_per_vehicle_cubit/bookings_per_vehicle_cubit.dart';
 import 'package:rental_system_app/api/blocs/vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/blocs/location_data_cubit/location_data_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/booking/booking_page.dart';
+import 'package:rental_system_app/views/pages/vehicle/bookings_per_vehicle_page.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/widgets/bottom_bar.dart';
 import 'package:rental_system_app/views/pages/vehicle_details/widgets/nerdy_details.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -162,7 +164,12 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               : DetailsPageBottomBar(
                   details: details,
                   buttonText: "See Bookings",
-                  buttonOnTap: () {},
+                  buttonOnTap: () {
+                    Navigator.pushNamed(context, BookingsPerVehiclePage.routeName);
+                    context
+                        .read<BookingsPerVehicleCubit>()
+                        .getBookingsPerVehicle(vehicleId: details.id!);
+                  },
                 ),
         );
       },
