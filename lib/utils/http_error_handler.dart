@@ -7,7 +7,7 @@ String httpErrorHandler(http.Response response) {
   final errorResponse = jsonDecode(response.body);
 
   final String errorMessage =
-      'Request failed\n Status Code: $statusCode\n Reason: ${errorResponse["message"]}';
+      'Request failed\nStatus Code: $statusCode\nReason: ${errorResponse["message"]}';
 
   return errorMessage;
 }
