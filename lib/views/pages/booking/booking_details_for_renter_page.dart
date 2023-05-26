@@ -202,3 +202,5 @@ class HandleRequestWidget extends StatelessWidget {
     );
   }
 }
+
+//TODO: add a button to mark vehicle as booking completed

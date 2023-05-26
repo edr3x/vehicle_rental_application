@@ -92,7 +92,7 @@ class BookingListingWidget extends StatelessWidget {
         Navigator.pushNamed(context, BookingDetailsForRenterPage.routeName);
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         child: Container(
           padding: const EdgeInsets.all(12),
           height: 160,
@@ -103,6 +103,7 @@ class BookingListingWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
+              // TODO: make the ui little better as currently it is incomplete
               Text(
                 "This vehicle was booked by ${booking.bookedBy!.fullName} for $duration days",
               )
