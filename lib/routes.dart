@@ -96,6 +96,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (_) => const MyVehiclesPage(),
       );
 
+    case BookingsPerVehiclePage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const BookingsPerVehiclePage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(

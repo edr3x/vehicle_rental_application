@@ -6,11 +6,13 @@ import '../../../../constants/global_variables.dart';
 class DetailsPageBottomBar extends StatelessWidget {
   final Result details;
   final VoidCallback? buttonOnTap;
+  final String buttonText;
 
   const DetailsPageBottomBar({
     super.key,
     required this.details,
     required this.buttonOnTap,
+    required this.buttonText,
   });
 
   @override
@@ -61,9 +63,9 @@ class DetailsPageBottomBar extends StatelessWidget {
               ),
             ),
             onPressed: buttonOnTap,
-            child: const Text(
-              "Book Now",
-              style: TextStyle(
+            child: Text(
+              buttonText,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
               ),

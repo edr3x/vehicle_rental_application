@@ -66,7 +66,11 @@ class MyVehiclesPage extends StatelessWidget {
                   var isAvailable = myVehicles[index].isBooked! ? 'Booked' : 'Available';
                   return GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, VehicleDetailsPage.routeName);
+                      Navigator.pushNamed(
+                        context,
+                        VehicleDetailsPage.routeName,
+                        arguments: false,
+                      );
                       context.read<GetVehicleDetailsCubit>().getVehicleDetails(
                             vehicleId: myVehicles[index].id!,
                           );

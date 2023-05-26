@@ -24,6 +24,7 @@ class VehicleDetailsPage extends StatefulWidget {
 class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    final showBookNowButton = ModalRoute.of(context)?.settings.arguments as bool;
     return BlocConsumer<GetVehicleDetailsCubit, GetVehicleDetailsState>(
       listener: (context, state) {
         if (state.status == GetVehicleDetailsStatus.error) {
@@ -150,12 +151,19 @@ class _VehicleDetailsPageState extends State<VehicleDetailsPage> {
               ),
             ],
           ),
-          bottomSheet: DetailsPageBottomBar(
-            details: details,
-            buttonOnTap: () {
-              Navigator.pushNamed(context, BookingPage.routeName);
-            },
-          ),
+          bottomSheet: showBookNowButton
+              ? DetailsPageBottomBar(
+                  details: details,
+                  buttonText: "Book Now",
+                  buttonOnTap: () {
+                    Navigator.pushNamed(context, BookingPage.routeName);
+                  },
+                )
+              : DetailsPageBottomBar(
+                  details: details,
+                  buttonText: "See Bookings",
+                  buttonOnTap: () {},
+                ),
         );
       },
     );

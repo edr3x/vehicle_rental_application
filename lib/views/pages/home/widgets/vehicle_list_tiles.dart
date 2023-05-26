@@ -52,6 +52,7 @@ class VehicleListTiles extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   VehicleDetailsPage.routeName,
+                  arguments: true,
                 );
                 context.read<GetVehicleDetailsCubit>().getVehicleDetails(
                       vehicleId: vehicleList[index].id!,
