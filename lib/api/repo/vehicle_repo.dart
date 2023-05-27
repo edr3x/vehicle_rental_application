@@ -2,6 +2,7 @@ import 'package:rental_system_app/api/models/vehicle/add_vehicle_response_model.
 import 'package:rental_system_app/api/models/vehicle/bookings_per_vehicle_model.dart';
 import 'package:rental_system_app/api/models/vehicle/my_vehicles_model.dart';
 import 'package:rental_system_app/api/models/vehicle/recommended_vehicle_model.dart';
+import 'package:rental_system_app/api/models/vehicle/search_vehicle_model.dart';
 import 'package:rental_system_app/api/models/vehicle/vehicle_details_model.dart';
 import 'package:rental_system_app/api/models/vehicle/vehicle_near_me_model.dart';
 import 'package:rental_system_app/api/services/vehicle_services.dart';
@@ -15,6 +16,7 @@ class VehicleRepository {
   final MyVehiclesService myVehiclesService;
   final AddVehicleService addVehicleService;
   final BookingsPerVehicleService bookingsPerVehicleService;
+  final SearchVehicleService searchVehicleService;
 
   VehicleRepository({
     required this.getNearbyVehicleService,
@@ -23,6 +25,7 @@ class VehicleRepository {
     required this.myVehiclesService,
     required this.addVehicleService,
     required this.bookingsPerVehicleService,
+    required this.searchVehicleService,
   });
 
   Future<VehicleNearMeModel> getNearbyVehicle({
@@ -88,6 +91,19 @@ class VehicleRepository {
     try {
       final BookingsPerVehicleModel response =
           await bookingsPerVehicleService.data(vehicleId: vehicleId);
+
+      return response;
+    } on DataException catch (e) {
+      throw CustomError(errMsg: e.message);
+    } catch (e) {
+      throw CustomError(errMsg: e.toString());
+    }
+  }
+
+  Future<SearchVehicleModel> searchVehicle({required String searchString}) async {
+    try {
+      final SearchVehicleModel response =
+          await searchVehicleService.data(searchString: searchString);
 
       return response;
     } on DataException catch (e) {

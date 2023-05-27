@@ -6,6 +6,7 @@ import "package:rental_system_app/api/models/vehicle/add_vehicle_response_model.
 import "package:rental_system_app/api/models/vehicle/bookings_per_vehicle_model.dart";
 import "package:rental_system_app/api/models/vehicle/my_vehicles_model.dart";
 import "package:rental_system_app/api/models/vehicle/recommended_vehicle_model.dart";
+import "package:rental_system_app/api/models/vehicle/search_vehicle_model.dart";
 import "package:rental_system_app/utils/shared_preferences.dart";
 
 import "../../utils/http_error_handler.dart";
@@ -154,6 +155,33 @@ class BookingsPerVehicleService {
       }
 
       return bookingsPerVehicleModelFromJson(response.body);
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
+class SearchVehicleService {
+  Future<SearchVehicleModel> data({required String searchString}) async {
+    http.Client client = http.Client();
+
+    String token = await UtilSharedPreferences.getToken();
+
+    final Uri url = Uri.parse("$api/vehicle/search?q=$searchString");
+    try {
+      final http.Response response = await client.get(
+        url,
+        headers: {
+          ...apiHeader,
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(httpErrorHandler(response));
+      }
+
+      return searchVehicleModelFromJson(response.body);
     } catch (e) {
       rethrow;
     }
