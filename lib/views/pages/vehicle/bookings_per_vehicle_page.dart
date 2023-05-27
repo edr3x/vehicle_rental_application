@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:rental_system_app/api/blocs/booking/booking_details_cubit/booking_details_cubit.dart';
 import 'package:rental_system_app/api/blocs/vehicle/bookings_per_vehicle_cubit/bookings_per_vehicle_cubit.dart';
 import 'package:rental_system_app/api/models/vehicle/bookings_per_vehicle_model.dart';
 import 'package:rental_system_app/constants/global_variables.dart';
 import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/booking/booking_details_for_renter_page.dart';
 
 class BookingsPerVehiclePage extends StatelessWidget {
@@ -86,6 +88,8 @@ class BookingListingWidget extends StatelessWidget {
     DateTime startDate = booking.startDate!;
     DateTime endDate = booking.endDate!;
     int duration = endDate.difference(startDate).inDays;
+    String startMonth = DateFormat("MMMM").format(startDate);
+    String endMonth = DateFormat("MMMM").format(endDate);
     return GestureDetector(
       onTap: () {
         context.read<BookingDetailsCubit>().bookingDetails(bookingId: booking.id!);
@@ -95,18 +99,30 @@ class BookingListingWidget extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Container(
           padding: const EdgeInsets.all(12),
-          height: 160,
+          height: 100,
           width: double.infinity,
           decoration: BoxDecoration(
             color: GlobalVariables.cardBackgroundColor,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Column(
+          child: Row(
             children: [
-              // TODO: make the ui little better as currently it is incomplete
-              Text(
-                "This vehicle was booked by ${booking.bookedBy!.fullName} for $duration days",
-              )
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundImage: displayProfileImage(booking.bookedBy!.profileImage),
+                    radius: 25,
+                  ),
+                ],
+              ),
+              const SizedBox(width: 20),
+              Flexible(
+                child: Text(
+                  "Booked by ${booking.bookedBy!.fullName} for $duration days from ${startDate.day} $startMonth to ${endDate.day} $endMonth ",
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
             ],
           ),
         ),
