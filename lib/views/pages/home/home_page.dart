@@ -10,6 +10,7 @@ import 'package:rental_system_app/views/pages/home/widgets/category_select.dart'
 import 'package:rental_system_app/views/pages/home/widgets/custom_home_bar.dart';
 import 'package:rental_system_app/views/pages/home/widgets/second_title.dart';
 import 'package:rental_system_app/views/pages/home/widgets/vehicle_list_tiles.dart';
+import 'package:rental_system_app/views/pages/search/search_page.dart';
 
 class HomePage extends StatelessWidget {
   static const String routeName = '/home-page';
@@ -48,7 +49,26 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const CustomHomeBar(),
-                        const SecondHomeTitle(title: "Recommended For You"),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Recommended",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                onPressed: () => Navigator.pushNamed(context, SearchPage.routeName),
+                                icon: const Icon(Icons.search),
+                              )
+                            ],
+                          ),
+                        ),
                         VehicleListTiles(vehicleList: recomms),
                         const SizedBox(height: 10),
                         const SecondHomeTitle(title: "Available Near You"),

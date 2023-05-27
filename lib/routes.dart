@@ -102,6 +102,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (_) => const BookingsPerVehiclePage(),
       );
 
+    case SearchPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const SearchPage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(
