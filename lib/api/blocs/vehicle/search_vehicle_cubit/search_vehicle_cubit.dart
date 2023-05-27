@@ -20,6 +20,7 @@ class SearchVehicleCubit extends Cubit<SearchVehicleState> {
         searchString: searchString,
       );
 
+      await Future.delayed(const Duration(milliseconds: 20));
       emit(
         state.copyWith(
           status: SearchVehicleStatus.loaded,

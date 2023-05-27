@@ -168,6 +168,7 @@ class SearchVehicleService {
     String token = await UtilSharedPreferences.getToken();
 
     final Uri url = Uri.parse("$api/vehicle/search?q=$searchString");
+    print("print from service: $searchString");
     try {
       final http.Response response = await client.get(
         url,
