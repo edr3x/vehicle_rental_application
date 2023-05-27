@@ -119,6 +119,8 @@ class BookingDetailsForRenterPage extends StatelessWidget {
               ),
               if (bookingDetails.status == "pending")
                 HandleRequestWidget(bookingId: bookingDetails.id!),
+              if (bookingDetails.status == "active")
+                HandleBookingCompletion(bookingId: bookingDetails.id!)
             ],
           ),
         );
@@ -203,4 +205,75 @@ class HandleRequestWidget extends StatelessWidget {
   }
 }
 
-//TODO: add a button to mark vehicle as booking completed
+class HandleBookingCompletion extends StatelessWidget {
+  final String bookingId;
+  const HandleBookingCompletion({
+    super.key,
+    required this.bookingId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<HandleBookingRequestCubit, HandleBookingRequestState>(
+      listener: (context, state) {
+        if (state.status == HandleBookingRequestStatus.error) {
+          errorDialog(context, state.error.errMsg);
+        }
+        if (state.status == HandleBookingRequestStatus.loaded) {
+          customSnackBar(context, state.data.data!.msg!);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            HomePage.routeName,
+            (route) => false,
+          );
+        }
+      },
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 10),
+          child: ElevatedButton(
+            onPressed: () => showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (context) => AlertDialog(
+                title: const Text("Confirm"),
+                content: const Text(
+                  "Are you sure you want to mark this vehicle as booking completed?",
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("No"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.read<HandleBookingRequestCubit>().handleBookingRequest(
+                            bookingId: bookingId,
+                            action: "complete",
+                          );
+                    },
+                    child: const Text("Yes"),
+                  ),
+                ],
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text(
+              "Mark as Compelte",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
