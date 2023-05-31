@@ -7,6 +7,7 @@ import "package:rental_system_app/api/models/vehicle/bookings_per_vehicle_model.
 import "package:rental_system_app/api/models/vehicle/my_vehicles_model.dart";
 import "package:rental_system_app/api/models/vehicle/recommended_vehicle_model.dart";
 import "package:rental_system_app/api/models/vehicle/search_vehicle_model.dart";
+import "package:rental_system_app/api/services/common/image_upload_widget.dart";
 import "package:rental_system_app/utils/shared_preferences.dart";
 
 import "../../utils/http_error_handler.dart";
@@ -229,22 +230,7 @@ class AddVehicleService {
 
     final Uri url = Uri.parse("$api/vehicle");
     try {
-      http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse("$api/upload"));
-      request.files.add(await http.MultipartFile.fromPath("image", imageFile));
-      request.headers.addAll({
-        "Content-Type": "multipart/form-data",
-        'Authorization': 'Bearer $token',
-      });
-      http.StreamedResponse res = await request.send();
-
-      if (res.statusCode != 201) {
-        throw Exception(
-          " Request failed\n Status Code: ${res.statusCode}\n Reason: ${res.reasonPhrase}",
-        );
-      }
-
-      String responseString = await res.stream.bytesToString();
-      String uploadedImage = jsonDecode(responseString)["data"] as String;
+      String uploadedImage = await uploadImage(imageFile, token);
 
       final http.Response response = await client.post(
         url,

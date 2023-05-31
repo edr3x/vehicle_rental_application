@@ -3,7 +3,9 @@ import "dart:convert";
 import "package:http/http.dart" as http;
 import 'package:rental_system_app/api/api.dart';
 import "package:rental_system_app/api/models/user/get_user_data_model.dart";
+import "package:rental_system_app/api/models/user/post_kyc_model.dart";
 import "package:rental_system_app/api/models/user/update_address_model.dart";
+import "package:rental_system_app/api/services/common/image_upload_widget.dart";
 import "package:rental_system_app/utils/shared_preferences.dart";
 
 import "../../utils/http_error_handler.dart";
@@ -49,22 +51,7 @@ class UpdateBasicUserDetailsService {
 
     final Uri url = Uri.parse("$api/user/profile");
     try {
-      http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse("$api/upload"));
-      request.files.add(await http.MultipartFile.fromPath("image", profileImage));
-      request.headers.addAll({
-        "Content-Type": "multipart/form-data",
-        'Authorization': 'Bearer $token',
-      });
-      http.StreamedResponse res = await request.send();
-
-      if (res.statusCode != 201) {
-        throw Exception(
-          " Request failed\n Status Code: ${res.statusCode}\n Reason: ${res.reasonPhrase}",
-        );
-      }
-
-      String responseString = await res.stream.bytesToString();
-      String uploadedImage = jsonDecode(responseString)["data"] as String;
+      String uploadedImage = await uploadImage(profileImage, token);
 
       final http.Response response = await client.patch(
         url,
@@ -126,6 +113,50 @@ class UpdateUserAddressService {
       }
 
       return updateAddressModelFromJson(response.body);
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
+class PostKycService {
+  Future<PostKycModel> data({
+    required String frontImage,
+    required String backImage,
+    required String citizenshipNo,
+    required String issuedDistrict,
+    required String issuedDate,
+  }) async {
+    http.Client client = http.Client();
+
+    String token = await UtilSharedPreferences.getToken();
+
+    final Uri url = Uri.parse("$api/user/kyc");
+
+    try {
+      String front = await uploadImage(frontImage, token);
+      String back = await uploadImage(backImage, token);
+
+      final http.Response response = await client.post(
+        url,
+        body: jsonEncode({
+          "citizenshipFront": front,
+          "citizenshipBack": back,
+          "citizenshipNo": citizenshipNo,
+          "issuedDistrict": issuedDistrict,
+          "issuedDate": issuedDate,
+        }),
+        headers: {
+          ...apiHeader,
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode != 201) {
+        throw Exception(httpErrorHandler(response));
+      }
+
+      return postKycModelFromJson(response.body);
     } catch (e) {
       rethrow;
     }

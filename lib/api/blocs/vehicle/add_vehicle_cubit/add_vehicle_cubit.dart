@@ -46,7 +46,7 @@ class AddVehicleCubit extends Cubit<AddVehicleState> {
     int groundClearance = 5,
     int fuelTankCapacity = 1,
   }) async {
-    emit(state.copyWith(status: AddVehicleStatus.loaded));
+    emit(state.copyWith(status: AddVehicleStatus.loading));
     try {
       final AddVehicleResponseModel response = await vehicleRepository.addVehicle(
         imageFile: imageFile,
@@ -66,6 +66,8 @@ class AddVehicleCubit extends Cubit<AddVehicleState> {
         driveTrain: driveTrain,
         color: color,
       );
+
+      await Future.delayed(const Duration(seconds: 3));
 
       emit(
         state.copyWith(
