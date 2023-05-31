@@ -102,6 +102,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                     ),
                     ProfileMenuItems(
+                      title: "KYC Information",
+                      icon: Icons.info_rounded,
+                      onPress: () {
+                        Navigator.pushNamed(context, KycInfoPage.routeName);
+                      },
+                    ),
+                    ProfileMenuItems(
                       title: "Calibrate Location",
                       icon: Icons.location_on,
                       onPress: () {

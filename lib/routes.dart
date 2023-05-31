@@ -114,6 +114,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (_) => const SearchResultPage(),
       );
 
+    case KycInfoPage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const KycInfoPage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(
