@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
             getUserDataService: GetUserDataService(),
             updateBasicUserDetailsService: UpdateBasicUserDetailsService(),
             updateUserAddressService: UpdateUserAddressService(),
+            postKycService: PostKycService(),
           ),
         ),
         RepositoryProvider<VehicleRepository>(
@@ -82,6 +83,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<UpdateAddressCubit>(
             create: (context) => UpdateAddressCubit(
+              userRepository: context.read<UserRepository>(),
+            ),
+          ),
+          BlocProvider<PostKycCubit>(
+            create: (context) => PostKycCubit(
               userRepository: context.read<UserRepository>(),
             ),
           ),

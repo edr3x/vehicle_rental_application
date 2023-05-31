@@ -17,6 +17,11 @@ class PostKycModel {
     this.data,
   });
 
+  factory PostKycModel.initial() => PostKycModel(
+        success: false,
+        data: '',
+      );
+
   factory PostKycModel.fromJson(Map<String, dynamic> json) => PostKycModel(
         success: json["success"],
         data: json["data"],

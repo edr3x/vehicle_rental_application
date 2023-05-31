@@ -1,4 +1,5 @@
 import 'package:rental_system_app/api/models/user/get_user_data_model.dart';
+import 'package:rental_system_app/api/models/user/post_kyc_model.dart';
 import 'package:rental_system_app/api/models/user/update_address_model.dart';
 import 'package:rental_system_app/api/models/user/update_basic_details_model.dart';
 import 'package:rental_system_app/excepitions/custom_error.dart';
@@ -10,11 +11,13 @@ class UserRepository {
   final UpdateBasicUserDetailsService updateBasicUserDetailsService;
   final GetUserDataService getUserDataService;
   final UpdateUserAddressService updateUserAddressService;
+  final PostKycService postKycService;
 
   UserRepository({
     required this.updateBasicUserDetailsService,
     required this.getUserDataService,
     required this.updateUserAddressService,
+    required this.postKycService,
   });
 
   Future<GetUserDataModel> getUserDetails() async {
@@ -66,6 +69,30 @@ class UserRepository {
         municipality: municipality,
         city: city,
         street: street,
+      );
+
+      return response;
+    } on DataException catch (e) {
+      throw CustomError(errMsg: e.message);
+    } catch (e) {
+      throw CustomError(errMsg: e.toString());
+    }
+  }
+
+  Future<PostKycModel> postKycInfo({
+    required String frontImage,
+    required String backImage,
+    required String citizenshipNo,
+    required String issuedDistrict,
+    required String issuedDate,
+  }) async {
+    try {
+      final PostKycModel response = await postKycService.data(
+        backImage: backImage,
+        frontImage: frontImage,
+        issuedDate: issuedDate,
+        citizenshipNo: citizenshipNo,
+        issuedDistrict: issuedDistrict,
       );
 
       return response;
