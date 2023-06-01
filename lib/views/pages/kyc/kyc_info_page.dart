@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
+import 'package:rental_system_app/api/blocs/user/post_kyc_cubit/post_kyc_cubit.dart';
+import 'package:rental_system_app/views/common/widgets/custom_error_dialogue.dart';
+import 'package:rental_system_app/views/pages/kyc/widgets/post_form.dart';
+
+import 'widgets/snack_bar_widget.dart';
 
 class KycInfoPage extends StatelessWidget {
   static const String routeName = '/kyc-info-page';
@@ -8,56 +13,50 @@ class KycInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        var kycStatus = context.read<GetUserDetailsCubit>().state.data.data!.kycStatus!;
-        if (kycStatus == "unverified") {
-          return const _PostKycPage();
+    String kycStatus = context.read<GetUserDetailsCubit>().state.data.data!.kycStatus!;
+    // "unverified", "pending", "verified", "rejected"
+    return BlocConsumer<PostKycCubit, PostKycState>(
+      listener: (context, state) {
+        if (state.status == PostKycStatus.error) {
+          errorDialog(context, state.error.errMsg);
         }
-        if (kycStatus == "verified") {
-          return const _DisplayKycPage();
-        }
-        return const _UpdateKycPage();
       },
-    );
-  }
-}
-
-class _PostKycPage extends StatelessWidget {
-  const _PostKycPage();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Post KYC Page"),
-      ),
-    );
-  }
-}
-
-class _UpdateKycPage extends StatelessWidget {
-  const _UpdateKycPage();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Update KYC Page"),
-      ),
-    );
-  }
-}
-
-class _DisplayKycPage extends StatelessWidget {
-  const _DisplayKycPage();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Display KYC Page"),
-      ),
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: const Text("KYC")),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                if (kycStatus == "unverified")
+                  Column(
+                    children: [
+                      const CustomSnackBar(
+                        message: "Please complete your KYC",
+                        color: Colors.yellow,
+                      ),
+                      PostForm(
+                        submitButtonText:
+                            state.status == PostKycStatus.loading ? "Submitting..." : "Submit",
+                      ),
+                    ],
+                  ),
+                if (kycStatus == "pending")
+                  const CustomSnackBar(
+                    message: "Your KYC is under review",
+                    color: Colors.green,
+                    icon: Icons.check,
+                  ),
+                if (kycStatus == "rejected")
+                  const CustomSnackBar(
+                    message: "Information rejected, update your KYC",
+                    color: Colors.orange,
+                    icon: Icons.error,
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
