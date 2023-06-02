@@ -5,6 +5,7 @@ export 'user/post_user_data_cubit/post_user_data_cubit.dart';
 export 'user/update_address_cubit/update_address_cubit.dart';
 export 'user/post_kyc_cubit/post_kyc_cubit.dart';
 export 'user/get_kyc_cubit/get_kyc_cubit.dart';
+export 'user/update_kyc_cubit/update_kyc_cubit.dart';
 export 'vehicle/add_vehicle_cubit/add_vehicle_cubit.dart';
 export 'vehicle/get_vehicle_details_cubit/get_vehicle_details_cubit.dart';
 export 'vehicle/recommended_vehicles_cubit/recommended_vehicles_cubit.dart';

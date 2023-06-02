@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
             updateBasicUserDetailsService: UpdateBasicUserDetailsService(),
             updateUserAddressService: UpdateUserAddressService(),
             postKycService: PostKycService(),
+            updateKycService: UpdateKycService(),
             getKycService: GetKycService(),
           ),
         ),
@@ -94,6 +95,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<GetKycCubit>(
             create: (context) => GetKycCubit(
+              userRepository: context.read<UserRepository>(),
+            ),
+          ),
+          BlocProvider<UpdateKycCubit>(
+            create: (context) => UpdateKycCubit(
               userRepository: context.read<UserRepository>(),
             ),
           ),

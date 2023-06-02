@@ -18,3 +18,4 @@ export 'vehicle/bookings_per_vehicle_page.dart';
 export 'search/search_page.dart';
 export 'search/search_result_page.dart';
 export 'kyc/kyc_info_page.dart';
+export 'kyc/kyc_update_page.dart';

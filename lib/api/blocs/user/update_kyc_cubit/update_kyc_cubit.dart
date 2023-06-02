@@ -2,27 +2,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rental_system_app/api/models/user/post_kyc_model.dart';
 import 'package:rental_system_app/api/repo/user_repo.dart';
-import 'package:rental_system_app/excepitions/custom_error.dart';
 
-part 'post_kyc_state.dart';
+import '../../../../excepitions/custom_error.dart';
 
-class PostKycCubit extends Cubit<PostKycState> {
+part 'update_kyc_state.dart';
+
+class UpdateKycCubit extends Cubit<UpdateKycState> {
   final UserRepository userRepository;
-
-  PostKycCubit({
+  UpdateKycCubit({
     required this.userRepository,
-  }) : super(PostKycState.initial());
+  }) : super(UpdateKycState.initial());
 
-  Future<void> postKyc({
+  Future<void> updateKyc({
     required String frontImage,
     required String backImage,
     required String citizenshipNo,
     required String issuedDistrict,
     required String issuedDate,
   }) async {
-    emit(state.copyWith(status: PostKycStatus.loading));
+    emit(state.copyWith(status: UpdateKycStatus.loading));
     try {
-      final PostKycModel postKycModel = await userRepository.postKycInfo(
+      final PostKycModel response = await userRepository.updateKycInfo(
         frontImage: frontImage,
         backImage: backImage,
         citizenshipNo: citizenshipNo,
@@ -32,12 +32,12 @@ class PostKycCubit extends Cubit<PostKycState> {
 
       emit(
         state.copyWith(
-          status: PostKycStatus.loaded,
-          postKycModel: postKycModel,
+          status: UpdateKycStatus.loaded,
+          data: response,
         ),
       );
     } on CustomError catch (e) {
-      emit(state.copyWith(status: PostKycStatus.error, error: e));
+      emit(state.copyWith(status: UpdateKycStatus.error, error: e));
     }
   }
 }

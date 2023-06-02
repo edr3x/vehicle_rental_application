@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rental_system_app/api/blocs/user/get_kyc_cubit/get_kyc_cubit.dart';
 import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
+import 'package:rental_system_app/views/pages/kyc/kyc_update_page.dart';
 import 'package:rental_system_app/views/pages/kyc/widgets/post_form.dart';
 
 import '../../common/widgets/custom_error_dialogue.dart';
@@ -146,7 +147,10 @@ class KycInfoPage extends StatelessWidget {
       ),
       floatingActionButton: kycStatus != "unverified"
           ? FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(
+                context,
+                KycUpdatePage.routeName,
+              ),
               label: const Row(
                 children: [
                   Icon(Icons.edit_sharp),

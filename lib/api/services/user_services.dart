@@ -164,6 +164,50 @@ class PostKycService {
   }
 }
 
+class UpdateKycService {
+  Future<PostKycModel> data({
+    required String frontImage,
+    required String backImage,
+    required String citizenshipNo,
+    required String issuedDistrict,
+    required String issuedDate,
+  }) async {
+    http.Client client = http.Client();
+
+    String token = await UtilSharedPreferences.getToken();
+
+    final Uri url = Uri.parse("$api/user/kyc");
+
+    try {
+      String front = await uploadImage(frontImage, token);
+      String back = await uploadImage(backImage, token);
+
+      final http.Response response = await client.patch(
+        url,
+        body: jsonEncode({
+          "citizenshipFront": front,
+          "citizenshipBack": back,
+          "citizenshipNo": citizenshipNo,
+          "issuedDistrict": issuedDistrict,
+          "issuedDate": issuedDate,
+        }),
+        headers: {
+          ...apiHeader,
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(httpErrorHandler(response));
+      }
+
+      return postKycModelFromJson(response.body);
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
 class GetKycService {
   Future<GetKycModel> data() async {
     http.Client client = http.Client();

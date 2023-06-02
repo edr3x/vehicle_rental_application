@@ -120,6 +120,12 @@ Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
         builder: (_) => const KycInfoPage(),
       );
 
+    case KycUpdatePage.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const KycUpdatePage(),
+      );
+
     default:
       return MaterialPageRoute(
         builder: (_) => const Scaffold(

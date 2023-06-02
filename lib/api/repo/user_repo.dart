@@ -13,6 +13,7 @@ class UserRepository {
   final GetUserDataService getUserDataService;
   final UpdateUserAddressService updateUserAddressService;
   final PostKycService postKycService;
+  final UpdateKycService updateKycService;
   final GetKycService getKycService;
 
   UserRepository({
@@ -20,6 +21,7 @@ class UserRepository {
     required this.getUserDataService,
     required this.updateUserAddressService,
     required this.postKycService,
+    required this.updateKycService,
     required this.getKycService,
   });
 
@@ -91,6 +93,30 @@ class UserRepository {
   }) async {
     try {
       final PostKycModel response = await postKycService.data(
+        backImage: backImage,
+        frontImage: frontImage,
+        issuedDate: issuedDate,
+        citizenshipNo: citizenshipNo,
+        issuedDistrict: issuedDistrict,
+      );
+
+      return response;
+    } on DataException catch (e) {
+      throw CustomError(errMsg: e.message);
+    } catch (e) {
+      throw CustomError(errMsg: e.toString());
+    }
+  }
+
+  Future<PostKycModel> updateKycInfo({
+    required String frontImage,
+    required String backImage,
+    required String citizenshipNo,
+    required String issuedDistrict,
+    required String issuedDate,
+  }) async {
+    try {
+      final PostKycModel response = await updateKycService.data(
         backImage: backImage,
         frontImage: frontImage,
         issuedDate: issuedDate,
