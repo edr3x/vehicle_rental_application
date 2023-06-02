@@ -147,10 +147,13 @@ class KycInfoPage extends StatelessWidget {
       ),
       floatingActionButton: kycStatus != "unverified"
           ? FloatingActionButton.extended(
-              onPressed: () => Navigator.pushNamed(
-                context,
-                KycUpdatePage.routeName,
-              ),
+              onPressed: () {
+                //WARN: contiditonally update the only thing that can be updated
+                Navigator.pushNamed(
+                  context,
+                  KycUpdatePage.routeName,
+                );
+              },
               label: const Row(
                 children: [
                   Icon(Icons.edit_sharp),
