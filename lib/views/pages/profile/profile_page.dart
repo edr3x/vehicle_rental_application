@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rental_system_app/api/blocs/booking/my_bookings_cubit/my_bookings_cubit.dart';
-import 'package:rental_system_app/api/blocs/user/get_user_details/get_user_details_cubit.dart';
-import 'package:rental_system_app/api/blocs/vehicle/my_vehicles_cubit/my_vehicles_cubit.dart';
+import 'package:rental_system_app/api/blocs/exports.dart';
 import 'package:rental_system_app/utils/shared_preferences.dart';
 import 'package:rental_system_app/views/common/widgets/display_image.dart';
 import 'package:rental_system_app/views/pages/exports.dart';
-import 'package:rental_system_app/views/pages/vehicle/my_vehicles_page.dart';
 
 import 'widgets/menu_items.dart';
 
@@ -79,6 +76,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: ListView(
                   children: [
                     ProfileMenuItems(
+                      title: "My Information",
+                      icon: Icons.info_rounded,
+                      onPress: () {
+                        Navigator.pushNamed(context, KycInfoPage.routeName);
+                        context.read<GetKycCubit>().getKycInfo();
+                      },
+                    ),
+                    ProfileMenuItems(
                       title: "Add Vehicle",
                       icon: Icons.car_repair,
                       onPress: () {
@@ -99,13 +104,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPress: () {
                         Navigator.pushNamed(context, MyVehiclesPage.routeName);
                         context.read<MyVehiclesCubit>().getMyVehicles();
-                      },
-                    ),
-                    ProfileMenuItems(
-                      title: "KYC Information",
-                      icon: Icons.info_rounded,
-                      onPress: () {
-                        Navigator.pushNamed(context, KycInfoPage.routeName);
                       },
                     ),
                     ProfileMenuItems(
