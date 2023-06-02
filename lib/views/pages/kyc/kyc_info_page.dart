@@ -11,10 +11,11 @@ class KycInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String kycStatus = context.read<GetUserDetailsCubit>().state.data.data!.kycStatus!;
+    var userData = context.read<GetUserDetailsCubit>().state.data.data!;
+    String kycStatus = userData.kycStatus!;
     // "unverified", "pending", "verified", "rejected"
     return Scaffold(
-      appBar: AppBar(title: const Text("KYC")),
+      appBar: AppBar(title: const Text("My Information")),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -40,9 +41,63 @@ class KycInfoPage extends StatelessWidget {
                 color: Colors.orange,
                 icon: Icons.error,
               ),
+            if (kycStatus != "unverified")
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Personal Information",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text("Name"),
+                      subtitle: Text(userData.fullName ?? ""),
+                    ),
+                    ListTile(
+                      title: const Text("Email"),
+                      subtitle: Text(userData.email ?? ""),
+                    ),
+                    ListTile(
+                      title: const Text("Phone"),
+                      subtitle: Text(userData.phone.toString()),
+                    ),
+                    ListTile(
+                      title: const Text("Address"),
+                      subtitle: Text(
+                        "${userData.address!.city}, ${userData.address!.municipality}, ${userData.address!.province}",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Document Information",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
+      floatingActionButton: kycStatus != "unverified"
+          ? FloatingActionButton.extended(
+              onPressed: () {},
+              label: const Row(
+                children: [
+                  Icon(Icons.edit_sharp),
+                  SizedBox(width: 10),
+                  Text("UPDATE KYC"),
+                ],
+              ),
+            )
+          : null,
     );
   }
 }

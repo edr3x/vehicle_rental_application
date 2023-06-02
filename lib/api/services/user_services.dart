@@ -2,6 +2,7 @@ import "dart:convert";
 
 import "package:http/http.dart" as http;
 import 'package:rental_system_app/api/api.dart';
+import "package:rental_system_app/api/models/user/get_kyc_model.dart";
 import "package:rental_system_app/api/models/user/get_user_data_model.dart";
 import "package:rental_system_app/api/models/user/post_kyc_model.dart";
 import "package:rental_system_app/api/models/user/update_address_model.dart";
@@ -157,6 +158,34 @@ class PostKycService {
       }
 
       return postKycModelFromJson(response.body);
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
+class GetKycService {
+  Future<GetKycModel> data() async {
+    http.Client client = http.Client();
+
+    String token = await UtilSharedPreferences.getToken();
+
+    final Uri url = Uri.parse("$api/user/kyc");
+
+    try {
+      final http.Response response = await client.get(
+        url,
+        headers: {
+          ...apiHeader,
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(httpErrorHandler(response));
+      }
+
+      return getKycModelFromJson(response.body);
     } catch (e) {
       rethrow;
     }
