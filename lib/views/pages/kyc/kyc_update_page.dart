@@ -31,6 +31,23 @@ class _KycUpdatePageState extends State<KycUpdatePage> {
     super.initState();
   }
 
+  XFile? frontImage;
+  XFile? backImage;
+
+  void uploadFront(ImageSource source) async {
+    final pickedImage = await _picker.pickImage(source: source);
+    setState(() {
+      frontImage = pickedImage;
+    });
+  }
+
+  void uploadBack(ImageSource source) async {
+    final pickedImage = await _picker.pickImage(source: source);
+    setState(() {
+      backImage = pickedImage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var kycDetails = context.read<GetKycCubit>().state.data.data!;
@@ -56,22 +73,6 @@ class _KycUpdatePageState extends State<KycUpdatePage> {
 
     String citizenshipNo = kycDetails.citizenshipNo!;
     String issuedDistrict = kycDetails.issuedDistrict!;
-    XFile? frontImage;
-    XFile? backImage;
-
-    void uploadFront(ImageSource source) async {
-      final pickedImage = await _picker.pickImage(source: source);
-      setState(() {
-        frontImage = pickedImage;
-      });
-    }
-
-    void uploadBack(ImageSource source) async {
-      final pickedImage = await _picker.pickImage(source: source);
-      setState(() {
-        backImage = pickedImage;
-      });
-    }
 
     void submit() {
       setState(() {

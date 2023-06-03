@@ -14,8 +14,8 @@ class UpdateKycCubit extends Cubit<UpdateKycState> {
   }) : super(UpdateKycState.initial());
 
   Future<void> updateKyc({
-    required String frontImage,
-    required String backImage,
+    String? frontImage,
+    String? backImage,
     required String citizenshipNo,
     required String issuedDistrict,
     required String issuedDate,

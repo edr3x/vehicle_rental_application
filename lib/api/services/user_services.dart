@@ -166,8 +166,8 @@ class PostKycService {
 
 class UpdateKycService {
   Future<PostKycModel> data({
-    required String frontImage,
-    required String backImage,
+    String? frontImage,
+    String? backImage,
     required String citizenshipNo,
     required String issuedDistrict,
     required String issuedDate,
@@ -179,18 +179,30 @@ class UpdateKycService {
     final Uri url = Uri.parse("$api/user/kyc");
 
     try {
-      String front = await uploadImage(frontImage, token);
-      String back = await uploadImage(backImage, token);
+      Map<String, String?> jsonbody = {};
 
-      final http.Response response = await client.patch(
-        url,
-        body: jsonEncode({
+      if (frontImage == null && backImage == null) {
+        jsonbody = {
+          "citizenshipNo": citizenshipNo,
+          "issuedDistrict": issuedDistrict,
+          "issuedDate": issuedDate,
+        };
+      } else if (frontImage != null && backImage != null) {
+        String front = await uploadImage(frontImage, token);
+        String back = await uploadImage(backImage, token);
+
+        jsonbody = {
           "citizenshipFront": front,
           "citizenshipBack": back,
           "citizenshipNo": citizenshipNo,
           "issuedDistrict": issuedDistrict,
           "issuedDate": issuedDate,
-        }),
+        };
+      }
+
+      final http.Response response = await client.patch(
+        url,
+        body: jsonEncode(jsonbody),
         headers: {
           ...apiHeader,
           'Authorization': 'Bearer $token',
