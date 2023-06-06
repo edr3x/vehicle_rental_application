@@ -25,6 +25,7 @@ class CustomHomeBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var profile = context.read<GetUserDetailsCubit>().state.data.data!;
+    var notifNumbers = context.read<BookingRequestsCubit>().state.data.data!.bookings!.length;
     return Padding(
       padding: const EdgeInsets.only(top: 12.0, bottom: 25.0),
       child: Row(
@@ -75,13 +76,41 @@ class CustomHomeBar extends StatelessWidget {
               color: GlobalVariables.cardBackgroundColor,
               borderRadius: BorderRadius.circular(30),
             ),
-            child: IconButton(
-              iconSize: 26,
-              onPressed: () {
-                Navigator.pushNamed(context, NotificationPage.routeName);
-                context.read<BookingRequestsCubit>().listBookingRequests();
-              },
-              icon: const Icon(Icons.notifications_outlined),
+            child: Stack(
+              children: [
+                IconButton(
+                  iconSize: 26,
+                  onPressed: () {
+                    Navigator.pushNamed(context, NotificationPage.routeName);
+                  },
+                  icon: const Icon(Icons.notifications_outlined),
+                ),
+                notifNumbers == 0
+                    ? const SizedBox()
+                    : Positioned(
+                        right: 11,
+                        top: 11,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 14,
+                            minHeight: 14,
+                          ),
+                          child: Text(
+                            "$notifNumbers",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+              ],
             ),
           ),
         ],
