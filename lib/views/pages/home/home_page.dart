@@ -29,6 +29,7 @@ class HomePage extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             context.read<BookingRequestsCubit>().listBookingRequests();
+            context.read<RecommendedVehiclesCubit>().getRecommendedVehicles();
             context.read<GetVehicleNearMeCubit>().getNearbyVehicle(position: locState.position);
             return BlocConsumer<GetVehicleNearMeCubit, GetVehicleNearMeState>(
               listener: (context, state) {
