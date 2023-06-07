@@ -145,7 +145,7 @@ class KycInfoPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: kycStatus != "unverified"
+      floatingActionButton: kycStatus == "pending" || kycStatus == "rejected"
           ? FloatingActionButton.extended(
               onPressed: () {
                 //WARN: contiditonally update the only thing that can be updated
