@@ -126,7 +126,7 @@ class KycInfoPage extends StatelessWidget {
                           ],
                         ),
                         ListTile(
-                          title: const Text("Citizenship No"),
+                          title: const Text("Document No"),
                           subtitle: Text(state.data.data!.citizenshipNo ?? ""),
                         ),
                         ListTile(

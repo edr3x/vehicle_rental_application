@@ -92,8 +92,8 @@ class _KycUpdatePageState extends State<KycUpdatePage> {
       print("issuedDistrict: $issuedDistrict");
 
       context.read<UpdateKycCubit>().updateKyc(
-            backImage: backImage?.path ?? "",
-            frontImage: frontImage?.path ?? "",
+            backImage: backImage?.path,
+            frontImage: frontImage?.path,
             citizenshipNo: citizenshipNo,
             issuedDistrict: issuedDistrict,
             issuedDate: date,
