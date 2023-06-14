@@ -1,3 +1,3 @@
-# rental_system_app
+# Vehicle Rental Platform
 
-A new Flutter project.
+backend link [here](https://github.com/edr3x/vehicle-rental-backend)
