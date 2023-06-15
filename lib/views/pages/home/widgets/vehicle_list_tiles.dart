@@ -128,12 +128,21 @@ class VehicleListTiles extends StatelessWidget {
                                     ),
                                   ),
                                   if (distance != null)
-                                    Text(
-                                      "${distance![index]!} km",
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(255, 255, 255, 255),
-                                        fontSize: 15,
-                                      ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on_outlined,
+                                          size: 16,
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          "${distance![index]!} km away",
+                                          style: const TextStyle(
+                                            color: Color.fromARGB(255, 255, 255, 255),
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                 ],
                               ),
