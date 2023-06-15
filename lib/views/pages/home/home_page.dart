@@ -44,6 +44,7 @@ class HomePage extends StatelessWidget {
                 }
                 var recomms = context.watch<RecommendedVehiclesCubit>().state.data.data!.result!;
                 var nearme = context.watch<GetVehicleNearMeCubit>().state.data.data!.result!;
+                var distance = nearme.map((e) => e.distance).toList();
                 return SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -76,7 +77,7 @@ class HomePage extends StatelessWidget {
                         const SecondHomeTitle(title: "Available Near You"),
                         const SelectCategoryRow(),
                         const SizedBox(height: 10),
-                        VehicleListTiles(vehicleList: nearme),
+                        VehicleListTiles(vehicleList: nearme, distance: distance),
                         const SizedBox(height: 20),
                       ],
                     ),

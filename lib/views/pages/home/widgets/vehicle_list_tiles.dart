@@ -7,9 +7,11 @@ import 'package:rental_system_app/views/pages/vehicle_details/vehicle_details_pa
 
 class VehicleListTiles extends StatelessWidget {
   final List vehicleList;
+  final List<double?>? distance;
   const VehicleListTiles({
     super.key,
     required this.vehicleList,
+    this.distance,
   });
 
   @override
@@ -112,15 +114,28 @@ class VehicleListTiles extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              RichText(
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                  text: vehicleList[index].title,
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontSize: 15,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      text: "${vehicleList[index].title} ",
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        fontSize: 15,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  if (distance != null)
+                                    Text(
+                                      "${distance![index]!} km",
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                ],
                               ),
                               const SizedBox(
                                 height: 10,
